@@ -27,8 +27,6 @@ import java.util.Objects;
 public class AddAuctionFx {
 
     @FXML
-    private TextField saleAmount;
-    @FXML
     private Label saleIdAlertLabel;
     @FXML
     private TextField startSaleDatePicker;
@@ -72,9 +70,6 @@ public class AddAuctionFx {
         addSaleProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         addSaleProducts.getSelectionModel().setCellSelectionEnabled(true);
         addSaleProducts.setItems(list);
-
-
-
     }
 
     private  static void list(){
@@ -88,45 +83,28 @@ public class AddAuctionFx {
         }
     }
 
-    public void createSale(MouseEvent mouseEvent) throws IOException, ParseException {
+    public void createAuction(MouseEvent mouseEvent) throws IOException, ParseException {
         if (addSaleProducts.getSelectionModel().getSelectedItem() != null) {
             if (SellerMenu.getCreate() == 0) {
-                saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(saleIdTextField.getText(), 0)));
+                saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.addAuction(saleIdTextField.getText())));
             }
             if (SellerMenu.getCreate() == 1) {
-                startSaleAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(startSaleDatePicker.getText(), 1)));
-                if (SellerMenu.getDetailMenu() == 2) {
-                    endSaleAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(endSaleDatePicker.getText(), 2)));
-                }
-                if (SellerMenu.getDetailMenu() == 3) {
-                    saleAmountAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(saleAmount.getText(), 3)));
-                }
-                if (SellerMenu.getDetailMenu() == 4) {
+                startSaleAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setStartAuction(startSaleDatePicker.getText())));
+                endSaleAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setEndAuction(endSaleDatePicker.getText())));
+                if (addSaleProducts.getSelectionModel().getSelectedItem() != null) {
                     Product product = addSaleProducts.getSelectionModel().getSelectedItem();
-                    saleAmountAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(product.getId(), 4)));
-                }
+                    SellerMenu.setProduct(product.getId());
+                } else saleIdAlertLabel.setText("you have to select first");
             }
         } else saleIdAlertLabel.setText("you have to select first");
     }
 
-    public void editSale(MouseEvent mouseEvent) throws IOException, ParseException {
-        if (SellerMenu.getEdit() == 0) {
-            saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOff(saleIdTextField.getText())));
-        }
-        if (SellerMenu.getEdit() == 1) {
-            startSaleAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOffField(startSaleDatePicker.getText(), "start")));
-            endSaleAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOffField(endSaleDatePicker.getText(), "end")));
-            saleAmountAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOffField(saleAmount.getText(), "amount")));
 
-        }
-        //else saleIdAlertLabel.setText("insert id first");
-    }
-
-    public void addProduct(MouseEvent mouseEvent) throws IOException, ParseException {
+  /*  public void addProduct(MouseEvent mouseEvent) throws IOException, ParseException {
         if (SellerMenu.getSaleRequest() != null) {
             if (addSaleProducts.getSelectionModel().getSelectedItem() != null) {
                 Product product = addSaleProducts.getSelectionModel().getSelectedItem();
-                saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOffField(product.getId(), "add product")));
+                saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.addProduct(product)));
                 makeTree();
             } else saleIdAlertLabel.setText("you have to select first");
         } else saleIdAlertLabel.setText("you have to insert name and edit first");
@@ -136,12 +114,14 @@ public class AddAuctionFx {
         if (SellerMenu.getSaleRequest() != null) {
             if (addSaleProducts.getSelectionModel().getSelectedItem() != null) {
                 Product product = addSaleProducts.getSelectionModel().getSelectedItem();
-                saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOffField(product.getId(), "remove product")));
+                saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.removeProduct(product)));
                 makeTree();
             } else saleIdAlertLabel.setText("you have to select first");
         } else saleIdAlertLabel.setText("you have to insert name and edit first");
 
     }
+
+   */
 
     public void userMenu(ActionEvent actionEvent) throws IOException {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(AddSaleFx.class.getClassLoader().getResource("addSaleFx.fxml")));
@@ -191,6 +171,4 @@ public class AddAuctionFx {
         Main.primStage.show();
     }
 
-    public void createAuction(MouseEvent mouseEvent) {
-    }
 }

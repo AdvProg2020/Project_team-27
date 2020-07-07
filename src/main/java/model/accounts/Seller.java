@@ -3,6 +3,7 @@ package model.accounts;
 import com.google.gson.reflect.TypeToken;
 import model.firms.Firm;
 import model.log.SaleLog;
+import model.off.Auction;
 import model.off.Sale;
 import model.productRelated.Product;
 import model.request.AccountRequest;
@@ -16,15 +17,16 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class Seller extends Account {
-    //private Firm firm;
-    private ArrayList<SaleLog> saleLogsHistory = new ArrayList<>();
+
+    private static ArrayList<AccountRequest> allAccountRequests = new ArrayList<>();
     private static ArrayList<Seller> allSellers = new ArrayList<>();
+    private ArrayList<SaleLog> saleLogsHistory = new ArrayList<>();
     private ArrayList<Product> allProduct = new ArrayList<>();
     private ArrayList<Sale> allSales = new ArrayList<>();
-    // private  ArrayList<Request> allRequests = new ArrayList<>();
     private ArrayList<ProductRequest> allProductRequests = new ArrayList<>();
     private ArrayList<SaleRequest> allSaleRequests = new ArrayList<>();
-    private static ArrayList<AccountRequest> allAccountRequests = new ArrayList<>();
+    private ArrayList<Auction> allAuctions = new ArrayList<>();
+
     public static Type SellerType = new TypeToken<ArrayList<Seller>>() {
     }.getType();
 
@@ -41,6 +43,20 @@ public class Seller extends Account {
         writeInJ();
     }
 
+    public ArrayList<Auction> getAllAuctions() {
+        return allAuctions;
+    }
+
+    public static Seller getSellerWithUsername(String username) {
+        for (Seller seller : allSellers) {
+            if (seller.username.equalsIgnoreCase(username)) return seller;
+        }
+        return null;
+    }
+
+    public void setAllAuctions(ArrayList<Auction> allAuctions) {
+        this.allAuctions = allAuctions;
+    }
 
     public void removeProduct(Product product) throws IOException {
         allProduct.remove(product);

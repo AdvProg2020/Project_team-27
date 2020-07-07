@@ -93,6 +93,8 @@ public class SignUpFx {
     public void initialize()  {
         if(support){
             wage.setDisable(true);
+            wage.setVisible(false);
+            wageMs.setVisible(false);
             wageMs.setDisable(true);
         }
     }

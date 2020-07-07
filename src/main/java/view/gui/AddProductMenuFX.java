@@ -17,9 +17,9 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.MediaView;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -93,7 +93,7 @@ public class AddProductMenuFX {
     public AnchorPane pane;
     public ArrayList<TextField> traitsTextFields = new ArrayList<>();
     public ArrayList<String> traits = new ArrayList<>();
-    public javafx.scene.media.MediaView MediaView;
+//    public javafx.scene.media.MediaView MediaView;
     String imageId;
     String videoId;
     List<File> files;
@@ -425,16 +425,16 @@ public class AddProductMenuFX {
         files = dragEvent.getDragboard().getFiles();
         videoId = files.get(0).getPath();
         File file = new File(videoId);
-        Media media = new Media(file.toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        MediaView = new MediaView(mediaPlayer);
-        MediaView.setFitHeight(350);
-        MediaView.setFitWidth(360);
-        MediaView.setLayoutX(150);
-        MediaView.setLayoutY(450);
-        pane.getChildren().add(MediaView);
+//        Media media = new Media(file.toURI().toString());
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//        mediaPlayer.setAutoPlay(true);
+//        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+//        MediaView = new MediaView(mediaPlayer);
+//        MediaView.setFitHeight(350);
+//        MediaView.setFitWidth(360);
+//        MediaView.setLayoutX(150);
+//        MediaView.setLayoutY(450);
+//        pane.getChildren().add(MediaView);
     }
 
     public void handleDragOverMedia(DragEvent dragEvent) {

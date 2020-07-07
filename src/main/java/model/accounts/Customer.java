@@ -44,6 +44,14 @@ public class Customer extends Account {
         writeInJ();
     }
 
+
+    public static Customer getCustomerWithUsername(String username) {
+
+        for (Customer customer: allCustomers) {
+            if (customer.username.equalsIgnoreCase(username)) return customer;
+        }
+        return null;
+    }
 //    public ArrayList<DiscountCode> getAllDiscountCodes() {
 //        return allDiscountCodes;
 //    }

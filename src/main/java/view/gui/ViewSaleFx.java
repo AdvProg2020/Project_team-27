@@ -13,8 +13,8 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
@@ -126,10 +126,10 @@ public class ViewSaleFx {
 
 
     public void userMenu(ActionEvent actionEvent) throws IOException {
-        String path = "src/main/java/view/music/drop.mp3";
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+//        String path = "src/main/java/view/music/drop.mp3";
+//        Media media = new Media(new File(path).toURI().toString());
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//        mediaPlayer.setAutoPlay(true);
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ViewSaleFx.class.getClassLoader().getResource("viewSaleFx.fxml")));
         if (LoginMenu.getLoginAccount() instanceof Seller) {
             SellerMenuFx.setPriRoot(curRoot);

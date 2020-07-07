@@ -3,7 +3,7 @@ package model.productRelated;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.MediaView;
+//import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -17,7 +17,7 @@ public class ProductInMenusShow {
     public String name;
     public double  price;
     public ImageView productImage;
-    public MediaView mediaView;
+//    public MediaView mediaView;
     public String productImageId;
     public String id;
     public String category;
@@ -51,14 +51,14 @@ public class ProductInMenusShow {
     public String getName() {
         return name;
     }
-
-    public MediaView getMediaView() {
-        return mediaView;
-    }
-
-    public void setMediaView(MediaView mediaView) {
-        this.mediaView = mediaView;
-    }
+//
+//    public MediaView getMediaView() {
+//        return mediaView;
+//    }
+//
+//    public void setMediaView(MediaView mediaView) {
+//        this.mediaView = mediaView;
+//    }
 
     public ImageView getProductImage() {
         return productImage;

@@ -15,6 +15,7 @@ import model.accounts.Manager;
 import model.accounts.Seller;
 import model.firms.Firm;
 import model.log.BuyLog;
+import model.off.Auction;
 import model.off.DiscountCode;
 import model.off.Sale;
 import model.productRelated.Category;
@@ -65,6 +66,10 @@ public class Main extends Application {
 
         gson();
 
+
+      //  removeAuction();
+     //   removeSale();
+
         if(Manager.getAllManagers().size() != 0){
             if (Customer.getAllCustomers().size() >= 2) {
                 randomDiscount();
@@ -72,6 +77,33 @@ public class Main extends Application {
         }
         Application.launch(args);
 
+    }
+
+    private static void removeSale() {
+        for (Sale allSale : Sale.getAllSales()) {
+            LocalDate localDate = LocalDate.now();
+            if(allSale.getEndOfSalePeriod().isAfter(localDate)){
+                Sale.getAllSales().remove(allSale);
+            }
+        }
+    }
+
+    private static void removeAuction() throws IOException {
+        for (Auction allAuction : Auction.getAllAuctions()) {
+            LocalDate localDate = LocalDate.now();
+            if(allAuction.getEndOfPeriod().isAfter(localDate)){
+                finishingAuction(allAuction);
+                Auction.getAllAuctions().remove(allAuction);
+            }
+        }
+    }
+
+    private static void finishingAuction(Auction auction) throws IOException {
+        String uniqueID = UUID.randomUUID().toString();
+        BuyLog buyLog = new BuyLog(uniqueID);
+        buyLog.addProductToBuyLog(auction.getProduct(), 1);
+        Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
+        Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
     }
 
     private static void gson() throws IOException {

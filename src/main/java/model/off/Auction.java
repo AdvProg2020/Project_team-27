@@ -1,7 +1,11 @@
 package model.off;
 
+import controller.menus.LoginMenu;
+import model.accounts.Seller;
 import model.productRelated.Product;
+import view.gui.SalesFx;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -9,18 +13,54 @@ public class Auction {
     private String id;
     private LocalDate startOfPeriod;
     private LocalDate endOfPeriod;
+    private String Product;
+    private String customer;
+    private double money;
 
-    public ArrayList<Product> allProducts = new ArrayList<>();
-    public static ArrayList<Product> allProSale = new ArrayList<>();
+   // public ArrayList<Product> allProducts = new ArrayList<>();
     private static ArrayList<Auction> allAuctions = new ArrayList<>();
 
-    public Auction(String id) {
+    public Auction(String id) throws IOException {
         this.id = id;
         allAuctions.add(this);
+        if(LoginMenu.getLoginAccount() instanceof Seller){
+            Seller seller = (Seller) LoginMenu.getLoginAccount();
+            seller.getAllAuctions().add(this);
+            Seller.writeInJ();
+        }
     }
 
-    public Auction(ArrayList<Product> allProducts) {
-        this.allProducts = allProducts;
+    public static ArrayList<Auction> getAllAuctions() {
+        return allAuctions;
+    }
+
+    public static void setAllAuctions(ArrayList<Auction> allAuctions) {
+        Auction.allAuctions = allAuctions;
+    }
+
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public String getProduct() {
+        return Product;
+    }
+
+    public void setProduct(String product) {
+        Product = product;
     }
 
     public LocalDate getStartOfPeriod() {

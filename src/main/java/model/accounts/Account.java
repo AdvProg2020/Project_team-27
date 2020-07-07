@@ -77,11 +77,18 @@ public abstract class Account {
     }
 
     public static Account getAccountWithUsername(String username) {
-
         for (Account account : allAccounts) {
             if (account.username.equalsIgnoreCase(username)) return account;
         }
         return null;
+    }
+
+    public void reduceCredit(Double money){
+        credit = credit - money;
+    }
+
+    public void increaseCredit(Double money){
+        credit = credit + money;
     }
 
     public String getImageId() {

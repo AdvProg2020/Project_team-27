@@ -1,9 +1,8 @@
 package view.gui;
 
-import controller.ProductMenu;
-import controller.ProductsMenu;
 import controller.menus.CustomerMenu;
 import controller.menus.LoginMenu;
+import controller.menus.ProductMenu;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -32,9 +31,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
+//import javafx.scene.media.Media;
+//import javafx.scene.media.MediaPlayer;
+//import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.accounts.Customer;
@@ -159,7 +158,7 @@ public class ProductMenuFX {
     public void makeUpPage() throws IOException {
 
         String path = "src/main/java/view/music/background.mp3";
-        Media media1 = new Media(new File(path).toURI().toString());
+ /*       Media media1 = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer1 = new MediaPlayer(media1);
         mediaPlayer1.setAutoPlay(true);
         productInPage.setNumberOfViews(productInPage.getNumberOfView() + 1);
@@ -183,6 +182,8 @@ public class ProductMenuFX {
             mediaPlayer.play();
             productPagePane.getChildren().add(mediaView);
         }
+
+  */
 
 
         zoomProperty.addListener(new InvalidationListener() {
@@ -359,7 +360,7 @@ public class ProductMenuFX {
 
     public void handleAddProductToLog(ActionEvent actionEvent) throws IOException {
        // if (LoginMenu.isLogin()){
-            try {
+  /*          try {
                 ProductMenu.setProductId(productInPage.getId());
                 ProductMenu.addToCart();
             } catch (IOException e) {
@@ -368,6 +369,8 @@ public class ProductMenuFX {
             BuyLogFx.setPriRoot(productPagePane);
             BuyLogFx.setCurBuylog(ProductMenu.getBuyLog());
 
+
+   */
           //  BuyLogFx.getCurBuyLog().setBuyLogCustomer(LoginMenu.getLoginAccount());
             AnchorPane root = FXMLLoader.load(Objects.requireNonNull(BuyLogFx.class.getClassLoader().getResource("buyLogFx.fxml")));
             Scene scene = new Scene(root);

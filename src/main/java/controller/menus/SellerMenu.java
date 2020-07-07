@@ -1,5 +1,7 @@
 package controller.menus;
 
+import model.accounts.Manager;
+import model.off.Auction;
 import model.request.ProductRequest;
 import model.request.Request;
 import model.request.SaleRequest;
@@ -35,6 +37,7 @@ public class SellerMenu {
     //  private static String editValue;
     private static int create = 0;
     private static int edit = 0;
+    private static Auction newAuction;
     // static ArrayList<String> keys = new ArrayList<String>(productRequest.getSpecialValue().keySet());
 
     public static int getEdit() {
@@ -65,6 +68,72 @@ public class SellerMenu {
     public static SaleRequest getSaleRequest() {
         return saleRequest;
     }
+
+    public static int addAuction(String id) throws IOException {
+        if (!id.equals("")) {
+            if (!Auction.isThereWithId(id)) {
+                newAuction = new Auction(id);
+                create = 1;
+                outputNo = 0;
+            } else outputNo = 0;
+        } else outputNo = 0;
+        return outputNo;
+    }
+
+    public static int setStartAuction(String detail) throws IOException {
+        if (detail.matches("^\\d{2}\\/\\d{2}\\/\\d{4}$")) {
+            LocalDate localDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate inputDate = LocalDate.parse(detail, formatter);
+            if (inputDate.isAfter(localDate) || inputDate.isEqual(localDate)) {
+                newAuction.setStartOfPeriod(inputDate);
+                Seller.writeInJ();
+                outputNo = 0;
+            } else outputNo = 0;
+        } else outputNo = 0;
+        return outputNo;
+    }
+
+    public static int setEndAuction(String detail) throws IOException {
+        if (detail.matches("^\\d{2}\\/\\d{2}\\/\\d{4}$")) {
+            LocalDate localDate = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate inputDate = LocalDate.parse(detail, formatter);
+            if (inputDate.isAfter(localDate) || inputDate.isEqual(localDate)) {
+                newAuction.setEndOfPeriod(inputDate);
+                Seller.writeInJ();
+                outputNo = 0;
+            } else outputNo = 0;
+        } else outputNo = 0;
+        return outputNo;
+    }
+
+    public static void setProduct(String detail) throws IOException {
+        newAuction.setProduct(detail);
+        Seller.writeInJ();
+    }
+
+  /*  public static int addProduct(Product detail) throws IOException {
+       // Product p = Product.getProductById(detail);
+        if (!detail.isInAuction()) {
+            newAuction.getAllProducts().add(detail);
+            Seller.writeInJ();
+            outputNo = 0;
+        } else outputNo = 0;
+        return outputNo;
+    }
+
+    public static int removeProduct(Product detail) throws IOException {
+       // Product p = Product.getProductById(detail);
+        if (!detail.isInAuction()) {
+            newAuction.getAllProducts().remove(detail);
+            Seller.writeInJ();
+            outputNo = 0;
+        } else outputNo = 0;
+        return outputNo;
+    }
+
+   */
 
     //product--------------------------------------------------------------------------------------
     // manager // customer // seller
@@ -212,8 +281,8 @@ public class SellerMenu {
 
     public static int processRemoveProduct(String productID) throws IOException {
         if (checkProduct(productID)) {
-            if (Product.getProductById(productID).getSeller().equalsIgnoreCase( LoginMenu.getLoginAccount().getUsername())) {
-                if(LoginMenu.getLoginAccount() instanceof  Seller) {
+            if (Product.getProductById(productID).getSeller().equalsIgnoreCase(LoginMenu.getLoginAccount().getUsername())) {
+                if (LoginMenu.getLoginAccount() instanceof Seller) {
                     Seller seller = (Seller) LoginMenu.getLoginAccount();
                     Product p = Product.getProductById(productID);
                     seller.getAllProduct().remove(p);
@@ -240,7 +309,7 @@ public class SellerMenu {
 
     }
 
-    private static boolean isOk(Seller seller , Sale sale) {
+    private static boolean isOk(Seller seller, Sale sale) {
         for (Sale sale2 : seller.getAllSales()) {
             if (sale2.getOffId().equals(sale.getOffId())) {
                 return true;
@@ -253,7 +322,7 @@ public class SellerMenu {
         if (checkSale(offID)) {
             Sale sale = Sale.getSaleWithId(offID);
             Seller seller = (Seller) LoginMenu.getLoginAccount();
-           if(isOk(seller, sale)){
+            if (isOk(seller, sale)) {
                 String id = LoginMenu.getLoginAccount().getUsername() + " wants edit off " + offID;
                 if (!Request.isThereRequestFromID(id)) {
                     Sale.getSaleWithId(offID).setSaleStatus(SaleStatus.UNDERREVIEWFOREDITING);
