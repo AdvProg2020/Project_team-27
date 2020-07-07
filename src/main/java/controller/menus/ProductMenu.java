@@ -57,7 +57,7 @@ public class ProductMenu {
         if (!Comment.isThereCommentWithId(commentId)) {
             //   String id = LoginMenu.getLoginAccount(). + "comment";
             if (!Request.isThereRequestFromID(commentId)) {
-                Comment comment = new Comment(commentId);
+                Comment  comment = new Comment(commentId);
                 selectedProduct.proComments.add(comment);
                 Seller.writeInJ();
                 comment.setCommentStatus(CommentStatus.WAITINGFORAPPROVAL);
