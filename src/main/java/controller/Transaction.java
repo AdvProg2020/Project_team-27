@@ -18,7 +18,7 @@ public class Transaction {
     String description;
     String receiptTyp;
     int paid;
-    String toBeJson;
+    private static String toBeJson;
     public static ArrayList<Transaction> allTransactions = new ArrayList<>();
 
     public String getId() {
@@ -30,6 +30,7 @@ public class Transaction {
     }
 
     public static ArrayList<Transaction> getTransaction(String toBeJson){
+
         toBeJson = toBeJson.replace("*",",");
         Type transactionReType = new TypeToken<ArrayList<Transaction>>() {
         }.getType();
