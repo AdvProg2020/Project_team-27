@@ -123,5 +123,6 @@
             <Font size="19.0" />
          </font>
       </Label>
+      <TextField fx:id="min" layoutX="226.0" layoutY="554.0" prefHeight="40.0" prefWidth="271.0" promptText="min" />
     </children>
 </AnchorPane>

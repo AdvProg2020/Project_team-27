@@ -19,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.accounts.Customer;
 import model.log.BuyLog;
 import view.OutputMassageHandler;
 
@@ -45,6 +46,7 @@ public class PayLogFx {
     private static Parent root;
     private static String fast;
 
+
     public static Parent getPriRoot() {
         return priRoot;
     }
@@ -57,6 +59,13 @@ public class PayLogFx {
         PayLogFx.preBuyLog = preBuyLog;
     }
 
+    public void market(MouseEvent mouseEvent) {
+        CustomerMenu.setMarket(true);
+    }
+
+    public void bank(MouseEvent mouseEvent) {
+        CustomerMenu.setMarket(false);
+    }
 
     public void paymentProcess(MouseEvent mouseEvent) throws IOException {
         if(has) {
@@ -156,6 +165,8 @@ public class PayLogFx {
         root = priRoot;
         goToPage();
     }
+
+
 //              if (hasDiscount.getText().matches("no")) {
 //        discountPayLogTextField.setDisable(true);
 //    } else {

@@ -64,7 +64,8 @@ public class SignUpFx {
     private Label passLoginMs;
     @FXML
     private Label lastNameLoginMs;
-
+    @FXML
+    private TextField min;
     private static String role;
     private static Parent root;
     private static Parent priRoot;
@@ -91,11 +92,13 @@ public class SignUpFx {
 
     @FXML
     public void initialize()  {
-        if(support){
+        if(support ){
             wage.setDisable(true);
             wage.setVisible(false);
             wageMs.setVisible(false);
             wageMs.setDisable(true);
+            min.setVisible(false);
+            min.setDisable(true);
         }
     }
     public void signUp(MouseEvent mouseEvent) throws IOException, ParseException {
@@ -123,6 +126,7 @@ public class SignUpFx {
                     }
                     if (role == "manager") {
                         wageMs.setText(OutputMassageHandler.showAccountOutput(RegisterMenu.wage(wage.getText())));
+                        RegisterMenu.min(min.getText());
                     }
                 }
                 if (role != null && RegisterMenu.getSignUpNo() == 6) {

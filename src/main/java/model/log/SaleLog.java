@@ -39,11 +39,16 @@ public class SaleLog extends Log {
         this.reducedAmount = reducedAmount;
     }
 
-    public void setReceivedAmount() throws IOException {
-        receivedAmount = price - reducedAmount;
+    public void setReceivedAmount(double amount) throws IOException {
+        receivedAmount += amount;
         Seller.writeInJ();
 
 
+
+    }
+
+    public double getReceivedAmount() {
+        return receivedAmount =price - reducedAmount;
     }
 
     public HashMap<Product, Integer> getChosenProduct() {
@@ -58,9 +63,7 @@ public class SaleLog extends Log {
         return allSellersLog;
     }
 
-    public double getReceivedAmount() {
-        return receivedAmount;
-    }
+
 
     public double getReducedAmount() {
         return reducedAmount;
@@ -72,9 +75,9 @@ public class SaleLog extends Log {
         chosenProduct.put(product, number);
     }
 
-    public static boolean idThereSeller(Seller seller) {
+    public static boolean idThereSeller(String seller) {
         for (SaleLog saleLog : allSellersLog) {
-            saleLog.seller.equals(seller.getUsername());
+            saleLog.seller.equals(seller);
             return true;
         }
         return false;

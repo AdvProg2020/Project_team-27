@@ -14,5 +14,11 @@ public class Supporter extends Account {
         allSupporters.add(this);
     }
 
+    public static ArrayList<Supporter> getAllSupporters() {
+        return allSupporters;
+    }
 
+    public static void setAllSupporters(ArrayList<Supporter> allSupporters) {
+        Supporter.allSupporters = allSupporters;
+    }
 }

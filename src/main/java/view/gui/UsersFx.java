@@ -106,6 +106,7 @@ public class UsersFx {
 
     public void AddManager(MouseEvent mouseEvent) throws IOException {
         SignUpFx.setRole("manager");
+        SignUpFx.setSupport(true);
         root = FXMLLoader.load(Objects.requireNonNull(SignUpFx.class.getClassLoader().getResource("managerSignFx.fxml")));
         goToPage();
     }
