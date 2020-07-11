@@ -108,7 +108,7 @@ public class CustomerMenu {
         Date date = new Date();
         Account account = LoginMenu.getLoginAccount();
         Account manager = Manager.getAllManagers().get(Manager.getAllManagers().size() - 1);
-        if (account.getTokenDate() - date.getHours() == 0) {
+        if (account.getTokenDate() - date.getTime() <3600000) {
             BankAPI.startTran("create_receipt " + account.getToken() + " " + "move " + account.getAccountId() + " " + manager.getAccountId(), account);
         }
     }

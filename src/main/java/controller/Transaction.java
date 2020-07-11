@@ -18,7 +18,7 @@ public class Transaction {
     String description;
     String receiptTyp;
     int paid;
-    String toBeJson;
+    static String toBeJson;
     public static ArrayList<Transaction> allTransactions = new ArrayList<>();
 
     public String getId() {
@@ -27,6 +27,18 @@ public class Transaction {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public static String getToBeJson() {
+        return toBeJson;
+    }
+
+    public static void setToBeJson(String toBeJson) {
+        Transaction.toBeJson = toBeJson;
+    }
+
+    public static ArrayList<Transaction> getAllTransactions() {
+        return allTransactions;
     }
 
     public static ArrayList<Transaction> getTransaction(String toBeJson){

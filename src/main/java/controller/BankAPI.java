@@ -17,9 +17,9 @@ import java.util.Scanner;
  * and also responses from Bank server.
  */
 public class BankAPI {
-    public static final int PORT = 8383;
+    public static final int PORT = 8080;
    // public static final String IP = "192.168.1.4";
-   public static final String IP = "192.168.43.238";
+   public static final String IP = "192.168.0.8";
 
     private static DataOutputStream outputStream;
     private static DataInputStream inputStream;
@@ -79,7 +79,23 @@ public class BankAPI {
             }
         }).start();
     }
-
+    public static void StartListeningOnInputBa(Account account) {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    System.out.println("*+"+inputStream.readUTF());
+                    account.setBankMoney(Double.parseDouble(inputStream.readUTF()));
+                    System.out.println("account: "+account.getBankMoney());
+                    Manager.writeInJ();
+                    Seller.writeInJ();
+                    Customer.writeInJ();
+                } catch (IOException e) {
+                    System.out.println("disconnected");
+                    System.exit(0);
+                }
+            }
+        }).start();
+    }
     public static void StartListeningOnInputLo(Account account) {
         new Thread(() -> {
             while (true) {
@@ -87,7 +103,7 @@ public class BankAPI {
                     System.out.println("*+"+inputStream.readUTF());
                     account.setToken(inputStream.readUTF());
                     Date date = new Date();
-                    account.setTokenDate(date.getHours());
+                    account.setTokenDate(date.getTime());
                     System.out.println("token: "+account.getToken());
                     System.out.println("token date: "+account.getTokenDate());
                     Manager.writeInJ();
@@ -100,7 +116,23 @@ public class BankAPI {
             }
         }).start();
     }
-
+    public static void StartListeningOnInputGetTr() {
+        new Thread(() -> {
+            while (true) {
+                try {
+                    System.out.println("*+"+inputStream.readUTF());
+                    Transaction.getTransaction(inputStream.readUTF());
+                    System.out.println("tran: "+inputStream.readUTF());
+                    Manager.writeInJ();
+                    Seller.writeInJ();
+                    Customer.writeInJ();
+                } catch (IOException e) {
+                    System.out.println("disconnected");
+                    System.exit(0);
+                }
+            }
+        }).start();
+    }
     public static void StartListeningOnInputTr(Account account) {
         new Thread(() -> {
             while (true) {
@@ -160,7 +192,33 @@ public class BankAPI {
             e.printStackTrace();
         }
     }
+    public static void startGetTra(String start) throws IOException {
+        try {
+            ConnectToBankServer();
+            StartListeningOnInputGetTr();
+            // Scanner scanner = new Scanner(System.in);
+            //while (true) {
+            SendMessage(start);
+            // }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
+    public static void startGetBa(String start,Account account) throws IOException {
+        try {
+            ConnectToBankServer();
+            StartListeningOnInputBa(account);
+            // Scanner scanner = new Scanner(System.in);
+            //while (true) {
+            SendMessage(start);
+            // }
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }
     public static void startLogin(String start, Account account) throws IOException {
         try {
             ConnectToBankServer();

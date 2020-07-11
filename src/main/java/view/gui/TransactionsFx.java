@@ -73,7 +73,7 @@ public class TransactionsFx {
 
     public static void makeList() {
         list.clear();
-        list.addAll(Account.getAllAccounts());
+        list.addAll(Transaction.getAllTransactions());
     }
 
     private void makeTree() {

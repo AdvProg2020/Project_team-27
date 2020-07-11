@@ -34,7 +34,7 @@ public class Exchange {
     private static Parent root;
     private static Parent priRoot;
     private static Account account;
-    private static boolean customer= false;
+    private static boolean customer = false;
     double bankCredit;
 
     public static Account getAccount() {
@@ -53,13 +53,13 @@ public class Exchange {
     @FXML
     public void initialize() throws IOException {
 
-        if(customer){
+        if (customer) {
 
             withdraw.setDisable(true);
             withdraw.setVisible(false);
         }
-
-        //bankCredit.setText();
+        bankCredit = account.getBankMoney();
+        bankCreditLb.setText(String.valueOf(bankCredit));
         marketCredit.setText(String.valueOf(account.getCredit()));
     }
 
@@ -70,8 +70,8 @@ public class Exchange {
         if (curAmount <= marketCredit) {
             Account account = LoginMenu.getLoginAccount();
             Date date = new Date();
-            if (account.getTokenDate() - date.getHours() == 0) {
-                if(Manager.getAllManagers().get(0).getMin()>= marketCredit - curAmount) {
+            if (account.getTokenDate() - date.getTime() < 3600000) {
+                if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
                     BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + account.getAccountId() + " " + -1, account);
 
                 }
@@ -87,8 +87,8 @@ public class Exchange {
         if (bankCredit >= curAmount) {
             Account account = LoginMenu.getLoginAccount();
             Date date = new Date();
-            if (account.getTokenDate() - date.getHours() == 0) {
-                if(Manager.getAllManagers().get(0).getMin()>= marketCredit - curAmount) {
+            if (account.getTokenDate() - date.getTime() < 3600000) {
+                if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
                     BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
                 }
             }
