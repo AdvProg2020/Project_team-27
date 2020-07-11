@@ -2,6 +2,7 @@ package model.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import controller.BankAPI;
 import model.accounts.Account;
 import model.accounts.Seller;
 import model.firms.Company;
@@ -55,6 +56,10 @@ public class AccountRequest extends Request {
         writeInJ();
     }
 
+    public static void createBankAccount() throws IOException {
+        BankAPI.SendMessage("create_account" + name + lastname + username +password + password);
+    }
+
     @Override
     public void declineRequest() throws IOException {
         Request.getAllRequests().remove(this);
@@ -76,6 +81,7 @@ public class AccountRequest extends Request {
         Request.getAllRequests().remove(this);
         allAccountRequests.remove(this);
         seller.removeAccountRequest(this);
+        createBankAccount();
 
         writeInJ();
 

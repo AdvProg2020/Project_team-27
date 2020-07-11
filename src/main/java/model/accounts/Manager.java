@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Manager extends Account {
 
     private int wage =0;
+    private double min =0;
 
     private static ArrayList<Manager> allManagers = new ArrayList<>();
     public ArrayList<DiscountCode> allDiscountCodes = new ArrayList<>();
@@ -26,6 +27,14 @@ public class Manager extends Account {
         role = "manager";
         allManagers.add(this);
         writeInJ();
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
     }
 
     public int getWage() {

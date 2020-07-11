@@ -1,5 +1,6 @@
 package controller.menus;
 
+import controller.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
@@ -12,6 +13,7 @@ import model.productRelated.Product;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -23,8 +25,20 @@ public class CustomerMenu {
     private static String discountID = null;
     // private static Customer customer = null;
     private static SaleLog saleLog;
+    private static boolean market = true;
     public static boolean ok = false;
     private static DiscountCode prizeDiscountCode;
+
+
+
+    public static boolean isMarket() {
+        return market;
+    }
+
+    public static void setMarket(boolean market) {
+        CustomerMenu.market = market;
+    }
+
 
     public static DiscountCode getPrizeDiscountCode() {
         return prizeDiscountCode;
@@ -57,7 +71,7 @@ public class CustomerMenu {
     }
 
     //purches............................................................................
- public static int discountCodeValidation(String discountCodeId) {
+    public static int discountCodeValidation(String discountCodeId) {
         Account loginAccount = LoginMenu.getLoginAccount();
         DiscountCode discountCode = DiscountCode.getDiscountWithId(discountCodeId);
         if (DiscountCode.isThereDiscountWithId(discountCodeId)) {
@@ -74,20 +88,29 @@ public class CustomerMenu {
         } else outputNo = 1;
         return outputNo;
 
-      // OutputMassageHandler.showPurchaseOutput(outputNo);
+        // OutputMassageHandler.showPurchaseOutput(outputNo);
     }
 
 
     public static int payment() throws IOException {
-        if (ProductMenu.getBuyLog().calculateHolePrice() <= LoginMenu.getLoginAccount().getCredit()) {
+     //   if (ProductMenu.getBuyLog().calculateHolePrice() <= LoginMenu.getLoginAccount().getCredit()) {
             finishingPayment();
             ok = true;
             outputNo = 10;
             Seller.writeInJ();
             Customer.writeInJ();
-        } else outputNo = 9;
+        //} else outputNo = 9;
         return outputNo;
         //  OutputMassageHandler.showPurchaseOutput(outputNo);
+    }
+
+    public static void bankPayment() throws IOException {
+        Date date = new Date();
+        Account account = LoginMenu.getLoginAccount();
+        Account manager = Manager.getAllManagers().get(Manager.getAllManagers().size() - 1);
+        if (account.getTokenDate() - date.getHours() == 0) {
+            BankAPI.startTran("create_receipt " + account.getToken() + " " + "move " + account.getAccountId() + " " + manager.getAccountId(), account);
+        }
     }
 
     private static void finishingPayment() throws IOException {
@@ -96,29 +119,23 @@ public class CustomerMenu {
         if (LoginMenu.getLoginAccount() instanceof Customer) {
             loginAccount = (Customer) LoginMenu.getLoginAccount();
         }
-        double money = loginAccount.getCredit() - holePrice;
-        loginAccount.setCredit(money);
-        loginAccount.addLog(ProductMenu.getBuyLog());
 
-        if (money > 1000000) {
-            LocalDate today = LocalDate.now();
-            UUID id = UUID.randomUUID();
-            prizeDiscountCode = new DiscountCode(id.toString());
-            prizeDiscountCode.setTotalTimesOfUse(1);
-            prizeDiscountCode.setDiscountAmount(10);
-            prizeDiscountCode.setMaxDiscountAmount(100000);
-            prizeDiscountCode.addAccount(loginAccount);
-            prizeDiscountCode.setStartOfDiscountPeriod(today);
-            DiscountCode.setEndOfDiscountPeriod(today.plusDays(10));
-            Random rand = new Random();
-            int randomIndex = rand.nextInt(Manager.getAllManagers().size());
-            Manager.getAllManagers().get(randomIndex).addDiscount(prizeDiscountCode);
-            Manager.writeInJ();
-
+        if (market) {
+            if (holePrice <= loginAccount.getCredit()) {
+                double money = loginAccount.getCredit() - holePrice;
+                loginAccount.setCredit(money);
+            } else outputNo = 9;
         }
 
+        loginAccount.addLog(ProductMenu.getBuyLog());
+
+        if (holePrice > 1000000) {
+            getDiscountPrize(loginAccount);
+        }
+
+
         for (Product p : ProductMenu.getBuyLog().getChosenProduct().keySet()) {
-            Account.getAccountWithUsername(p.getSeller()).setCredit(Account.getAccountWithUsername(p.getSeller()).getCredit() + p.getPrice());
+          //  Account.getAccountWithUsername(p.getSeller()).setCredit(Account.getAccountWithUsername(p.getSeller()).getCredit() + p.getPrice());
             int n = p.getNumberOfProducts() - ProductMenu.getBuyLog().getChosenProduct().get(p);
             p.setNumberOfProducts(n);
             if (n == 0) {
@@ -132,7 +149,7 @@ public class CustomerMenu {
         for (Seller seller : ProductMenu.getBuyLog().getSellers()) {
             for (Product p : ProductMenu.getBuyLog().getChosenProduct().keySet()) {
                 if (p.getSeller().equals(seller.getUsername())) {
-                    if (!SaleLog.idThereSeller(seller)) {
+                    if (!SaleLog.idThereSeller(seller.getUsername())) {
                         UUID id = UUID.randomUUID();
                         saleLog = new SaleLog(id.toString());
                         seller.addLog(saleLog);
@@ -147,13 +164,34 @@ public class CustomerMenu {
                             saleLog.setReducedAmount(Sale.getSaleWithId(p.getSale()).withSale(p));
                         }
                     } else saleLog.setReducedAmount(0);
-                    saleLog.setReceivedAmount();
                 }
+            }
+            double rec =saleLog.getReceivedAmount();
+            double finalAmount = rec- ((rec*Manager.getAllManagers().get(0).getWage())/100);
+            saleLog.setReceivedAmount(finalAmount);
+            //if(market){
+                seller.increaseCredit(finalAmount);
+            if(!market) {
+                bankPayment();
             }
         }
     }
 
-
+    private static void getDiscountPrize(Account loginAccount) throws IOException {
+        LocalDate today = LocalDate.now();
+        UUID id = UUID.randomUUID();
+        prizeDiscountCode = new DiscountCode(id.toString());
+        prizeDiscountCode.setTotalTimesOfUse(1);
+        prizeDiscountCode.setDiscountAmount(10);
+        prizeDiscountCode.setMaxDiscountAmount(100000);
+        prizeDiscountCode.addAccount(loginAccount);
+        prizeDiscountCode.setStartOfDiscountPeriod(today);
+        DiscountCode.setEndOfDiscountPeriod(today.plusDays(10));
+        Random rand = new Random();
+        int randomIndex = rand.nextInt(Manager.getAllManagers().size());
+        Manager.getAllManagers().get(randomIndex).addDiscount(prizeDiscountCode);
+        Manager.writeInJ();
+    }
     //score.............................................................
     public static int rateProduct(String productI, int number) throws IOException {
         if (checkProduct(productI)) {
@@ -193,7 +231,6 @@ public class CustomerMenu {
     public static void processViewBalance() throws FileNotFoundException {
         OutputHandler.showBalance(LoginMenu.getLoginAccount().getUsername());
     }
-
         private static boolean isThereBuyLog() {
         if (ProductMenu.getBuyLog() != null) {
             return true;
@@ -209,7 +246,6 @@ public class CustomerMenu {
         // } else outputNo = ;
         return false;
     }
-
     public static int haveDiscount(String have) {
         if (have.matches("(?i)(?:yes|no)")) {
             if (have.equalsIgnoreCase("yes")) {
@@ -225,14 +261,11 @@ public class CustomerMenu {
         return outputNo;
         // OutputMassageHandler.showPurchaseOutput(outputNo);
     }
-
-
     pu
     //GSON
     public static void processViewDiscountCodes() throws FileNotFoundException {
         OutputHandler.showDiscountCodes();
     }
-
     //gson
     public static void processViewCart() throws FileNotFoundException {
         if (isThereBuyLog()) {
@@ -240,21 +273,18 @@ public class CustomerMenu {
             CommandProcessor.setSubMenuStatus(SubMenuStatus.VIEWCART);
         } else OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
     //gson
     public static void showTotalPrice() throws FileNotFoundException {
         if (isThereBuyLog()) {
             OutputHandler.showTotalPrice(ProductMenu.getBuyLog().getId());
         } else OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
     //gson
     public static void showProducts() throws FileNotFoundException {
         if (isThereBuyLog()) {
             OutputHandler.showProducts(Filter.getNewArrayOfProductFilter());
         } else OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
     //GSON
     public static void viewProduct(String productID) throws FileNotFoundException {
         if (checkProduct(productID)) {
@@ -264,22 +294,17 @@ public class CustomerMenu {
             CommandProcessor.setMenuStatus(MenuStatus.PRODUCTMENU);
         } else OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
     //gson
     public static void processViewOrders() throws FileNotFoundException {
         OutputHandler.showOrders();
         CommandProcessor.setSubMenuStatus(SubMenuStatus.VIEWORDERS);
     }
-
  //gson
     public static void showOrder(String orderID) throws FileNotFoundException {
         if (checkLog(orderID)) {
             OutputHandler.showOrder(orderID);
         }else OutputMassageHandler.showCustomerOutput(outputNo);
-
     }
-
-
     public static void decreaseProductNumber(String productID) {
         if (isThereBuyLog()) {
             if (checkProduct(productID)) {
@@ -290,7 +315,6 @@ public class CustomerMenu {
         }
         OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
         public static void increaseProductNumber(String productID) {
         if (isThereBuyLog()) {
             if (checkProduct(productID)) {
@@ -300,7 +324,6 @@ public class CustomerMenu {
             }
         }
         OutputMassageHandler.showCustomerOutput(outputNo);
-
     }
         public static void purchase() {
         if (LoginMenu.isLogin()) {
@@ -313,7 +336,6 @@ public class CustomerMenu {
         } else outputNo = 6;
         OutputMassageHandler.showPurchaseOutput(outputNo);
     }
-
     private static boolean checkCustomer() {
         Account account = LoginMenu.getLoginAccount();
         if (account instanceof Customer) {
@@ -322,7 +344,6 @@ public class CustomerMenu {
         }
         return false;
     }
-
     private static boolean checkLog(String orderID) {
         // if (orderID.matches("(?!^ +$)^.+$")) {
         if (Log.isThereLogWithID(orderID)) {
@@ -331,8 +352,6 @@ public class CustomerMenu {
         //} else outputNo = 0;
         return false;
     }
-
-
     public static void sortBy(String sort) throws FileNotFoundException {
         if (sort.matches("(?i)(?:log\\s+date)")) {
             if (sort.matches("log\\s+date")) {
@@ -340,16 +359,11 @@ public class CustomerMenu {
                 Sort.setNewArrayOfBuyLog(customer.getBuyLogsHistory());
                 Sort.buyLogSortDate();
             }
-
         }
     }
-
-
     public static int getOutputNo() {
         return outputNo;
     }
-
-
     public static void increaseLogProduct(String number) {
         // if (number.matches("\\d+")) {
         //  Product product = Product.getProductById(productID);
@@ -358,7 +372,6 @@ public class CustomerMenu {
         // } else outputNo = 4;
         // OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
     public static void decreaseLogProduct(String number) {
         //  if (number.matches("\\d+")) {
         ProductMenu.getBuyLog().reduceNumberOfProduct(productID, Integer.parseInt(number));
@@ -366,7 +379,6 @@ public class CustomerMenu {
         // } else outputNo = 4;
         // OutputMassageHandler.showCustomerOutput(outputNo);
     }
-
  */
 
 

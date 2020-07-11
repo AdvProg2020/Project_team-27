@@ -1,6 +1,7 @@
 package controller.menus;
 
 import com.google.gson.stream.JsonToken;
+import controller.BankAPI;
 import model.accounts.Account;
 import model.accounts.Seller;
 import model.firms.Firm;
@@ -21,10 +22,16 @@ public class LoginMenu {
     private static Firm firm;
     private static String firmName;
     public static boolean yes = false;
+ //   private static String token;
+  //  private static String sourceID;
+
+
 
     public static Firm getFirm() {
         return firm;
     }
+
+
 
     public static Account getLoginAccount() {
         return loginAccount;
@@ -55,6 +62,8 @@ public class LoginMenu {
             if (Account.isThereAccountWithUsernameAndPassword(username, password)) {
                 loginAccount = Account.getAccountWithUsername(username);
                 login = true;
+                //token =
+                 BankAPI.startLogin("get_token " + username+" " + password, loginAccount);
                 // findRole();
                 String role = loginAccount.getRole();
                 yes = false;

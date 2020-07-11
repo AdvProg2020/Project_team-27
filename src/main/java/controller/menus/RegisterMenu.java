@@ -1,5 +1,6 @@
 package controller.menus;
 
+import controller.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
@@ -36,6 +37,7 @@ public class RegisterMenu {
     private static SubMenuStatus subMenuStatus;
     private static String img;
     public static boolean ok;
+    static boolean first = true;
 
     public static boolean isHeadManager() {
         return headManager;
@@ -172,6 +174,14 @@ public class RegisterMenu {
         return outputNo;
     }
 
+    public static int min(String wage) {
+        if (wage.matches("\\d+")) {
+            manager.setMin(Integer.parseInt(wage));
+            outputNo = 0;
+        } else outputNo = 2;
+        return outputNo;
+    }
+
     public static void createAccountWithDetails() throws IOException {
         if (role.equalsIgnoreCase("seller")) {
             accountRequest.sellerAccountDetails(username, password, name, lastName, Email, phoneNo, birthdayDate, img);
@@ -179,11 +189,15 @@ public class RegisterMenu {
             outputNo = 31;
         } else if (role.equalsIgnoreCase("customer")) {
             customer.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
+            BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, customer);
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;
         } else if (role.equalsIgnoreCase("manager")) {
             manager.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
+            if(Manager.getAllManagers().size() == 1) {
+                BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, manager);
+            }
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;
@@ -193,6 +207,11 @@ public class RegisterMenu {
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;
         }
+    }
+
+    public static void createBankAccount() throws IOException {
+      //  BankAPI.ConnectToBankServer();
+        BankAPI.start("create_account " + name+" " + lastName+" " + username+" " +password+" " + password);
     }
 
     public static int createFirm(String detail, int detailMen) throws IOException {

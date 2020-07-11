@@ -21,6 +21,10 @@ public abstract class Account {
     public Firm firm = null;
     boolean fast = false;
     String imageId;
+    String token;
+    int tokenDate;
+    String accountId = null;
+    private  ArrayList<Integer> transactions = new ArrayList<>();
 
     private static ArrayList<Account> allAccounts = new ArrayList<>();
     private static ArrayList<Date> birthdayDates = new ArrayList<>();
@@ -67,6 +71,7 @@ public abstract class Account {
         allAccounts.add(this);
 
     }
+
 
 
     public static boolean isThereAccountWithUsername(String username) {
@@ -151,16 +156,49 @@ public abstract class Account {
 
     }
 
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
     public void setLastname(String lastname) throws IOException {
         this.lastname = lastname;
 //        writeInJ();
 
     }
 
+    public ArrayList<Integer> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(ArrayList<Integer> transactions) {
+        this.transactions = transactions;
+    }
+
     public void setPassword(String password) throws IOException {
         this.password = password;
 //        writeInJ();
 
+    }
+
+    public int getTokenDate() {
+        return tokenDate;
+    }
+
+    public void setTokenDate(int tokenDate) {
+        this.tokenDate = tokenDate;
     }
 
     public void setEmail(String email) throws IOException {

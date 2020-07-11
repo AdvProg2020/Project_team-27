@@ -68,7 +68,16 @@ public class CustomerMenuFx {
             }else show("cart is empty");
         }
     }
+    public void exchange(MouseEvent mouseEvent) {
+    }
 
+    public void auctions(MouseEvent mouseEvent) {
+    }
+
+    public void supporters(MouseEvent mouseEvent) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(SupportersFx.class.getClassLoader().getResource("supportersFx.fxml")));
+        goToPage();
+    }
 
     public void viewOrders(MouseEvent mouseEvent) throws IOException {
         //     String path = "src/main/java/view/music/drop.mp3";
@@ -111,6 +120,9 @@ public class CustomerMenuFx {
       //  showList();
     }
 
+
+    public void transactions(MouseEvent mouseEvent) {
+    }
 
     private static void goToPage() {
         Scene pageTwoScene = new Scene(root);
@@ -160,12 +172,5 @@ public class CustomerMenuFx {
         goToPage();
     }
 
-    public void exchange(MouseEvent mouseEvent) {
-    }
 
-    public void auctions(MouseEvent mouseEvent) {
-    }
-
-    public void supporters(MouseEvent mouseEvent) {
-    }
 }
