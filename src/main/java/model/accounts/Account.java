@@ -13,7 +13,7 @@ public abstract class Account {
     String password = null;
     String email = null;
     double phoneNo = 0;
-    double credit = 0;
+    double credit = 10000;
     String role = null;
     double currentPhoneNo = 0;
     String address = null;

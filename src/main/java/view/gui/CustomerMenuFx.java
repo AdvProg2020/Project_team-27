@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -77,6 +78,9 @@ public class CustomerMenuFx {
         Date date = new Date();
         if (account.getTokenDate() - date.getTime() < 3600000) {
             BankAPI.startGetBa("get_balance " + account.getToken() , account);
+            Exchange.setCustomer(true);
+            root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
+            goToPage();
         }
     }
 
