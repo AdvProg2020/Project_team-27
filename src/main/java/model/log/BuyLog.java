@@ -33,6 +33,7 @@ public class BuyLog extends Log {
         allCustomersLog.add(this);
     }
 
+
     public double getHolePrice() {
         holePrice =totalPrice() - salePrice;
         return holePrice;
@@ -173,8 +174,6 @@ public class BuyLog extends Log {
                 ", deliveryStatus=" + deliveryStatus +
                 '}';
     }
-
-
 
 /*
         public void increaseNumberOfProduct(String productId, int amount) {
