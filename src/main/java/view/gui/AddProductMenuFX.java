@@ -422,9 +422,9 @@ public class AddProductMenuFX {
     }
 
     public void handleDropMedia(DragEvent dragEvent) throws FileNotFoundException {
-        files = dragEvent.getDragboard().getFiles();
-        videoId = files.get(0).getPath();
-        File file = new File(videoId);
+//        files = dragEvent.getDragboard().getFiles();
+ //       videoId = files.get(0).getPath();
+ //       File file = new File(videoId);
 //        Media media = new Media(file.toURI().toString());
 //        MediaPlayer mediaPlayer = new MediaPlayer(media);
 //        mediaPlayer.setAutoPlay(true);
