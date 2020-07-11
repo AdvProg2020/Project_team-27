@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="801.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.Exchange">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" height="801.0" stroke="BLACK" strokeType="INSIDE" width="1492.0">
+            <fill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="WHITE" />
+                        <Stop color="#039dff" offset="0.509022449559534" />
+                        <Stop color="#010039" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </fill>
+        </Rectangle>
+        <MenuBar layoutX="-1.0" layoutY="1.0" prefHeight="36.0" prefWidth="1605.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <menus>
+                <Menu mnemonicParsing="false" text="User menu">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#userMenu" text="your menu" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Logout">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#logout" text="logout" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Back">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#back" text="back" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Exit">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#exit" text="exit" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <Text layoutX="656.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="EXCHANGE">
+            <font>
+                <Font size="33.0" />
+            </font>
+        </Text>
+        <TextField fx:id="amount" layoutX="589.0" layoutY="345.0" prefHeight="31.0" prefWidth="269.0" promptText="amount" />
+        <Button layoutX="707.0" layoutY="484.0" mnemonicParsing="false" onMouseClicked="#depositMoney" prefHeight="45.0" prefWidth="123.0" text="deposit">
+            <font>
+                <Font size="21.0" />
+            </font>
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="#ffe81f" />
+                        <Stop color="#ff00ec" offset="0.509022449559534" />
+                        <Stop color="#0050ff" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Button fx:id="withdraw" layoutX="533.0" layoutY="484.0" mnemonicParsing="false" onMouseClicked="#withdrawMoney" text="Withdraw ">
+            <font>
+                <Font size="21.0" />
+            </font>
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="#ffe81f" />
+                        <Stop color="#ff00ec" offset="0.509022449559534" />
+                        <Stop color="#0050ff" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Text layoutX="277.0" layoutY="374.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount: " wrappingWidth="114.4501953125">
+            <font>
+                <Font size="27.0" />
+            </font>
+        </Text>
+        <Text layoutX="277.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bank credit: " wrappingWidth="185.4501953125">
+            <font>
+                <Font size="27.0" />
+            </font>
+        </Text>
+        <Text layoutX="277.0" layoutY="270.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Market credit: " wrappingWidth="185.4501953125">
+            <font>
+                <Font size="27.0" />
+            </font>
+        </Text>
+        <Label fx:id="bankCreditLb" layoutX="589.0" layoutY="166.0" prefHeight="21.0" prefWidth="289.0" text="Label">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="marketCredit" layoutX="589.0" layoutY="241.0" prefHeight="21.0" prefWidth="289.0" text="Label">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+    </children>
+</AnchorPane>
