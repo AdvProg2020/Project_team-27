@@ -50,14 +50,21 @@ public class Exchange {
     }
 
 
+    public static boolean isCustomer() {
+        return customer;
+    }
+
+    public static void setCustomer(boolean customer) {
+        Exchange.customer = customer;
+    }
+
     @FXML
     public void initialize() throws IOException {
-
         if (customer) {
-
             withdraw.setDisable(true);
             withdraw.setVisible(false);
         }
+         account= LoginMenu.getLoginAccount();
         bankCredit = account.getBankMoney();
         bankCreditLb.setText(String.valueOf(bankCredit));
         marketCredit.setText(String.valueOf(account.getCredit()));
@@ -65,15 +72,17 @@ public class Exchange {
 
     public void withdrawMoney(ActionEvent event) throws IOException {
         //bardasht az market
-        double curAmount = Double.valueOf(amount.getText());
-        double marketCredit = account.getCredit();
-        if (curAmount <= marketCredit) {
-            Account account = LoginMenu.getLoginAccount();
-            Date date = new Date();
-            if (account.getTokenDate() - date.getTime() < 3600000) {
-                if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
-                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + account.getAccountId() + " " + -1, account);
+        if(amount.getText().matches("\\d+")) {
+            double curAmount = Double.valueOf(amount.getText());
+            double marketCredit = account.getCredit();
+            if (curAmount <= marketCredit) {
+                Account account = LoginMenu.getLoginAccount();
+                Date date = new Date();
+                if (account.getTokenDate() - date.getTime() < 3600000) {
+                    if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
+                        BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + account.getAccountId() + " " + -1, account);
 
+                    }
                 }
             }
         }
@@ -82,14 +91,16 @@ public class Exchange {
 
     public void depositMoney(MouseEvent mouseEvent) throws IOException {
         //variz be market
-        double curAmount = Double.valueOf(amount.getText());
-        double marketCredit = account.getCredit();
-        if (bankCredit >= curAmount) {
-            Account account = LoginMenu.getLoginAccount();
-            Date date = new Date();
-            if (account.getTokenDate() - date.getTime() < 3600000) {
-                if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
-                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
+        if(amount.getText().matches("\\d+")) {
+            double curAmount = Double.valueOf(amount.getText());
+            double marketCredit = account.getCredit();
+            if (bankCredit >= curAmount) {
+                Account account = LoginMenu.getLoginAccount();
+                Date date = new Date();
+                if (account.getTokenDate() - date.getTime() < 3600000) {
+                    if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
+                        BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
+                    }
                 }
             }
         }
