@@ -22,8 +22,9 @@ public abstract class Account {
     boolean fast = false;
     String imageId;
     String token;
-    int tokenDate;
+    long tokenDate;
     String accountId = null;
+    double bankMoney;
     private  ArrayList<Integer> transactions = new ArrayList<>();
 
     private static ArrayList<Account> allAccounts = new ArrayList<>();
@@ -179,6 +180,14 @@ public abstract class Account {
 
     }
 
+    public double getBankMoney() {
+        return bankMoney;
+    }
+
+    public void setBankMoney(double bankMoney) {
+        this.bankMoney = bankMoney;
+    }
+
     public ArrayList<Integer> getTransactions() {
         return transactions;
     }
@@ -193,11 +202,11 @@ public abstract class Account {
 
     }
 
-    public int getTokenDate() {
+    public long getTokenDate() {
         return tokenDate;
     }
 
-    public void setTokenDate(int tokenDate) {
+    public void setTokenDate(long tokenDate) {
         this.tokenDate = tokenDate;
     }
 

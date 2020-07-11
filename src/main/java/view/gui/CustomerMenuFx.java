@@ -1,5 +1,6 @@
 package view.gui;
 
+import controller.BankAPI;
 import controller.menus.ProductMenu;
 import controller.menus.LoginMenu;
 import javafx.collections.FXCollections;
@@ -13,11 +14,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.accounts.Account;
 import model.accounts.Customer;
 import model.off.DiscountCode;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Objects;
 
 public class CustomerMenuFx {
@@ -58,20 +61,27 @@ public class CustomerMenuFx {
 //            MediaPlayer mediaPlayer = new MediaPlayer(media);
 //            mediaPlayer.setAutoPlay(true);
         if (LoginMenu.getLoginAccount() instanceof Customer) {
-            if(ProductMenu.getBuyLog() != null) {
+            if (ProductMenu.getBuyLog() != null) {
                 BuyLogFx.setCurBuylog(ProductMenu.getBuyLog());
-              //  BuyLogFx.getCurBuyLog().setBuyLogCustomer(LoginMenu.getLoginAccount());
+                //  BuyLogFx.getCurBuyLog().setBuyLogCustomer(LoginMenu.getLoginAccount());
                 Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
                 BuyLogFx.setPriRoot(curRoot);
                 root = FXMLLoader.load(Objects.requireNonNull(BuyLogFx.class.getClassLoader().getResource("buyLogFx.fxml")));
                 goToPage();
-            }else show("cart is empty");
+            } else show("cart is empty");
         }
     }
-    public void exchange(MouseEvent mouseEvent) {
+
+    public void exchange(MouseEvent mouseEvent) throws IOException {
+        Account account = LoginMenu.getLoginAccount();
+        Date date = new Date();
+        if (account.getTokenDate() - date.getTime() < 3600000) {
+            BankAPI.startGetBa("get_balance " + account.getToken() , account);
+        }
     }
 
     public void auctions(MouseEvent mouseEvent) {
+
     }
 
     public void supporters(MouseEvent mouseEvent) throws IOException {
@@ -104,8 +114,8 @@ public class CustomerMenuFx {
         goToPage();
     }
 
-    private void dis(){
-      //  data.clear();
+    private void dis() {
+        //  data.clear();
         if (LoginMenu.getLoginAccount() instanceof Customer) {
             Customer customer = (Customer) LoginMenu.getLoginAccount();
             for (DiscountCode allDiscountCode : DiscountCode.getAllDiscountCodes()) {
@@ -115,13 +125,18 @@ public class CustomerMenuFx {
                     }
                 }
             }
-          //  data.addAll(discounts);
+            //  data.addAll(discounts);
         }
-      //  showList();
+        //  showList();
     }
 
 
-    public void transactions(MouseEvent mouseEvent) {
+    public void transactions(MouseEvent mouseEvent) throws IOException {
+        Account account = LoginMenu.getLoginAccount();
+        Date date = new Date();
+        if (account.getTokenDate() - date.getTime() < 3600000) {
+            BankAPI.startGetTra("get_transactions " + account.getToken() + " " + "*");
+        }
     }
 
     private static void goToPage() {

@@ -18,7 +18,7 @@ public class Transaction {
     String description;
     String receiptTyp;
     int paid;
-    private static String toBeJson;
+    static String toBeJson;
     public static ArrayList<Transaction> allTransactions = new ArrayList<>();
 
     public String getId() {
@@ -29,8 +29,19 @@ public class Transaction {
         this.id = id;
     }
 
-    public static ArrayList<Transaction> getTransaction(String toBeJson){
+    public static String getToBeJson() {
+        return toBeJson;
+    }
 
+    public static void setToBeJson(String toBeJson) {
+        Transaction.toBeJson = toBeJson;
+    }
+
+    public static ArrayList<Transaction> getAllTransactions() {
+        return allTransactions;
+    }
+
+    public static ArrayList<Transaction> getTransaction(String toBeJson){
         toBeJson = toBeJson.replace("*",",");
         Type transactionReType = new TypeToken<ArrayList<Transaction>>() {
         }.getType();
