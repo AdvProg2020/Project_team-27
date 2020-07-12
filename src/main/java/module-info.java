@@ -17,5 +17,6 @@ module Project.team {
     opens model.productRelated to javafx.base;
     opens model.log to javafx.base;
     opens controller.menus to java.base;
+    opens serverClient to javafx.graphics;
 
 }
