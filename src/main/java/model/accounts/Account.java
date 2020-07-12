@@ -73,7 +73,9 @@ public abstract class Account {
 
     }
 
-
+    public String getPassword() {
+        return password;
+    }
 
     public static boolean isThereAccountWithUsername(String username) {
         for (Account account : allAccounts) {

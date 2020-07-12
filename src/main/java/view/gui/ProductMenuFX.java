@@ -224,7 +224,7 @@ public class ProductMenuFX {
 //
 //        }
 
-        if ( productInPage.getScore() >=0 && productInPage.getScore()<2){
+  /*      if ( productInPage.getScore() >=0 && productInPage.getScore()<2){
             scoreImageView.setVisible(true);
             scoreImageView.setImage(new Image("icons/1.png"));
         }
@@ -244,6 +244,8 @@ public class ProductMenuFX {
             scoreImageView.setVisible(true);
             scoreImageView.setImage(new Image("icons/5.png"));
         }
+
+   */
 
 
         if (productInPage.getInSale()){
@@ -360,7 +362,7 @@ public class ProductMenuFX {
 
     public void handleAddProductToLog(ActionEvent actionEvent) throws IOException {
        // if (LoginMenu.isLogin()){
-  /*          try {
+           try {
                 ProductMenu.setProductId(productInPage.getId());
                 ProductMenu.addToCart();
             } catch (IOException e) {
@@ -370,7 +372,7 @@ public class ProductMenuFX {
             BuyLogFx.setCurBuylog(ProductMenu.getBuyLog());
 
 
-   */
+
           //  BuyLogFx.getCurBuyLog().setBuyLogCustomer(LoginMenu.getLoginAccount());
             AnchorPane root = FXMLLoader.load(Objects.requireNonNull(BuyLogFx.class.getClassLoader().getResource("buyLogFx.fxml")));
             Scene scene = new Scene(root);

@@ -78,6 +78,7 @@ public class Exchange {
             if (curAmount <= marketCredit) {
                 Account account = LoginMenu.getLoginAccount();
                 Date date = new Date();
+                BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
                 if (account.getTokenDate() - date.getTime() < 3600000) {
                     if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
                         BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + account.getAccountId() + " " + -1, account);
@@ -97,6 +98,7 @@ public class Exchange {
             if (bankCredit >= curAmount) {
                 Account account = LoginMenu.getLoginAccount();
                 Date date = new Date();
+                BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
                 if (account.getTokenDate() - date.getTime() < 3600000) {
                     if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
                         BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);

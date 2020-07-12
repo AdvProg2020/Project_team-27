@@ -63,7 +63,7 @@ public class LoginMenu {
                 loginAccount = Account.getAccountWithUsername(username);
                 login = true;
                 //token =
-                // BankAPI.startLogin("get_token " + username+" " + password, loginAccount);
+                 BankAPI.startLogin("get_token " + username+" " + password, loginAccount);
                 // findRole();
                 String role = loginAccount.getRole();
                 yes = false;

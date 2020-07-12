@@ -76,6 +76,7 @@ public class CustomerMenuFx {
     public void exchange(MouseEvent mouseEvent) throws IOException {
         Account account = LoginMenu.getLoginAccount();
         Date date = new Date();
+        BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
         if (account.getTokenDate() - date.getTime() < 3600000) {
             BankAPI.startGetBa("get_balance " + account.getToken() , account);
             Exchange.setCustomer(true);
