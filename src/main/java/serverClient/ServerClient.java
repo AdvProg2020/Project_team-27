@@ -2,6 +2,7 @@ package serverClient;
 
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 
 public class ServerClient {
@@ -10,6 +11,7 @@ public class ServerClient {
     public InetAddress address;
     public int ID;
     public int  attempt=0;
+
 
     public ServerClient(String name,InetAddress address, int port,final int ID){
         this.port=port;
