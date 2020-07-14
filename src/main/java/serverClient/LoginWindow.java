@@ -14,8 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -97,7 +95,7 @@ public class LoginWindow extends Application implements Runnable {
         });
 //        ImageView chatImageView = new ImageView(chatImage);
         StackPane stackPane = new StackPane();
-//        t
+
         stackPane.setAlignment(Pos.TOP_RIGHT);
 
         HBox hBox = new HBox();
@@ -128,6 +126,13 @@ public class LoginWindow extends Application implements Runnable {
 
         boolean checkConnect = openConnection(address, port);
         if (checkConnect) {
+            try {
+                ServerClient serverClient = new ServerClient(txtUser.getText(),InetAddress.getByName(address),port,ID);
+                connectedClients.add(serverClient);
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
             String message = "/c/" + txtUser.getText() + "/e/";
             send(message.getBytes());
         }
@@ -143,30 +148,31 @@ public class LoginWindow extends Application implements Runnable {
         messageField = new TextField();
         messageField.setPromptText("Type message here");
         messageField.setMinWidth(500);
-        messageField.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                System.out.println(messageField.getText());
-                send(messageField.getText(), 0);
-                typeAttempt = true;
-            } else {
-                send(" : is Typing", 1);
-                typeAttempt=true;
-                System.out.println(txtUser.getText()+" is Typing");
-            }
-        });
+//        messageField.setOnKeyPressed(e -> {
+//            if (e.getCode() == KeyCode.ENTER) {
+//                System.out.println(messageField.getText());
+//                send(messageField.getText(), 0);
+//                typeAttempt = true;
+//                messageField.setText("");
+//            } else {
+////                send(" : is Typing", 1);
+////                typeAttempt=true;
+////                System.out.println(txtUser.getText()+" is Typing");
+//            }
+//        });
         sendBtn = new Button("Send");
         sendBtn.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
                 System.out.println(messageField.getText());
                 send(messageField.getText(), 0);
                 typeAttempt = true;
-                console(messageField.getText());
-            } else {
-                send(" : is Typing", 1);
-                typeAttempt=true;
-                System.out.println(txtUser.getText()+" is Typing");
-                send(messageField.getText(), 0);
-            }
+                //console(messageField.getText());
+                messageField.setText("");
+            }  //                send(" : is Typing", 1);
+            //                typeAttempt=true;
+            //                System.out.println(txtUser.getText()+" is Typing");
+            //                send(messageField.getText(), 0);
+
         });
         logoutBtn = new Button("Logout");
         logoutBtn.setOnAction(e -> {
@@ -198,7 +204,7 @@ public class LoginWindow extends Application implements Runnable {
         borderPane.setCenter(vBox1);
         borderPane.setBottom(hBox1);
         scene2 = new Scene(borderPane, 600, 500);
-        scene2.getStylesheets().add("ChatCSS.css");
+//        scene2.getStylesheets().add("ChatCSS.css");
 
         if (messageReceived) {
             scene2.setOnMousePressed(e -> {
@@ -212,6 +218,8 @@ public class LoginWindow extends Application implements Runnable {
     }
 
     private void console(String message) {
+        message.replace("/c/"," ");
+        message.replace("/e/"," ");
         textArea.appendText(message + " \n");
     }
 
@@ -246,13 +254,12 @@ public class LoginWindow extends Application implements Runnable {
                 }
                 message = "/m/" + txtUser.getText() + " : " + message + "/e/";
                 send(message.getBytes());
-                messageField.clear();
+
                 break;
 
             case 1:
-                message = "/t/" + txtUser.getText() + " IS TYPING ";
-                send(message.getBytes());
-                messageField.clear();
+//                message = "/t/" + txtUser.getText() + " IS TYPING ";
+//                send(message.getBytes());
                 break;
             case 2://disconnected
                 send(message.getBytes());
@@ -284,8 +291,6 @@ public class LoginWindow extends Application implements Runnable {
     private String receive() {
         byte[] data = new byte[1024];
         DatagramPacket packet = new DatagramPacket(data, data.length);
-        System.out.println(packet.getData());
-        textArea.appendText(packet.getData().toString());
         try {
             socket.receive(packet);
         } catch (IOException ex) {
@@ -317,15 +322,16 @@ public class LoginWindow extends Application implements Runnable {
                         disconnectedUser = disconnectUser;
                         console(disconnectUser + " left the Chat");
                         //////////////////////////////////////////////////////////////////////////////////
-                        textArea.appendText(message + "\n");
+                        //console(message + "\n");
                         clientStatus = true;
                         System.out.println("sent cleint status " + clientStatus);
                     } else if (message.startsWith("/m/")) {
                         String text = message.substring(3);
                         text = text.split("/e/")[0];
+                       // 88888888888888888888888888888888888888888888
                         console(text);
                         ////////////////////////////////////////////////////////////////////////////////
-                        textArea.appendText(message + "\n");
+                        //console(message + "\n");
                         messageReceived = true;
                     } else if (message.startsWith("/time/")) {
                         String receivedTime = message.substring(6);

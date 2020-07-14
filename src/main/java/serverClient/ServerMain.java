@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 public class ServerMain {
     int port;
-    Server server;
+    static Server server;
+
     public ServerMain(int port){
         this.port=port;
         server=new Server(port);

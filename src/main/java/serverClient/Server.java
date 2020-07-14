@@ -22,7 +22,7 @@ public class Server implements Runnable {
     Boolean running = false, raw = false, exits = false;
     DatagramSocket socket;
 
-    public List<ServerClient> clients = new ArrayList<ServerClient>();
+    public static List<ServerClient> clients = new ArrayList<>();
 
     public Server(int port) {
         this.port = port;
@@ -38,7 +38,7 @@ public class Server implements Runnable {
         } catch (UnknownHostException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        clients = new ArrayList<>();
         run = new Thread(this, "Run Thread");
         run.start();
     }
@@ -46,6 +46,7 @@ public class Server implements Runnable {
     public void run() {
         running = true;
         serverStartTime = System.currentTimeMillis();
+        clients = new ArrayList<ServerClient>();
         System.out.println("Server Started Time : " + serverStartTime);
         System.out.println("Server Started on Port " + port);
         manageClients();
@@ -157,6 +158,9 @@ public class Server implements Runnable {
                 while (running) {
                     byte[] data = new byte[1024];
                     DatagramPacket packet = new DatagramPacket(data, data.length);
+                    packet.setData(data);
+                    System.out.println(packet.getData().toString() + "     ahahahhaha");
+                    System.out.println(packet.getLength() + "      safid;f");
                     try {
                         socket.receive(packet);
                     } catch (IOException ex) {
@@ -186,10 +190,11 @@ public class Server implements Runnable {
             System.out.println("Client ID : " + id);
             String name = string.split("/c/|/e/")[1];
 
-
+            clients.add(new ServerClient(name,packet.getAddress(),packet.getPort(),id));
             System.out.println("client connected " + name + " || clients no : " + clients.size());
             String ID = "/c/" + id;
             send(ID, packet.getAddress(), packet.getPort());
+
         } else if (string.startsWith("/m/")) {
             sendToAll(string);
         } else if (string.startsWith("/t/")) {
@@ -211,21 +216,22 @@ public class Server implements Runnable {
             String text = message.split("/m/|/e/")[1];
             System.out.println(text);
         }
-        for (int i = 0; i < clients.size(); i++) {
-            ServerClient client = clients.get(i);
+        for (ServerClient client : clients) {
             send(message.getBytes(), client.address, client.port);
         }
     }
 
-    public void disconnect(int id, boolean status) {
-        ServerClient c = null;
-        for (int i = 0; i < clients.size(); i++) {
-            if (clients.get(i).getID() == id) {
-                c = clients.get(i);
-                clients.remove(i);
-                break;
+    public static ServerClient getClientWithId(int id){
+        for (ServerClient client : clients) {
+            if (client.getID() == id){
+                return client;
             }
         }
+        return null;
+    }
+
+    public void disconnect(int id, boolean status) {
+        ServerClient c = getClientWithId(id);
         String message = "";
         if (status) {
             message = "username: " + c.name.toString() + " || ID: " + c.getID() + " || IP: " + c.address.toString() + " || port: " + c.port + " || Status: disconnected";
@@ -235,6 +241,7 @@ public class Server implements Runnable {
         } else {
             message = "username: " + c.name.toString() + " || ID: " + c.getID() + " || IP: " + c.address.toString() + " || port: " + c.port + " || Status: Timed Out";
         }
+        clients.remove(getClientWithId(id));
         System.out.println(message);
     }
 
