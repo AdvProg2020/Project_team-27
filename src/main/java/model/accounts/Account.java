@@ -24,7 +24,7 @@ public abstract class Account {
     String token;
     long tokenDate;
     String accountId = null;
-    double bankMoney;
+    double bankMoney = 50;
     private  ArrayList<Integer> transactions = new ArrayList<>();
 
     private static ArrayList<Account> allAccounts = new ArrayList<>();

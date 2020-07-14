@@ -40,7 +40,7 @@ public class SaleLog extends Log {
     }
 
     public void setReceivedAmount(double amount) throws IOException {
-        receivedAmount += amount;
+        receivedAmount = amount;
         Seller.writeInJ();
 
 

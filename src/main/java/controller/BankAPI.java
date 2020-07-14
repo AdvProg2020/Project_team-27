@@ -84,6 +84,7 @@ public class BankAPI {
             while (true) {
                 try {
                     System.out.println("*+"+inputStream.readUTF());
+                    System.out.println("account: "+account.getBankMoney());
                     account.setBankMoney(Double.parseDouble(inputStream.readUTF()));
                     System.out.println("account: "+account.getBankMoney());
                     Manager.writeInJ();

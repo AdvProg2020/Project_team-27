@@ -157,11 +157,11 @@ public class CustomerMenu {
                         saleLog = SaleLog.getLogWithSeller(seller.getUsername());
                     }
                     saleLog.setSeller(seller.getUsername());
-                    saleLog.addPrice(p.getPrice());
+                    saleLog.addPrice(p.getPrice()*ProductMenu.getBuyLog().getChosenProduct().get(p));
                     saleLog.addProductToSaleLog(p.getId(), ProductMenu.getBuyLog().getChosenProduct().get(p));
                     if (p.getInSale()) {
                         if (Sale.getSaleWithId(p.getSale()).checkSale()) {
-                            saleLog.setReducedAmount(Sale.getSaleWithId(p.getSale()).withSale(p));
+                            saleLog.setReducedAmount(Sale.getSaleWithId(p.getSale()).withSale(p)*ProductMenu.getBuyLog().getChosenProduct().get(p));
                         }
                     } else saleLog.setReducedAmount(0);
                 }

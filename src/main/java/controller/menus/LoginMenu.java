@@ -10,6 +10,7 @@ import model.request.Request;
 import view.gui.LoginFx;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class LoginMenu {
     private static int outputNo;
@@ -63,7 +64,10 @@ public class LoginMenu {
                 loginAccount = Account.getAccountWithUsername(username);
                 login = true;
                 //token =
-                 BankAPI.startLogin("get_token " + username+" " + password, loginAccount);
+                Date date = new Date();
+                //if (loginAccount.getTokenDate() - date.getTime() >= 3600000) {
+                    BankAPI.startLogin("get_token " + username + " " + password, loginAccount);
+                //}
                 // findRole();
                 String role = loginAccount.getRole();
                 yes = false;
