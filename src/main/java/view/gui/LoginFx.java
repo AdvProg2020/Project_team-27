@@ -10,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import model.accounts.Supporter;
+import serverClient.LoginWindow;
 import view.OutputMassageHandler;
 
 import java.io.IOException;
@@ -41,15 +43,24 @@ public class LoginFx {
         if (role.equalsIgnoreCase("manager")) {
             ManagerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(ManagerMenuFx.class.getClassLoader().getResource("managerMenuFx.fxml")));
+            goToPage();
         } else if (role.equalsIgnoreCase("seller")) {
             SellerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
+            goToPage();
         } else if (role.equalsIgnoreCase("customer")) {
             CustomerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
+            goToPage();
+        }else if( LoginMenu.getLoginAccount() instanceof Supporter) {
+           Supporter supporter = (Supporter) LoginMenu.getLoginAccount();
+           supporter.setOnline("online");
+               Main.primStage.setScene(LoginWindow.getScene1());
+               Main.primStage.show();
+
         }
 
-        goToPage();
+
     }
 
 

@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.accounts.*;
 import model.sort.Sort;
+import serverClient.LoginWindow;
 import view.OutputMassageHandler;
 
 import java.io.FileNotFoundException;
@@ -38,6 +39,8 @@ public class SupportersFx {
     private TableColumn<Account, String> userLast;
     @FXML
     private TableColumn<Account, String> userName;
+    @FXML
+    private TableColumn<Account, String> online;
     @FXML
     private Label usersMs;
 
@@ -63,6 +66,7 @@ public class SupportersFx {
         userName.setCellValueFactory(new PropertyValueFactory<Account, String>("name"));
         userLast.setCellValueFactory(new PropertyValueFactory<Account, String>("lastname"));
         userPhoneNo.setCellValueFactory(new PropertyValueFactory<Account, Double>("phoneNo"));
+        online.setCellValueFactory(new PropertyValueFactory<Account, String>("online"));
         
 
         makeList();
@@ -73,7 +77,14 @@ public class SupportersFx {
         usersList.setItems(list);
     }
 
-    
+    public void viewUser(MouseEvent mouseEvent) {
+        if (usersList.getSelectionModel().getSelectedItem() != null) {
+            Account supporter = usersList.getSelectionModel().getSelectedItem();
+
+            Main.primStage.setScene(LoginWindow.getScene1());
+            Main.primStage.show();
+        }
+    }
 
     private static void goToPage() {
         Scene pageTwoScene = new Scene(root);
@@ -112,6 +123,5 @@ public class SupportersFx {
         goToPage();
     }
 
-    public void viewUser(MouseEvent mouseEvent) {
-    }
+
 }

@@ -29,7 +29,7 @@ import javafx.stage.Stage;
 public class LoginWindow extends Application implements Runnable {
 
     Stage window;
-    Scene scene1, scene2;
+     static Scene scene1, scene2;
     Text login;
     Label lblWelcome, lblUser, lblIp;
     TextField txtUser, txtIp, messageField;
@@ -46,6 +46,13 @@ public class LoginWindow extends Application implements Runnable {
     boolean text = false, typeAttempt = true, seenAttempt = false, messageReceived = false, clientStatus;
     String disconnectedUser;
 //     Server server=new Server(4293);
+
+
+    public static Scene getScene1() {
+        return scene1;
+    }
+
+
 
     List<ServerClient> connectedClients = new ArrayList<>();
 
