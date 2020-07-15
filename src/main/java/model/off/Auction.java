@@ -88,6 +88,14 @@ public class Auction {
         return null;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public static boolean isThereWithId(String id) {
         for (Auction allAuction : allAuctions) {
             if (allAuction.id.equals(id)) {

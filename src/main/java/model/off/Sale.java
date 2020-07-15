@@ -108,6 +108,7 @@ public class Sale {
         return false;
     }
 
+
     public Sale getSaleWithSeller(Seller seller) {
         for (Sale sale : allSales) {
             if ((Account.getAccountWithUsername(sale.getSeller())) == (seller)) {
@@ -170,6 +171,7 @@ public class Sale {
         }
         return false;
     }
+
 
  /*   public static double withSale(Product product){
         Sale s = null;
