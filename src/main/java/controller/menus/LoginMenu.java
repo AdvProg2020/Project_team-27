@@ -1,9 +1,7 @@
 package controller.menus;
 
-import com.google.gson.stream.JsonToken;
-import controller.BankAPI;
+import model.Bank.BankAPI;
 import model.accounts.Account;
-import model.accounts.Seller;
 import model.firms.Firm;
 import model.request.AccountRequest;
 import model.request.Request;
@@ -23,8 +21,8 @@ public class LoginMenu {
     private static Firm firm;
     private static String firmName;
     public static boolean yes = false;
- //   private static String token;
-  //  private static String sourceID;
+    //   private static String token;
+    //  private static String sourceID;
 
 
 
@@ -63,10 +61,11 @@ public class LoginMenu {
             if (Account.isThereAccountWithUsernameAndPassword(username, password)) {
                 loginAccount = Account.getAccountWithUsername(username);
                 login = true;
+                loginAccount.setOnline("online");
                 //token =
                 Date date = new Date();
                 //if (loginAccount.getTokenDate() - date.getTime() >= 3600000) {
-                    BankAPI.startLogin("get_token " + username + " " + password, loginAccount);
+                // BankAPI.startLogin("get_token " + username + " " + password, loginAccount);
                 //}
                 // findRole();
                 String role = loginAccount.getRole();
@@ -204,8 +203,10 @@ public class LoginMenu {
 
     public static void processLogout() {
         //   if (login) {
+        loginAccount.setOnline("off");
         loginAccount = null;
         login = false;
+
         //  CommandProcessor.setMenuStatus(MenuStatus.MAINMENU);
         //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
         //   outputNo = 22;
