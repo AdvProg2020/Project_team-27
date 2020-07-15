@@ -1,11 +1,12 @@
 package controller.menus;
 
-import controller.BankAPI;
+import model.Bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
 import model.log.BuyLog;
+import model.log.DeliveryStatus;
 import model.log.SaleLog;
 import model.off.DiscountCode;
 import model.off.Sale;
@@ -127,6 +128,7 @@ public class CustomerMenu {
             } else outputNo = 9;
         }
 
+        ProductMenu.getBuyLog().setDeliveryStatus(DeliveryStatus.UNDER_VIEW);
         loginAccount.addLog(ProductMenu.getBuyLog());
 
         if (holePrice > 1000000) {

@@ -25,6 +25,7 @@ public abstract class Account {
     long tokenDate;
     String accountId = null;
     double bankMoney = 50;
+    private String online = "off";
     private  ArrayList<Integer> transactions = new ArrayList<>();
 
     private static ArrayList<Account> allAccounts = new ArrayList<>();
@@ -32,6 +33,13 @@ public abstract class Account {
 //    public static Type AccountType = new TypeToken<ArrayList<Account>>() {
 //    }.getType();
 
+    public String getOnline() {
+        return online;
+    }
+
+    public void setOnline(String online) {
+        this.online = online;
+    }
 
     public void setDetailsToAccount(String password, String name, String lastname, String Emai, double phoneNo, Date birthdayDat, Firm firm , String img) throws IOException {
         if (password != null) {

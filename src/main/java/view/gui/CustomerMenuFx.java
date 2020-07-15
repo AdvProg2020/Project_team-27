@@ -1,6 +1,6 @@
 package view.gui;
 
-import controller.BankAPI;
+import model.Bank.BankAPI;
 import controller.menus.ProductMenu;
 import controller.menus.LoginMenu;
 import javafx.collections.FXCollections;
@@ -11,12 +11,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TableRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.accounts.Account;
 import model.accounts.Customer;
+import model.off.Auction;
 import model.off.DiscountCode;
 
 import java.io.IOException;
@@ -85,7 +85,12 @@ public class CustomerMenuFx {
         }
     }
 
-    public void auctions(MouseEvent mouseEvent) {
+    public void auctions(MouseEvent mouseEvent) throws IOException {
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
+        AuctionsFx.setPriRoot(curRoot);
+        AuctionsFx.setAllAuctions(Auction.getAllAuctions());
+        root = FXMLLoader.load(Objects.requireNonNull(AuctionsFx.class.getClassLoader().getResource("auctionsFx.fxml")));
+        goToPage();
 
     }
 

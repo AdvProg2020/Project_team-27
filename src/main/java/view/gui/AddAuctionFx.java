@@ -54,6 +54,13 @@ public class AddAuctionFx {
     static ArrayList<Product> addAll = new ArrayList<>();
 
 
+    public static Parent getPriRoot() {
+        return priRoot;
+    }
+
+    public static void setPriRoot(Parent priRoot) {
+        AddAuctionFx.priRoot = priRoot;
+    }
 
     @FXML
     public void initialize() throws IOException {

@@ -1,5 +1,6 @@
 package view.gui;
 
+import model.Bank.BankAPI;
 import controller.menus.LoginMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,11 +13,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Objects;
 
 public class SellerMenuFx {
@@ -88,9 +91,27 @@ public class SellerMenuFx {
     }
 
 
-    public void exchange(MouseEvent mouseEvent) {
+    public void exchange(MouseEvent mouseEvent) throws IOException {
+        Account account = LoginMenu.getLoginAccount();
+        Date date = new Date();
+        BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
+        if (account.getTokenDate() - date.getTime() < 3600000) {
+            BankAPI.startGetBa("get_balance " + account.getToken() , account);
+            Exchange.setCustomer(true);
+            root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
+            goToPage();
+        }
     }
 
+    public void auction(MouseEvent mouseEvent) throws IOException {
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
+        AddAuctionFx.setPriRoot(curRoot);
+        root = FXMLLoader.load(Objects.requireNonNull(AddAuctionFx.class.getClassLoader().getResource("addAuctionFx.fxml")));
+        goToPage();
+    }
+
+    public void addFile(MouseEvent mouseEvent) {
+    }
 
     public void manageProducts(MouseEvent mouseEvent) throws IOException {
         if (LoginMenu.getLoginAccount() instanceof Seller) {
@@ -102,6 +123,7 @@ public class SellerMenuFx {
             goToPage();
         }
     }
+
 
     private static void goToPage() {
         Scene pageTwoScene = new Scene(root);
@@ -168,9 +190,4 @@ public class SellerMenuFx {
     }
 
 
-    public void auction(MouseEvent mouseEvent) {
-    }
-
-    public void addFile(MouseEvent mouseEvent) {
-    }
 }

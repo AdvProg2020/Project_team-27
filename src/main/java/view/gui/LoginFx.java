@@ -53,9 +53,6 @@ public class LoginFx {
             root = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
             goToPage();
         }else if( LoginMenu.getLoginAccount() instanceof Supporter) {
-           Supporter supporter = (Supporter) LoginMenu.getLoginAccount();
-           supporter.setOnline("online");
-           LoginWindow.main(Main.a);
                Main.primStage.setScene(LoginWindow.getScene1());
                Main.primStage.show();
 

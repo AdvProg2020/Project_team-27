@@ -47,6 +47,8 @@ public class UsersFx {
     @FXML
     private TableColumn<Account, String> userName;
     @FXML
+    private TableColumn<Account, String> online;
+    @FXML
     private Label usersMs;
 
     public static ObservableList list = FXCollections.observableArrayList();
@@ -74,6 +76,7 @@ public class UsersFx {
         userLast.setCellValueFactory(new PropertyValueFactory<Account, String>("lastname"));
         userBirth.setCellValueFactory(new PropertyValueFactory<Account, Date>("birthdayDate"));
         userPhoneNo.setCellValueFactory(new PropertyValueFactory<Account, Double>("phoneNo"));
+        online.setCellValueFactory(new PropertyValueFactory<Account, String>("online"));
        // userEmail.setCellValueFactory(new PropertyValueFactory<Account, String>("email"));
 
         makeList();
