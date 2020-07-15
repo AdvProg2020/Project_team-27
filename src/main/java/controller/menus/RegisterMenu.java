@@ -1,6 +1,6 @@
 package controller.menus;
 
-import controller.BankAPI;
+import model.Bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;

@@ -1,6 +1,6 @@
 package view.gui;
 
-import controller.BankAPI;
+import model.Bank.BankAPI;
 import controller.menus.LoginMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

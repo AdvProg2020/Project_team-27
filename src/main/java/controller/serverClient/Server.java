@@ -1,4 +1,4 @@
-package controller.menus.serverClient;
+package controller.serverClient;
 
 import java.io.*;
 import java.net.ServerSocket;

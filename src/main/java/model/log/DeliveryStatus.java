@@ -2,8 +2,6 @@ package model.log;
 
 public enum  DeliveryStatus {
 
-    DELIVERED,
-    SENDING,
-    ONTHEWAY;
+    SENDING, UNDER_VIEW;
 
 }

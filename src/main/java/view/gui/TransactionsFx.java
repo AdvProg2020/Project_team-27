@@ -1,9 +1,8 @@
 package view.gui;
 
-import controller.BankAPI;
-import controller.Transaction;
+import model.Bank.BankAPI;
+import model.Bank.Transaction;
 import controller.menus.LoginMenu;
-import controller.menus.ManagerMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,13 +20,9 @@ import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
-import model.sort.Sort;
-import view.OutputMassageHandler;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 public class TransactionsFx {

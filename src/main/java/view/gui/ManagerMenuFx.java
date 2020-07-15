@@ -48,6 +48,12 @@ public class ManagerMenuFx {
         }
     }
 
+    public void viewLogs(MouseEvent mouseEvent) throws IOException {
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ManagerMenuFx.class.getClassLoader().getResource("managerMenuFx.fxml")));
+        BuyLogsFx.setPriRoot(curRoot);
+        root = FXMLLoader.load(Objects.requireNonNull(BuyLogsFx.class.getClassLoader().getResource("managerBuyLogsFx.fxml")));
+        goToPage();
+    }
     public void createDiscount(MouseEvent mouseEvent) throws IOException {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ManagerMenuFx.class.getClassLoader().getResource("managerMenuFx.fxml")));
         AddDiscountFx.setPriRoot(curRoot);
@@ -104,6 +110,4 @@ public class ManagerMenuFx {
         goToPage();
     }
 
-    public void viewLogs(MouseEvent mouseEvent) {
-    }
 }

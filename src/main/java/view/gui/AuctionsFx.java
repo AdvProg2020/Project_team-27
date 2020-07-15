@@ -21,6 +21,7 @@ import model.off.Auction;
 import model.off.Sale;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -45,13 +46,25 @@ public class AuctionsFx {
 
     public static ObservableList list = FXCollections.observableArrayList();
     private static Parent root;
-    private static ArrayList<Sale> allSales = new ArrayList<>();
+    private static ArrayList<Auction> allAuctions = new ArrayList<>();
     private static Parent priRoot;
 
-    public static ArrayList<Sale> getAllSales() {
-        return allSales;
+
+    public static ArrayList<Auction> getAllAuctions() {
+        return allAuctions;
     }
 
+    public static void setAllAuctions(ArrayList<Auction> allAuctions) {
+        AuctionsFx.allAuctions = allAuctions;
+    }
+
+    public static Parent getPriRoot() {
+        return priRoot;
+    }
+
+    public static void setPriRoot(Parent priRoot) {
+        AuctionsFx.priRoot = priRoot;
+    }
 
     @FXML
     public void initialize() throws IOException {
@@ -60,17 +73,16 @@ public class AuctionsFx {
 
     public static void makeList() {
         list.clear();
-        if (LoginMenu.getLoginAccount() instanceof Seller) {
-            Seller seller = (Seller) LoginMenu.getLoginAccount();
-            list.addAll(seller.getAllSales());
-        }
+
+            list.addAll(allAuctions);
+
     }
 
     private void makeTree() {
 //        checkIfTimeEnds();
-        saleId.setCellValueFactory(new PropertyValueFactory<Auction, String>("offId"));
-        saleStart.setCellValueFactory(new PropertyValueFactory<Auction, Date>("startOfSalePeriod"));
-        saleEnd.setCellValueFactory(new PropertyValueFactory<Auction, Date>("endOfSalePeriod"));
+        saleId.setCellValueFactory(new PropertyValueFactory<Auction, String>("id"));
+        saleStart.setCellValueFactory(new PropertyValueFactory<Auction, Date>("startOfPeriod"));
+        saleEnd.setCellValueFactory(new PropertyValueFactory<Auction, Date>("endOfPeriod"));
         max.setCellValueFactory(new PropertyValueFactory<Auction, Number>("money"));
         product.setCellValueFactory(new PropertyValueFactory<Auction, String>("Product"));
 

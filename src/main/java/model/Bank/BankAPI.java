@@ -1,5 +1,6 @@
-package controller;
+package model.Bank;
 
+import model.Bank.Transaction;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;

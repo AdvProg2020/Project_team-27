@@ -17,6 +17,7 @@ import model.accounts.Manager;
 import model.accounts.Seller;
 import model.log.BuyLog;
 import model.log.BuyLogShow;
+import model.log.DeliveryStatus;
 import model.log.Log;
 import model.productRelated.Product;
 
@@ -43,6 +44,9 @@ public class BuyLogsFx {
     private static Parent root;
     @FXML
     private static Parent priRoot;
+    @FXML
+    private Label ms;
+
     private static ArrayList<BuyLog> allBuyLogs = new ArrayList<>();
 
     public static ObservableList<BuyLogShow> data = FXCollections.observableArrayList();
@@ -143,6 +147,18 @@ public class BuyLogsFx {
 //        goToPage();
     }
 
+
+    public void delivered(MouseEvent mouseEvent) {
+        if (buyLogs.getSelectionModel().getSelectedItem() != null) {
+            BuyLogShow buyLog = buyLogs.getSelectionModel().getSelectedItem();
+            if (Log.getLogWithId(buyLog.getBuyLogId()) instanceof BuyLog) {
+                BuyLog buyLog1 = (BuyLog) Log.getLogWithId(buyLog.getBuyLogId());
+                buyLog1.setDeliveryStatus(DeliveryStatus.SENDING);
+                ms.setText("changed");
+            }
+        }
+    }
+
     public void showOrdersFromBuyLog(MouseEvent mouseEvent) throws IOException {
         if (buyLogs.getSelectionModel().getSelectedItem() != null) {
             BuyLogShow buyLog = buyLogs.getSelectionModel().getSelectedItem();
@@ -183,4 +199,5 @@ public class BuyLogsFx {
 //        }
 //    }
     }
+
 }

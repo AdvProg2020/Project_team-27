@@ -421,6 +421,11 @@ public class AddProductMenuFX {
 
     }
 
+    public void fileDropped(DragEvent dragEvent) {
+    }
+
+    public void fileOver(DragEvent dragEvent) {
+    }
     public void handleDropMedia(DragEvent dragEvent) throws FileNotFoundException {
 //        files = dragEvent.getDragboard().getFiles();
  //       videoId = files.get(0).getPath();
@@ -457,4 +462,6 @@ public class AddProductMenuFX {
         }
         goToPage();
     }
+
+
 }
