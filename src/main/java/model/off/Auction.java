@@ -17,6 +17,7 @@ public class Auction {
     private String customer;
     private double money;
 
+
    // public ArrayList<Product> allProducts = new ArrayList<>();
     private static ArrayList<Auction> allAuctions = new ArrayList<>();
 

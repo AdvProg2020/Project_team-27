@@ -53,8 +53,9 @@ public class LoginFx {
             root = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
             goToPage();
         }else if( LoginMenu.getLoginAccount() instanceof Supporter) {
-               Main.primStage.setScene(LoginWindow.getScene1());
-               Main.primStage.show();
+            LoginWindow.main(Main.a);
+            Main.primStage.setScene(LoginWindow.getScene1());
+            Main.primStage.show();
 
         }
 
@@ -70,7 +71,7 @@ public class LoginFx {
         int user = LoginMenu.processLogin(userLogin.getText());
         int pass = 0;
         if(LoginMenu.yes) {
-             pass = LoginMenu.checkPassword(passLogin.getText());
+            pass = LoginMenu.checkPassword(passLogin.getText());
 
         }
         userLoginMs.setText(OutputMassageHandler.showAccountOutput(user));
@@ -93,7 +94,7 @@ public class LoginFx {
         root = FXMLLoader.load(Objects.requireNonNull(SignUpFx.class.getClassLoader().getResource("signUpFx.fxml")));
         goToPage();
 
-    } 
+    }
 
     private static void goToPage() {
         if (root != null) {

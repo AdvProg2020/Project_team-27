@@ -9,9 +9,11 @@ public class DataBase {
         Statement statement;
         ResultSet resultSet;
         String query = null;
-        String url = null;
+        String url = "jdbc:h2:~/test";
 
         try {
+            //Class.forName(JDBC_DRIVER);
+            System.out.println("Connecting to database...");
             connection = DriverManager.getConnection(url);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);

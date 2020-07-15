@@ -110,6 +110,7 @@ public class SellerMenu {
 
     public static void setProduct(String detail) throws IOException {
         newAuction.setProduct(detail);
+        Product.getProductById(detail).setInAuction(true);
         Seller.writeInJ();
     }
 

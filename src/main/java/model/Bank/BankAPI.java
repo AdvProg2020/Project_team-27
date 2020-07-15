@@ -18,9 +18,9 @@ import java.util.Scanner;
  * and also responses from Bank server.
  */
 public class BankAPI {
-    public static final int PORT = 8080;
-   // public static final String IP = "192.168.1.4";
-   public static final String IP = "192.168.0.8";
+    public static final int PORT = 9090;
+    // public static final String IP = "192.168.1.4";
+    public static final String IP = "192.168.0.8";
 
     private static DataOutputStream outputStream;
     private static DataInputStream inputStream;
@@ -35,10 +35,10 @@ public class BankAPI {
      */
     public static void ConnectToBankServer() throws IOException {
         try {
-          //  if(first) {
-                socket = new Socket(IP, PORT);
-           //     first = false;
-           // }
+            //  if(first) {
+            socket = new Socket(IP, PORT);
+            //     first = false;
+            // }
             outputStream = new DataOutputStream(socket.getOutputStream());
             inputStream = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
@@ -164,8 +164,8 @@ public class BankAPI {
         } catch (IOException e) {
             throw new IOException("Exception while sending message:");
         }
-      //  System.out.println(inputStream.readUTF());
-       // return inputStream.readUTF();
+        //  System.out.println(inputStream.readUTF());
+        // return inputStream.readUTF();
     }
     public static void startRegister(String start, Account account) throws IOException {
         try {
@@ -238,10 +238,10 @@ public class BankAPI {
         try {
             ConnectToBankServer();
             StartListeningOnInput();
-           // Scanner scanner = new Scanner(System.in);
+            // Scanner scanner = new Scanner(System.in);
             //while (true) {
             SendMessage(start);
-           // }
+            // }
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
