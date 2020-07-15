@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.SupportersFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.SupportersFx">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="849.0" layoutX="1.0" layoutY="34.0" stroke="BLACK" strokeType="INSIDE" width="1605.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="34.0">
             <fill>
@@ -65,7 +64,7 @@
                 <TableColumn fx:id="userName" prefWidth="191.0" text="Name" />
                 <TableColumn fx:id="userLast" prefWidth="209.0" text="Last name" />
                 <TableColumn fx:id="userPhoneNo" prefWidth="280.0" text="Phone number" />
-            <TableColumn fx:id="userPhoneNo1" prefWidth="194.0" text="Online" />
+            <TableColumn fx:id="online" prefWidth="194.0" text="Online" />
             </columns>
         </TableView>
         <Button layoutX="1224.0" layoutY="741.0" mnemonicParsing="false" onMouseClicked="#viewUser" prefHeight="39.0" prefWidth="90.0" text="Chat">

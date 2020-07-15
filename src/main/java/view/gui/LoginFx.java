@@ -55,6 +55,7 @@ public class LoginFx {
         }else if( LoginMenu.getLoginAccount() instanceof Supporter) {
            Supporter supporter = (Supporter) LoginMenu.getLoginAccount();
            supporter.setOnline("online");
+           LoginWindow.main(Main.a);
                Main.primStage.setScene(LoginWindow.getScene1());
                Main.primStage.show();
 
