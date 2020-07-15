@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.accounts.Supporter;
 import serverClient.LoginWindow;
 import view.OutputMassageHandler;
@@ -53,7 +54,13 @@ public class LoginFx {
             root = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
             goToPage();
         }else if( LoginMenu.getLoginAccount() instanceof Supporter) {
-               Main.primStage.setScene(LoginWindow.getScene1());
+            LoginWindow loginWindow = new LoginWindow();
+            try {
+                loginWindow.start(Main.primStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Main.primStage.setScene(LoginWindow.getScene1());
                Main.primStage.show();
 
         }

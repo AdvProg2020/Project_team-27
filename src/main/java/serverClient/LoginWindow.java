@@ -26,7 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
-public class LoginWindow extends Application implements Runnable {
+public class LoginWindow implements Runnable {
 
     Stage window;
      static Scene scene1, scene2;
@@ -56,9 +56,9 @@ public class LoginWindow extends Application implements Runnable {
 
     List<ServerClient> connectedClients = new ArrayList<>();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+//    public static void main(String[] args) {
+//        start();
+//    }
 
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
