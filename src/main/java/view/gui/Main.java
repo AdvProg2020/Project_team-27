@@ -37,6 +37,7 @@ public class Main extends Application {
     private final int widthScene = 1800;
     private final int heightScene = 700;
     static Stage primStage;
+    public static String[] a;
     Parent root;
 
 
@@ -63,7 +64,7 @@ public class Main extends Application {
 
 
     public static void main(String[] args) throws IOException, ParseException {
-
+        a = args;
         gson();
 
 
