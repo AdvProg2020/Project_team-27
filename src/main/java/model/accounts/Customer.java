@@ -2,9 +2,8 @@ package model.accounts;
 
 import com.google.gson.reflect.TypeToken;
 import model.log.BuyLog;
-import model.off.DiscountCode;
 import model.request.CommentRequest;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

@@ -1,7 +1,6 @@
 package model.request;
 
-import controller.menus.LoginMenu;
-import model.accounts.Account;
+import server.menus.LoginMenu;
 import model.accounts.Customer;
 import model.accounts.Seller;
 import java.io.IOException;

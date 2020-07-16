@@ -255,7 +255,7 @@ public class BankAPI {
         try {
             ConnectToBankServer();
             StartListeningOnInput();
-            Scanner scanner = new Scanner(System.in);
+            Scanner scanner = new Scanner(inputStream);
             while (true) {
                 SendMessage(scanner.nextLine());
             }

@@ -4,13 +4,12 @@ import com.google.gson.reflect.TypeToken;
 import model.accounts.Account;
 import model.productRelated.Product;
 import model.accounts.Seller;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.*;
 
 public class Sale {
     private String offId;

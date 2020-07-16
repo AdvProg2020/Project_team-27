@@ -1,6 +1,6 @@
 package model.productRelated;
 import com.google.gson.reflect.TypeToken;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

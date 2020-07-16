@@ -2,19 +2,18 @@ package model.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import controller.menus.SellerMenu;
+import server.menus.SellerMenu;
 import model.accounts.Account;
 import model.accounts.Seller;
 import model.off.Sale;
 import model.off.SaleStatus;
 import model.productRelated.Product;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class SaleRequest extends Request {
     private String offId = null;

@@ -1,18 +1,15 @@
 package model.log;
 
 
-import controller.menus.CustomerMenu;
+import server.menus.CustomerMenu;
 import model.accounts.Account;
-import model.accounts.Customer;
 import model.accounts.Seller;
 import model.off.DiscountCode;
 import model.off.Sale;
 import model.productRelated.Product;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class BuyLog extends Log {

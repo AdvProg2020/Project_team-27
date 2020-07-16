@@ -9,7 +9,7 @@ import model.firms.Company;
 import model.firms.Factory;
 import model.firms.Firm;
 import model.firms.Workshop;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0d4b68;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.LoginFx">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #0d4b68;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.LoginFx">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="1080.0" layoutY="-1.0" stroke="#0d4b68" strokeType="INSIDE" width="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <fill>
@@ -81,7 +81,7 @@
       <PasswordField fx:id="passLogin" layoutX="407.0" layoutY="343.0" prefHeight="39.0" prefWidth="239.0" promptText="password" />
       <ImageView fitHeight="57.0" fitWidth="70.0" layoutX="662.0" layoutY="619.0" onMouseClicked="#signUpMenu" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@icons/signUp.png" />
+
          </image></ImageView>
       <Button layoutX="489.0" layoutY="486.0" mnemonicParsing="false" onMouseClicked="#login" prefHeight="39.0" prefWidth="104.0" text="Login" textFill="#03abff" />
       <Button layoutX="364.0" layoutY="644.0" mnemonicParsing="false" onMouseClicked="#signUpMenu" prefHeight="32.0" prefWidth="82.0" text="Sign up" textFill="#03abff" />

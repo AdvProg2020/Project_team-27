@@ -8,9 +8,8 @@ import model.off.Sale;
 import model.productRelated.Product;
 import model.request.AccountRequest;
 import model.request.ProductRequest;
-import model.request.Request;
 import model.request.SaleRequest;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

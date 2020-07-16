@@ -1,9 +1,7 @@
 package model.off;
 
-import controller.menus.LoginMenu;
+import server.menus.LoginMenu;
 import model.accounts.Seller;
-import model.productRelated.Product;
-import view.gui.SalesFx;
 
 import java.io.IOException;
 import java.time.LocalDate;

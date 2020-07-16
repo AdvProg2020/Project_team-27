@@ -64,7 +64,7 @@ public abstract class Sort {
         availableSorts.add("score");
     }
 
-    //if view->1   score ->2
+    //if client.view->1   score ->2
 
 
 //    public static ArrayList<Product> getProductFromFile() throws FileNotFoundException {
@@ -160,7 +160,7 @@ public abstract class Sort {
         for (int i = 1; i <= 3; i++) {
             if (listOfProSorts.get(i)!=null){
                 if (i==1){
-                    current.add("view");
+                    current.add("client/view");
                 }
                 else if (i==2){
                     current.add("score");
