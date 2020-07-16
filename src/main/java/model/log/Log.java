@@ -9,7 +9,7 @@ public abstract class Log {
 
     String logId;
     public  LocalDateTime localDateTimeForLog;
-    DeliveryStatus deliveryStatus;
+    DeliveryStatus deliveryStatus = DeliveryStatus.UNDER_VIEW;
     private boolean ItsFinal;
 
     private static ArrayList<Log> allLogs = new ArrayList<>();

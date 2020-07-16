@@ -1,18 +1,15 @@
 package model.log;
 
 
-import controller.menus.CustomerMenu;
+import server.menus.CustomerMenu;
 import model.accounts.Account;
-import model.accounts.Customer;
 import model.accounts.Seller;
 import model.off.DiscountCode;
 import model.off.Sale;
 import model.productRelated.Product;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 
 public class BuyLog extends Log {
@@ -22,6 +19,8 @@ public class BuyLog extends Log {
     public double holePrice;
     public double price;
     private double salePrice;
+    private String customer;
+
 
     //  private HashMap<Product, Integer> allBoughtProduct = new HashMap<>();
     private HashMap<Product, Integer> chosenProduct = new HashMap<>();
@@ -33,6 +32,14 @@ public class BuyLog extends Log {
         allCustomersLog.add(this);
     }
 
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+
+    }
 
     public double getHolePrice() {
         holePrice =totalPrice() - salePrice;
@@ -172,6 +179,7 @@ public class BuyLog extends Log {
                 ", logId='" + logId + '\'' +
                 ", localDateTimeForLog=" + localDateTimeForLog +
                 ", deliveryStatus=" + deliveryStatus +
+                ",customer=" + customer+
                 '}';
     }
 

@@ -2,7 +2,7 @@ package model.accounts;
 
 import com.google.gson.reflect.TypeToken;
 import model.off.DiscountCode;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

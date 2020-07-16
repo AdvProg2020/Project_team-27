@@ -6,7 +6,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="879.0" prefWidth="1684.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.ProductsFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="879.0" prefWidth="1684.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.ProductsFx">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="879.0" layoutX="-200.0" layoutY="-8.0" stroke="BLACK" strokeType="INSIDE" width="1684.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <fill>
@@ -66,7 +66,7 @@
                 <TableColumn fx:id="productAdditional" prefWidth="175.0" text="Staus" />
             </columns>
         </TableView>
-        <Button layoutX="1166.0" layoutY="766.0" mnemonicParsing="false" onMouseClicked="#productsView" text="view">
+        <Button layoutX="1166.0" layoutY="766.0" mnemonicParsing="false" onMouseClicked="#productsView" text="client.view">
             <textFill>
                 <LinearGradient endX="1.0" endY="1.0">
                     <stops>
@@ -79,7 +79,7 @@
                 <Font size="17.0" />
             </font>
         </Button>
-        <Button layoutX="861.0" layoutY="766.0" mnemonicParsing="false" onMouseClicked="#productsViewBuyers" text="view buyers">
+        <Button layoutX="861.0" layoutY="766.0" mnemonicParsing="false" onMouseClicked="#productsViewBuyers" text="client.view buyers">
             <font>
                 <Font size="17.0" />
             </font>

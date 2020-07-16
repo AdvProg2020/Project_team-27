@@ -1,6 +1,6 @@
 package model.off;
 
-import controller.menus.LoginMenu;
+import server.menus.LoginMenu;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 
 
 public class DiscountCode {

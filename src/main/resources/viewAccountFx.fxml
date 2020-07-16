@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.ViewAccountFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.ViewAccountFx">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="882.0" stroke="BLACK" strokeType="INSIDE" width="1605.0">
             <fill>
@@ -135,7 +135,7 @@
                 <Font size="25.0" />
             </font>
         </Label>
-        <Button layoutX="1071.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#viewCart" prefHeight="50.0" prefWidth="257.0" text="view cart">
+        <Button layoutX="1071.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#viewCart" prefHeight="50.0" prefWidth="257.0" text="client.view cart">
             <textFill>
                 <LinearGradient endX="1.0" endY="1.0">
                     <stops>
@@ -149,7 +149,7 @@
                 <Font size="23.0" />
             </font>
         </Button>
-        <Button layoutX="1071.0" layoutY="336.0" mnemonicParsing="false" onMouseClicked="#viewCustomerDiscount" prefHeight="37.0" prefWidth="257.0" text="view discount codes">
+        <Button layoutX="1071.0" layoutY="336.0" mnemonicParsing="false" onMouseClicked="#viewCustomerDiscount" prefHeight="37.0" prefWidth="257.0" text="client.view discount codes">
             <font>
                 <Font size="23.0" />
             </font>
@@ -163,7 +163,7 @@
                 </LinearGradient>
             </textFill>
         </Button>
-        <Button layoutX="1073.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#viewLogs" prefHeight="24.0" prefWidth="257.0" text="view logs">
+        <Button layoutX="1073.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#viewLogs" prefHeight="24.0" prefWidth="257.0" text="client.view logs">
             <font>
                 <Font size="23.0" />
             </font>

@@ -8,7 +8,7 @@ import model.accounts.Seller;
 import model.productRelated.Comment;
 import model.productRelated.CommentStatus;
 import model.productRelated.Product;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;

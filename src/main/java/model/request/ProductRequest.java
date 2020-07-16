@@ -2,19 +2,16 @@ package model.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import controller.menus.LoginMenu;
 import model.accounts.Account;
 import model.accounts.Seller;
-import model.firms.Firm;
 import model.productRelated.Category;
 import model.productRelated.Product;
 import model.productRelated.ProductStatus;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ProductRequest extends Request {
 

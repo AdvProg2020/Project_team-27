@@ -1,9 +1,7 @@
 package model.off;
 
-import controller.menus.LoginMenu;
+import server.menus.LoginMenu;
 import model.accounts.Seller;
-import model.productRelated.Product;
-import view.gui.SalesFx;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -16,6 +14,7 @@ public class Auction {
     private String Product;
     private String customer;
     private double money;
+
 
    // public ArrayList<Product> allProducts = new ArrayList<>();
     private static ArrayList<Auction> allAuctions = new ArrayList<>();

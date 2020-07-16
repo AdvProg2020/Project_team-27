@@ -3,18 +3,13 @@ package model.productRelated;
 import com.google.gson.reflect.TypeToken;
 import model.accounts.Account;
 import model.accounts.Customer;
-import model.accounts.Seller;
-import model.firms.Company;
 import model.firms.Firm;
-import model.log.Log;
-import model.off.Sale;
-import view.FileHandling;
+import client.view.FileHandling;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 
 public class Product {

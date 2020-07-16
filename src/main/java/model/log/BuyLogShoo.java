@@ -14,6 +14,7 @@ public class BuyLogShoo {
     public double price;
     public static ArrayList<BuyLogShoo> list = new ArrayList<>();
     public double hole ;
+
     public ImageView imageView = new ImageView();
 
 
