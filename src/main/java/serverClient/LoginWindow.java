@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -290,11 +291,13 @@ public class LoginWindow implements Runnable {
             try {
                 double price = Double.parseDouble(message);
                 label.setVisible(true);
-                if (price > highPrice){
+                if (price > highPrice && Customer.getCustomerWithUsername(txtUser.getText()).getCredit() > highPrice){
                     highPrice = price;
                     customerWithHigherPrice = Customer.getCustomerWithUsername(txtUser.getText());
                     System.out.println(customerWithHigherPrice.getName() + " my customer name");
                     label.setText("Highest offer till now : " + price);
+                    auction.setCustomer(customerWithHigherPrice.getUsername());
+                    auction.setMoney(highPrice);
                     label.setLayoutY(50);
                     label.setLayoutX(10);
                 }
