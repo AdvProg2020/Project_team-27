@@ -1,6 +1,6 @@
 package model.Bank;
 
-import model.Bank.Transaction;
+
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
@@ -18,7 +18,7 @@ import java.util.Scanner;
  * and also responses from Bank server.
  */
 public class BankAPI {
-    public static final int PORT = 9090;
+    public static final int PORT = 9595;
     // public static final String IP = "192.168.1.4";
     public static final String IP = "192.168.0.8";
 

@@ -84,24 +84,6 @@ public class AuctionsFx {
 
     }
 
-    private static void removeAuction() throws IOException {
-        for (Auction allAuction : Auction.getAllAuctions()) {
-            LocalDate localDate = LocalDate.now();
-            if(allAuction.getEndOfPeriod().isAfter(localDate)){
-                finishingAuction(allAuction);
-                Auction.getAllAuctions().remove(allAuction);
-            }
-        }
-    }
-
-    private static void finishingAuction(Auction auction) throws IOException {
-        //  String uniqueID = UUID.randomUUID().toString();
-        //  BuyLog buyLog = new BuyLog(uniqueID);
-        //  buyLog.setCustomer(auction.getCustomer());
-        //  buyLog.addProductToBuyLog(auction.getProduct(), 1);
-        Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
-        Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
-    }
     private void makeTree() throws IOException {
 
         removeAuction();
