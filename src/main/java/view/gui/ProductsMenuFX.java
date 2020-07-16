@@ -172,52 +172,53 @@ public class ProductsMenuFX {
 
         for (Product product : Product.getProductList()) {
             if (product.getProductStatus().equals(ProductStatus.CONFIRMED)){
-                ProductInMenusShow show = new ProductInMenusShow(product.getId());
-                show.name = product.getProductName();
-                show.additionalDetail = product.getAdditionalDetail();
-                show.category = product.getCategory().getName();
-                show.id = product.getId();
-                show.price = product.getPrice();
-                show.comment = product.getComment();
-                show.seller = product.getSeller();
-                File file = new File(product.getProductImage());
-                Image image = new Image(new FileInputStream(file));
-                show.productImage = new ImageView();
-                show.productImage.setFitWidth(100);
-                show.productImage.setFitHeight(100);
-                show.productImage.setImage(image);
-                show.numberOfProduct = product.getNumberOfProducts();
-                final SoftReference<Image> softRef = new SoftReference<Image>(show.productImage.getImage());
-
-                if (product.getInSale()){
-                    image = new Image("images/PngItem_147577.png");
+                if (!product.isInAuction()){
+                    ProductInMenusShow show = new ProductInMenusShow(product.getId());
+                    show.name = product.getProductName();
+                    show.additionalDetail = product.getAdditionalDetail();
+                    show.category = product.getCategory().getName();
+                    show.id = product.getId();
+                    show.price = product.getPrice();
+                    show.comment = product.getComment();
+                    show.seller = product.getSeller();
+                    File file = new File(product.getProductImage());
+                    Image image = new Image(new FileInputStream(file));
+                    show.productImage = new ImageView();
+                    show.productImage.setFitWidth(100);
+                    show.productImage.setFitHeight(100);
                     show.productImage.setImage(image);
-                    show.inSaleOrFinishLabel.setVisible(true);
-                    show.inSaleOrFinishLabel.setTextFill(Color.FIREBRICK);
-                    show.inSaleOrFinishLabel.setText("IN SALE");
-                }
+                    show.numberOfProduct = product.getNumberOfProducts();
+                    final SoftReference<Image> softRef = new SoftReference<Image>(show.productImage.getImage());
 
-                //dark ya light mikone
+                    if (product.getInSale()){
+                        image = new Image("images/PngItem_147577.png");
+                        show.productImage.setImage(image);
+                        show.inSaleOrFinishLabel.setVisible(true);
+                        show.inSaleOrFinishLabel.setTextFill(Color.FIREBRICK);
+                        show.inSaleOrFinishLabel.setText("IN SALE");
+                    }
+
+                    //dark ya light mikone
 //            ColorAdjust colorAdjust = new ColorAdjust();
 //            colorAdjust.setBrightness(-0.5);
 
-                //color filter
-                Lighting lighting = new Lighting();
-                lighting.setDiffuseConstant(1.0);
-                lighting.setSpecularConstant(0.0);
-                lighting.setSpecularExponent(0.0);
-                lighting.setSurfaceScale(0.0);
-                lighting.setLight(new Light.Distant(45, 45, Color.RED));
-                if (product.getNumberOfProducts() == 0) {
-                    image = new Image("images/productIsFinish.png");
-                    show.productImage.setImage(image);
-                    show.productImage.setEffect(lighting);
-                    show.inSaleOrFinishLabel.setVisible(true);
-                    show.inSaleOrFinishLabel.setTextFill(Color.FIREBRICK);
-                    show.inSaleOrFinishLabel.setText("FINISHED");
-                }
+                    //color filter
+                    Lighting lighting = new Lighting();
+                    lighting.setDiffuseConstant(1.0);
+                    lighting.setSpecularConstant(0.0);
+                    lighting.setSpecularExponent(0.0);
+                    lighting.setSurfaceScale(0.0);
+                    lighting.setLight(new Light.Distant(45, 45, Color.RED));
+                    if (product.getNumberOfProducts() == 0) {
+                        image = new Image("images/productIsFinish.png");
+                        show.productImage.setImage(image);
+                        show.productImage.setEffect(lighting);
+                        show.inSaleOrFinishLabel.setVisible(true);
+                        show.inSaleOrFinishLabel.setTextFill(Color.FIREBRICK);
+                        show.inSaleOrFinishLabel.setText("FINISHED");
+                    }
 //            if (product.getNumberOfProducts() == 0){
-                //change hole image
+                    //change hole image
 //                ImageView finishImage = new ImageView(new Image("images/productIsFinish.png"));
 //                finishImage.setFitWidth(100);
 //                finishImage.setFitHeight(100);
@@ -225,15 +226,16 @@ public class ProductsMenuFX {
 //                finishImage.setLayoutX(show.productImage.getLayoutX());
 //                finishImage.setEffect();
 
-                //
+                    //
 //                show.productImage.setEffect(lighting);
-                //           }
-                if (product.getInSale()){
-                    show.inSaleOrFinishLabel.setText("IS IN SALE");
-                    show.inSaleOrFinishLabel.setVisible(true);
+                    //           }
+                    if (product.getInSale()){
+                        show.inSaleOrFinishLabel.setText("IS IN SALE");
+                        show.inSaleOrFinishLabel.setVisible(true);
+                    }
+                    show.firm = Seller.getAccountWithUsername(product.getSeller()).getFirm().getName();
+                    show.numberOfProduct = product.getNumberOfProducts();
                 }
-                show.firm = Seller.getAccountWithUsername(product.getSeller()).getFirm().getName();
-                show.numberOfProduct = product.getNumberOfProducts();
             }
 
         }
