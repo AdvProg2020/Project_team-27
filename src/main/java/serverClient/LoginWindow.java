@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.accounts.Customer;
 import model.accounts.Seller;
+import model.off.Auction;
 import model.productRelated.Product;
 
 
@@ -39,6 +40,7 @@ public class LoginWindow implements Runnable {
     Stage window;
     public AnchorPane anchorPane;
     static Scene scene1, scene2;
+    private Auction auction;
     Text login;
     Label lblWelcome, lblUser, lblIp;
     TextField txtUser, txtIp, messageField;
@@ -65,9 +67,16 @@ public class LoginWindow implements Runnable {
 
     List<ServerClient> connectedClients = new ArrayList<>();
 
+    public Auction getAuction() {
+        return auction;
+    }
+
+    public void setAuction(Auction auction) {
+        this.auction = auction;
+    }
 
 
-//    public static void main(String[] args) {
+    //    public static void main(String[] args) {
 //        start();
 //    }
 
