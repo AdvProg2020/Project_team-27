@@ -14,12 +14,30 @@ public class BuyLogShow {
     public String productImageId;
     public double holePrice;
     public String buyLogId;
+    public DeliveryStatus deliveryStatus;
     public LocalDateTime localDateTime;
+    public  String address;
     public static ArrayList<BuyLogShow> list = new ArrayList<>();
 
 
     public BuyLogShow() {
         list.add(this);
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public DeliveryStatus getDeliveryStatus() {
+        return deliveryStatus;
+    }
+
+    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
     }
 
     public static ArrayList<BuyLogShow> getList() {

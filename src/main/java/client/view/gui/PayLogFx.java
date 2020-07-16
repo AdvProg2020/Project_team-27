@@ -37,6 +37,7 @@ public class PayLogFx {
     @FXML
     TextField discountPayLogTextField;
     boolean has = true;
+    boolean choose = false;
     //int output;
     private static BuyLog preBuyLog;
 
@@ -59,41 +60,45 @@ public class PayLogFx {
 
     public void market(MouseEvent mouseEvent) {
         CustomerMenu.setMarket(true);
+        choose = true;
     }
 
     public void bank(MouseEvent mouseEvent) {
         CustomerMenu.setMarket(false);
+        choose = true;
     }
 
     public void paymentProcess(MouseEvent mouseEvent) throws IOException {
-        if(has) {
-            if (fast != null) {
-                if (discountPayLogTextField.getText() != null) {
-                    show(OutputMassageHandler.showPurchaseOutput(CustomerMenu.discountCodeValidation(discountPayLogTextField.getText())));
-                }
-                ///  if(CustomerMenu.getDiscountID() != null) {
-                alertMessage.setText(OutputMassageHandler.showReceiverInfo(RegisterMenu.receiverInformation(PhoneNumberTextFieldPayLog.getText(), 0)));
-                if (RegisterMenu.getDetailMenu() == 1) {
-                    alertMessage.setText(OutputMassageHandler.showReceiverInfo(RegisterMenu.receiverInformation(AddressTextPayLog.getText(), 1)));
-                }
-                if (RegisterMenu.getDetailMenu() == 2) {
-                    alertMessage.setText(OutputMassageHandler.showReceiverInfo(RegisterMenu.receiverInformation(fast, 2)));
-                }
-                if (RegisterMenu.ok) {
-                    // alertMessage.setText(OutputMassageHandler.showReceiverInfo(CustomerMenu.payment()));
-                    // if(CustomerMenu.ok) {
-                    alertMessage.setText(OutputMassageHandler.showPurchaseOutput(CustomerMenu.payment()) + "\n" +
-                            "your credit: " + LoginMenu.getLoginAccount().getCredit());
-                    //}
-                    if (CustomerMenu.getPrizeDiscountCode() != null){
-                        show("your discount prize: "+ CustomerMenu.getPrizeDiscountCode());
+        if (choose) {
+            if (has) {
+                if (fast != null) {
+                    if (discountPayLogTextField.getText() != null) {
+                        show(OutputMassageHandler.showPurchaseOutput(CustomerMenu.discountCodeValidation(discountPayLogTextField.getText())));
                     }
-                    finalP();
-                    has = false;
+                    ///  if(CustomerMenu.getDiscountID() != null) {
+                    alertMessage.setText(OutputMassageHandler.showReceiverInfo(RegisterMenu.receiverInformation(PhoneNumberTextFieldPayLog.getText(), 0)));
+                    if (RegisterMenu.getDetailMenu() == 1) {
+                        alertMessage.setText(OutputMassageHandler.showReceiverInfo(RegisterMenu.receiverInformation(AddressTextPayLog.getText(), 1)));
+                    }
+                    if (RegisterMenu.getDetailMenu() == 2) {
+                        alertMessage.setText(OutputMassageHandler.showReceiverInfo(RegisterMenu.receiverInformation(fast, 2)));
+                    }
+                    if (RegisterMenu.ok) {
+                        // alertMessage.setText(OutputMassageHandler.showReceiverInfo(CustomerMenu.payment()));
+                        // if(CustomerMenu.ok) {
+                        alertMessage.setText(OutputMassageHandler.showPurchaseOutput(CustomerMenu.payment()) + "\n" +
+                                "your credit: " + LoginMenu.getLoginAccount().getCredit());
+                        //}
+                        if (CustomerMenu.getPrizeDiscountCode() != null) {
+                            show("your discount prize: " + CustomerMenu.getPrizeDiscountCode());
+                        }
+                        finalP();
+                        has = false;
+
+                    }
+                    //  }
 
                 }
-                //  }
-
             }
         }
     }
@@ -109,6 +114,8 @@ public class PayLogFx {
     }
 
     private void finalP() {
+        choose = false;
+        has = true;
         CustomerMenu.setDiscountID(null);
         ProductMenu.setSelectedProduct(null);
         ProductMenu.setProductId(null);

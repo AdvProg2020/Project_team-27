@@ -25,19 +25,19 @@ public class SupportersFx {
 
 
     @FXML
-    private TableView<Account> usersList;
+    private TableView<Account> usersList = new TableView<>();
     @FXML
-    private TableColumn<Account, String> UserId;
+    private TableColumn<Account, String> UserId = new TableColumn<>();
     @FXML
-    private TableColumn<Account, Double> userPhoneNo;
+    private TableColumn<Account, Double> userPhoneNo = new TableColumn<>();
     @FXML
-    private TableColumn<Account, String> userLast;
+    private TableColumn<Account, String> userLast = new TableColumn<>();
     @FXML
-    private TableColumn<Account, String> userName;
+    private TableColumn<Account, String> userName = new TableColumn<>();
     @FXML
-    private TableColumn<Account, String> online;
+    private TableColumn<Account, String> online = new TableColumn<>();
     @FXML
-    private Label usersMs;
+    private Label usersMs = new Label();
 
     public static ObservableList list = FXCollections.observableArrayList();
     private static Parent root;

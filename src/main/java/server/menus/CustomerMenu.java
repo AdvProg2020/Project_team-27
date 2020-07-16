@@ -31,7 +31,6 @@ public class CustomerMenu {
     private static DiscountCode prizeDiscountCode;
 
 
-
     public static boolean isMarket() {
         return market;
     }
@@ -94,12 +93,12 @@ public class CustomerMenu {
 
 
     public static int payment() throws IOException {
-     //   if (ProductMenu.getBuyLog().calculateHolePrice() <= LoginMenu.getLoginAccount().getCredit()) {
-            finishingPayment();
-            ok = true;
-            outputNo = 10;
-            Seller.writeInJ();
-            Customer.writeInJ();
+        //   if (ProductMenu.getBuyLog().calculateHolePrice() <= LoginMenu.getLoginAccount().getCredit()) {
+        finishingPayment();
+        ok = true;
+        outputNo = 10;
+        Seller.writeInJ();
+        Customer.writeInJ();
         //} else outputNo = 9;
         return outputNo;
         //  OutputMassageHandler.showPurchaseOutput(outputNo);
@@ -109,13 +108,14 @@ public class CustomerMenu {
         Date date = new Date();
         Account account = LoginMenu.getLoginAccount();
         Account manager = Manager.getAllManagers().get(Manager.getAllManagers().size() - 1);
-        if (account.getTokenDate() - date.getTime() <3600000) {
+        if (account.getTokenDate() - date.getTime() < 3600000) {
             BankAPI.startTran("create_receipt " + account.getToken() + " " + "move " + account.getAccountId() + " " + manager.getAccountId(), account);
         }
     }
 
     private static void finishingPayment() throws IOException {
-        double holePrice = ProductMenu.getBuyLog().calculateHolePrice();
+        BuyLog buyLog = ProductMenu.getBuyLog();
+        double holePrice = buyLog.calculateHolePrice();
         Customer loginAccount = null;
         if (LoginMenu.getLoginAccount() instanceof Customer) {
             loginAccount = (Customer) LoginMenu.getLoginAccount();
@@ -128,17 +128,18 @@ public class CustomerMenu {
             } else outputNo = 9;
         }
 
-        ProductMenu.getBuyLog().setDeliveryStatus(DeliveryStatus.UNDER_VIEW);
-        loginAccount.addLog(ProductMenu.getBuyLog());
+
+        loginAccount.addLog(buyLog);
+        buyLog.setCustomer(loginAccount.getUsername());
 
         if (holePrice > 1000000) {
             getDiscountPrize(loginAccount);
         }
 
 
-        for (Product p : ProductMenu.getBuyLog().getChosenProduct().keySet()) {
-          //  Account.getAccountWithUsername(p.getSeller()).setCredit(Account.getAccountWithUsername(p.getSeller()).getCredit() + p.getPrice());
-            int n = p.getNumberOfProducts() - ProductMenu.getBuyLog().getChosenProduct().get(p);
+        for (Product p : buyLog.getChosenProduct().keySet()) {
+            //  Account.getAccountWithUsername(p.getSeller()).setCredit(Account.getAccountWithUsername(p.getSeller()).getCredit() + p.getPrice());
+            int n = p.getNumberOfProducts() - buyLog.getChosenProduct().get(p);
             p.setNumberOfProducts(n);
             if (n == 0) {
                 p.setIsBought(true);
@@ -146,10 +147,10 @@ public class CustomerMenu {
             p.getListOfBuyers().add(loginAccount);
         }
 
-        ProductMenu.getBuyLog().setItsFinal(true);
+        buyLog.setItsFinal(true);
 
-        for (Seller seller : ProductMenu.getBuyLog().getSellers()) {
-            for (Product p : ProductMenu.getBuyLog().getChosenProduct().keySet()) {
+        for (Seller seller : buyLog.getSellers()) {
+            for (Product p : buyLog.getChosenProduct().keySet()) {
                 if (p.getSeller().equals(seller.getUsername())) {
                     if (!SaleLog.idThereSeller(seller.getUsername())) {
                         UUID id = UUID.randomUUID();
@@ -159,21 +160,21 @@ public class CustomerMenu {
                         saleLog = SaleLog.getLogWithSeller(seller.getUsername());
                     }
                     saleLog.setSeller(seller.getUsername());
-                    saleLog.addPrice(p.getPrice()*ProductMenu.getBuyLog().getChosenProduct().get(p));
-                    saleLog.addProductToSaleLog(p.getId(), ProductMenu.getBuyLog().getChosenProduct().get(p));
+                    saleLog.addPrice(p.getPrice() * buyLog.getChosenProduct().get(p));
+                    saleLog.addProductToSaleLog(p.getId(), buyLog.getChosenProduct().get(p));
                     if (p.getInSale()) {
                         if (Sale.getSaleWithId(p.getSale()).checkSale()) {
-                            saleLog.setReducedAmount(Sale.getSaleWithId(p.getSale()).withSale(p)*ProductMenu.getBuyLog().getChosenProduct().get(p));
+                            saleLog.setReducedAmount(Sale.getSaleWithId(p.getSale()).withSale(p) * buyLog.getChosenProduct().get(p));
                         }
                     } else saleLog.setReducedAmount(0);
                 }
             }
-            double rec =saleLog.getReceivedAmount();
-            double finalAmount = rec- ((rec*Manager.getAllManagers().get(0).getWage())/100);
+            double rec = saleLog.getReceivedAmount();
+            double finalAmount = rec - ((rec * Manager.getAllManagers().get(0).getWage()) / 100);
             saleLog.setReceivedAmount(finalAmount);
             //if(market){
-                seller.increaseCredit(finalAmount);
-            if(!market) {
+            seller.increaseCredit(finalAmount);
+            if (!market) {
                 bankPayment();
             }
         }
@@ -194,6 +195,7 @@ public class CustomerMenu {
         Manager.getAllManagers().get(randomIndex).addDiscount(prizeDiscountCode);
         Manager.writeInJ();
     }
+
     //score.............................................................
     public static int rateProduct(String productI, int number) throws IOException {
         if (checkProduct(productI)) {

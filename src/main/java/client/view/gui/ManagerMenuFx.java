@@ -51,6 +51,7 @@ public class ManagerMenuFx {
     public void viewLogs(MouseEvent mouseEvent) throws IOException {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ManagerMenuFx.class.getClassLoader().getResource("managerMenuFx.fxml")));
         BuyLogsFx.setPriRoot(curRoot);
+        BuyLogsFx.setManager(true);
         root = FXMLLoader.load(Objects.requireNonNull(BuyLogsFx.class.getClassLoader().getResource("managerBuyLogsFx.fxml")));
         goToPage();
     }

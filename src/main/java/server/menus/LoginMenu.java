@@ -21,8 +21,8 @@ public class LoginMenu {
     private static Firm firm;
     private static String firmName;
     public static boolean yes = false;
- //   private static String token;
-  //  private static String sourceID;
+    //   private static String token;
+    //  private static String sourceID;
 
 
 
@@ -65,7 +65,7 @@ public class LoginMenu {
                 //token =
                 Date date = new Date();
                 //if (loginAccount.getTokenDate() - date.getTime() >= 3600000) {
-                    BankAPI.startLogin("get_token " + username + " " + password, loginAccount);
+                // BankAPI.startLogin("get_token " + username + " " + password, loginAccount);
                 //}
                 // findRole();
                 String role = loginAccount.getRole();

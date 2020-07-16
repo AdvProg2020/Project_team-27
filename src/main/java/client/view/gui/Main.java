@@ -9,10 +9,7 @@ import javafx.scene.Scene;
 //import javafx.scene.media.Media;
 //import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import model.accounts.Account;
-import model.accounts.Customer;
-import model.accounts.Manager;
-import model.accounts.Seller;
+import model.accounts.*;
 import model.firms.Firm;
 import model.log.BuyLog;
 import model.off.Auction;
@@ -125,6 +122,23 @@ public class Main extends Application {
             FileHandling.writeInFile("", "category.json");
             Category.setAllCategories(new ArrayList<>());
         }
+
+
+
+        Type supporterType = new TypeToken<ArrayList<Supporter>>() {
+        }.getType();
+        try {
+            JsonReader reader12 = new JsonReader(new FileReader("supporter.json"));
+            ArrayList<Supporter> supporterArrayList = FileHandling.getGson().fromJson(reader12, supporterType);
+            if (null == supporterArrayList) {
+                supporterArrayList = new ArrayList<>();
+            }
+            Supporter.setAllSupporters(supporterArrayList);
+        } catch (IOException e) {
+            FileHandling.writeInFile("", "supporter.json");
+            Supporter.setAllSupporters(new ArrayList<>());
+        }
+
 
 
         Type sellerType = new TypeToken<ArrayList<Seller>>() {
@@ -269,6 +283,9 @@ public class Main extends Application {
             }
 
             Comment.allComments.addAll(product.proComments);
+        }
+        for (Seller seller : Seller.getAllSellers()) {
+            Auction.getAllAuctions().addAll(seller.getAllAuctions());
         }
 
     }

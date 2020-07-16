@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import model.accounts.Account;
 import server.menus.LoginMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,11 +31,16 @@ public class BuyLogsFx {
     @FXML
     private TableView<BuyLogShow> buyLogs = new TableView<>();
     @FXML
-    private TableColumn<BuyLogShow, LocalDateTime> buyLogsDate = new TableColumn<>();
+    private TableColumn<BuyLogShow, LocalDateTime> buyLogsDate = new TableColumn<>("date");
     @FXML
     private TableColumn<BuyLogShow, String> buyLogsId = new TableColumn<>("id");
     @FXML
     private TableColumn<BuyLogShow, Double> buyLogsTotalPaidAmount = new TableColumn<>("price");
+    @FXML
+    private TableColumn<BuyLogShow, String> status = new TableColumn<>("status");
+    @FXML
+    private TableColumn<BuyLogShow, String> address = new TableColumn<>("address");
+
     @FXML
     private Button showScoreButton;
     @FXML
@@ -43,6 +49,16 @@ public class BuyLogsFx {
     private static Parent priRoot;
     @FXML
     private Label ms;
+    private static boolean manager = false;
+    private static boolean first = true;
+
+    public static boolean isManager() {
+        return manager;
+    }
+
+    public static void setManager(boolean manager) {
+        BuyLogsFx.manager = manager;
+    }
 
     private static ArrayList<BuyLog> allBuyLogs = new ArrayList<>();
 
@@ -82,6 +98,10 @@ public class BuyLogsFx {
             buyLogShow.price = buyLog.price;
             buyLogShow.buyLogId = buyLog.getLogId();
             buyLogShow.localDateTime = buyLog.getLocalDateTimeForLog();
+            buyLogShow.deliveryStatus = buyLog.getDeliveryStatus();
+            if(manager) {
+                buyLogShow.address = Customer.getCustomerWithUsername(buyLog.getCustomer()).getAddress();
+            }
         }
 
     }
@@ -92,14 +112,30 @@ public class BuyLogsFx {
         buyLogsId.setCellValueFactory(new PropertyValueFactory<BuyLogShow, String>("buyLogId"));
         buyLogsTotalPaidAmount.setCellValueFactory(new PropertyValueFactory<BuyLogShow, Double>("price"));
         buyLogsDate.setCellValueFactory(new PropertyValueFactory<BuyLogShow, LocalDateTime>("localDateTime"));
+        status.setCellValueFactory(new PropertyValueFactory<BuyLogShow, String>("deliveryStatus"));
+        if(manager){
+            address.setCellValueFactory(new PropertyValueFactory<BuyLogShow, String>("address"));
+            initializeObserverList();
+            if(first) {
+                buyLogs.getColumns().addAll(buyLogsId, buyLogsTotalPaidAmount, buyLogsDate, status, address);
+                first =false;
+            }
+        }
+        else {
+            initializeObserverList();
+            if(first) {
+                buyLogs.getColumns().addAll(buyLogsId, buyLogsTotalPaidAmount, buyLogsDate, status);
+                first =false;
+            }
+        }
 
-        initializeObserverList();
-        buyLogs.getColumns().addAll(buyLogsId, buyLogsTotalPaidAmount, buyLogsDate);
         buyLogs.setItems(data);
     }
 
 
     private static void goToPage() {
+        first = true;
+        manager = false;
         Scene pageTwoScene = new Scene(root);
         Main.primStage.setScene(pageTwoScene);
         Main.primStage.show();
@@ -145,13 +181,14 @@ public class BuyLogsFx {
     }
 
 
-    public void delivered(MouseEvent mouseEvent) {
+    public void delivered(MouseEvent mouseEvent) throws IOException {
         if (buyLogs.getSelectionModel().getSelectedItem() != null) {
             BuyLogShow buyLog = buyLogs.getSelectionModel().getSelectedItem();
             if (Log.getLogWithId(buyLog.getBuyLogId()) instanceof BuyLog) {
                 BuyLog buyLog1 = (BuyLog) Log.getLogWithId(buyLog.getBuyLogId());
                 buyLog1.setDeliveryStatus(DeliveryStatus.SENDING);
                 ms.setText("changed");
+                initialize();
             }
         }
     }

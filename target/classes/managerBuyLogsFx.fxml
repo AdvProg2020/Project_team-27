@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="848.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.BuyLogsFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="848.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.BuyLogsFx">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="848.0" stroke="BLACK" strokeType="INSIDE" width="1600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <fill>
@@ -62,6 +61,9 @@
         </Text>
         <TableView fx:id="buyLogs" layoutX="183.0" layoutY="149.0" onMouseClicked="#clickedColumn" prefHeight="564.0" prefWidth="1248.0" />
         <Button layoutX="1317.0" layoutY="743.0" mnemonicParsing="false" onMouseClicked="#delivered" prefHeight="32.0" prefWidth="102.0" text="deliverd" textFill="#e11a1a" />
-        <Label fx:id="ms" layoutX="872.0" layoutY="750.0" prefHeight="17.0" prefWidth="128.0" text="Label" textFill="#f30707" />
+        <Label fx:id="ms" layoutX="183.0" layoutY="750.0" prefHeight="35.0" prefWidth="356.0" textFill="#f30707">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
     </children>
 </AnchorPane>

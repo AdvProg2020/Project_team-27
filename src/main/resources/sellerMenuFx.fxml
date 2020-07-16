@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="842.0" prefWidth="1627.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.SellerMenuFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="842.0" prefWidth="1627.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.SellerMenuFx">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="842.0" layoutX="-136.0" layoutY="-6.0" stroke="BLACK" strokeType="INSIDE" width="1627.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <fill>
@@ -45,7 +42,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <Button layoutX="631.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#viewPersonalInfo" prefHeight="54.0" prefWidth="328.0" text="client.view personal info">
+      <Button layoutX="631.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#viewPersonalInfo" prefHeight="54.0" prefWidth="328.0" text="view personal info">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0" startX="0.05339805825242718">
                <stops>
@@ -60,7 +57,7 @@
             <Font size="25.0" />
          </font>
       </Button>
-      <Button layoutX="807.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#viewCompanyInfo" prefHeight="54.0" prefWidth="328.0" text="client.view company information">
+      <Button layoutX="807.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#viewCompanyInfo" prefHeight="54.0" prefWidth="328.0" text="view company information">
          <font>
             <Font size="25.0" />
          </font>
@@ -75,7 +72,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button layoutX="446.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#viewSalesHistory" prefHeight="54.0" prefWidth="328.0" text="client.view sales history">
+      <Button layoutX="446.0" layoutY="169.0" mnemonicParsing="false" onMouseClicked="#viewSalesHistory" prefHeight="54.0" prefWidth="328.0" text="view sales history">
          <font>
             <Font size="25.0" />
          </font>
@@ -120,7 +117,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button layoutX="978.0" layoutY="262.0" mnemonicParsing="false" onMouseClicked="#showCategories" prefHeight="54.0" prefWidth="328.0" text="client.view categories">
+      <Button layoutX="978.0" layoutY="262.0" mnemonicParsing="false" onMouseClicked="#showCategories" prefHeight="54.0" prefWidth="328.0" text="view categories">
          <font>
             <Font size="25.0" />
          </font>
@@ -135,7 +132,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button layoutX="208.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#viewOffs" prefHeight="54.0" prefWidth="328.0" text="client.view offs">
+      <Button layoutX="208.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#viewOffs" prefHeight="54.0" prefWidth="328.0" text="view offs">
          <font>
             <Font size="25.0" />
          </font>
@@ -150,7 +147,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button layoutX="303.0" layoutY="254.0" mnemonicParsing="false" onMouseClicked="#viewBalance" prefHeight="54.0" prefWidth="328.0" text="client.view balance">
+      <Button layoutX="303.0" layoutY="254.0" mnemonicParsing="false" onMouseClicked="#viewBalance" prefHeight="54.0" prefWidth="328.0" text="view balance">
          <font>
             <Font size="25.0" />
          </font>

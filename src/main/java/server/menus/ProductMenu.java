@@ -48,6 +48,7 @@ public class ProductMenu {
         String uniqueID = UUID.randomUUID().toString();
         if (BuyLog.getFirstProduct()) {
             buyLog = new BuyLog(uniqueID);
+
         }
         buyLog.addProductToBuyLog(productId, 1);
     }

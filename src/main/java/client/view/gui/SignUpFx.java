@@ -31,39 +31,39 @@ public class SignUpFx {
 
     public ImageView userImage = new ImageView();
     @FXML
-    public TextField wage;
+    public TextField wage = new TextField();
     @FXML
-    public Label wageMs;
+    public Label wageMs = new Label();
     @FXML
-    private TextField phoneNoSign;
+    private TextField phoneNoSign = new TextField();
     @FXML
-    private TextField userSign;
+    private TextField userSign = new TextField();
     @FXML
-    private TextField lastNameSign;
+    private TextField lastNameSign = new TextField();
     @FXML
-    private PasswordField passSign;
+    private PasswordField passSign = new PasswordField();
     @FXML
-    private TextField emailSign;
+    private TextField emailSign = new TextField();
     @FXML
-    private TextField nameSign;
+    private TextField nameSign = new TextField();
     @FXML
-    private TextField birthdaySign;
+    private TextField birthdaySign = new TextField();
     @FXML
-    private Label emailLoginMs;
+    private Label emailLoginMs = new Label();
     @FXML
-    private Label userLoginMs;
+    private Label userLoginMs = new Label();
     @FXML
-    private Label birthLoginMs;
+    private Label birthLoginMs = new Label();
     @FXML
-    private Label nameLoginMs;
+    private Label nameLoginMs = new Label();
     @FXML
-    private Label phoneLoginMs;
+    private Label phoneLoginMs = new Label();
     @FXML
-    private Label passLoginMs;
+    private Label passLoginMs = new Label();
     @FXML
-    private Label lastNameLoginMs;
+    private Label lastNameLoginMs = new Label();
     @FXML
-    private TextField min;
+    private TextField min = new TextField();
     private static String role;
     private static Parent root;
     private static Parent priRoot;

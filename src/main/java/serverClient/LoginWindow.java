@@ -11,25 +11,34 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.accounts.Customer;
+import model.accounts.Seller;
+import model.productRelated.Product;
 
 
-public class LoginWindow extends Application implements Runnable {
+public class LoginWindow implements Runnable {
+
+    public Customer customerWithHigherPrice;
+    public Product productToBuy;
+    public Seller sellerWhoHasPro;
+    public double highPrice = 0;
+    public boolean isSaleOrNot = false;
+    public Label label = new Label();
 
     Stage window;
-     static Scene scene1, scene2;
+    public AnchorPane anchorPane;
+    static Scene scene1, scene2;
     Text login;
     Label lblWelcome, lblUser, lblIp;
     TextField txtUser, txtIp, messageField;
@@ -56,9 +65,11 @@ public class LoginWindow extends Application implements Runnable {
 
     List<ServerClient> connectedClients = new ArrayList<>();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+
+
+//    public static void main(String[] args) {
+//        start();
+//    }
 
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
@@ -210,7 +221,7 @@ public class LoginWindow extends Application implements Runnable {
         borderPane.setTop(hBox);
         borderPane.setCenter(vBox1);
         borderPane.setBottom(hBox1);
-        scene2 = new Scene(borderPane, 600, 500);
+
 //        scene2.getStylesheets().add("ChatCSS.css");
 
         if (messageReceived) {
@@ -221,6 +232,26 @@ public class LoginWindow extends Application implements Runnable {
                 //System.out.println("Message Seen ");
             });
         }
+        if (isSaleOrNot){
+            Label proName = new Label();
+            Label customerWithHighest = new Label();
+            customerWithHighest.setText("Seller : " + Seller.getSellerWithUsername(productToBuy.getSeller()).getName());
+            proName.setText("Product name : " + productToBuy.getProductName());
+            proName.setLayoutY(100);
+            proName.setLayoutX(10);
+            customerWithHighest.setLayoutX(10);
+            customerWithHighest.setLayoutY(150);
+            proName.setVisible(true);
+            proName.setTextFill(Color.DARKRED);
+            customerWithHighest.setVisible(true);
+            customerWithHighest.setTextFill(Color.DARKRED);
+            anchorPane = new AnchorPane();
+            anchorPane.getChildren().addAll(proName,customerWithHighest);
+            label.setVisible(false);
+            anchorPane.getChildren().add(label);
+            borderPane.setRight(anchorPane);
+        }
+        scene2 = new Scene(borderPane, 600, 500);
         return scene2;
     }
 
@@ -245,6 +276,26 @@ public class LoginWindow extends Application implements Runnable {
     private void send(String message, int text) {
         //  if(message.isEmpty()) return;
         //String text=message;
+        System.out.println(txtUser.getText()+ "           This IS TeXt");
+        if (isSaleOrNot){
+            try {
+                double price = Double.parseDouble(message);
+                label.setVisible(true);
+                if (price > highPrice){
+                    highPrice = price;
+                    customerWithHigherPrice = Customer.getCustomerWithUsername(txtUser.getText());
+                    System.out.println(customerWithHigherPrice.getName() + " my customer name");
+                    label.setText("Highest offer till now : " + price);
+                    label.setLayoutY(50);
+                    label.setLayoutX(10);
+                }
+                else {
+                    label.setText("Highest offer till now : " + highPrice);
+                }
+            }catch (NumberFormatException e){
+                System.out.println("not num");
+            }
+        }
         console(txtUser.getText()+" : "+message);
         switch (text) {
             case 0:
@@ -383,10 +434,18 @@ public class LoginWindow extends Application implements Runnable {
         listen.start();
     }
 
+    public void setIfAllIsSale(Customer customerWithHigherPrice , Product product){
+//        this.sellerWhoHasPro = sellerWhoHasPro;
+        this.customerWithHigherPrice = customerWithHigherPrice;
+        this.productToBuy = product;
+    }
+
     @Override
     public void run() {
         listen();
     }
+
+
 
     protected void alertBox(String header, String text) {
         Alert alert = new Alert(AlertType.INFORMATION);
