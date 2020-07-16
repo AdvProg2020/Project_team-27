@@ -291,7 +291,7 @@ public class LoginWindow implements Runnable {
             try {
                 double price = Double.parseDouble(message);
                 label.setVisible(true);
-                if (price > highPrice && Customer.getCustomerWithUsername(txtUser.getText()).getCredit() > highPrice){
+                if (price > highPrice && Customer.getCustomerWithUsername(txtUser.getText()).getCredit() > price){
                     highPrice = price;
                     customerWithHigherPrice = Customer.getCustomerWithUsername(txtUser.getText());
                     System.out.println(customerWithHigherPrice.getName() + " my customer name");
