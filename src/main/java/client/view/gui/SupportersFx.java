@@ -75,7 +75,13 @@ public class SupportersFx {
     public void viewUser(MouseEvent mouseEvent) {
         if (usersList.getSelectionModel().getSelectedItem() != null) {
             Account supporter = usersList.getSelectionModel().getSelectedItem();
-
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.isSaleOrNot = false;
+            try {
+                loginWindow.start(Main.primStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Main.primStage.setScene(LoginWindow.getScene1());
             Main.primStage.show();
         }
