@@ -268,14 +268,7 @@ public class Main extends Application {
                 Sale.getAllSales().addAll(seller.getAllSales());
             }
         }
-        BuyLog buyLog = new BuyLog("firstBuyLog");
-        buyLog.holePrice = 10;
-        buyLog.price = 20;
-        buyLog.getChosenProduct().put(Product.getProductById("haha"), 3);
-        BuyLog buyLog1 = new BuyLog("secondBuyLog");
-        buyLog1.holePrice = 40;
-        buyLog1.price = 30;
-        buyLog1.getChosenProduct().put(Product.getProductById("third"), 8);
+
 
         for (Product product : Product.getAllProduct()) {
             for (Comment proComment : product.proComments) {

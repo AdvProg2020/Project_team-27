@@ -1,6 +1,6 @@
 package client.view.gui;
 
-import server.menus.LoginMenu;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,9 +17,17 @@ import javafx.scene.input.MouseEvent;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
+import model.log.BuyLog;
+import model.log.BuyLogShow;
+import model.log.Log;
 import model.off.Auction;
+import model.off.Sale;
+import model.productRelated.Product;
+import server.menus.LoginMenu;
+import serverClient.LoginWindow;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
@@ -27,22 +35,22 @@ import java.util.Objects;
 public class AuctionsFx {
 
     @FXML
-    private TableColumn<Auction, String> product;
+    private TableColumn<Auction, String> product = new TableColumn<>();
     @FXML
-    private TableColumn<Auction, Number> max;
+    private TableColumn<Auction, Number> max = new TableColumn<>();
     @FXML
-    private TableColumn<Auction, String> saleId;
+    private TableColumn<Auction, String> saleId = new TableColumn<>();
     @FXML
-    private TableColumn<Auction, Date> saleEnd;
+    private TableColumn<Auction, Date> saleEnd = new TableColumn<>();
     @FXML
-    private TableColumn<Auction, Date> saleStart;
+    private TableColumn<Auction, Date> saleStart = new TableColumn<>();
     @FXML
-    private TableView<Auction> sales;
+    private TableView<Auction> sales = new TableView<>();
     @FXML
-    private Label salesMs;
+    private Label salesMs = new Label();
 
 
-    public static ObservableList list = FXCollections.observableArrayList();
+    public static ObservableList<Auction> list = FXCollections.observableArrayList();
     private static Parent root;
     private static ArrayList<Auction> allAuctions = new ArrayList<>();
     private static Parent priRoot;
@@ -72,7 +80,7 @@ public class AuctionsFx {
     public static void makeList() {
         list.clear();
 
-            list.addAll(allAuctions);
+        list.addAll(Auction.getAllAuctions());
 
     }
 
@@ -110,8 +118,21 @@ public class AuctionsFx {
 //    }
 
 
-
     public void viewSale(MouseEvent mouseEvent) throws IOException {
+        if (sales.getSelectionModel().getSelectedItem() != null) {
+            Auction auction = sales.getSelectionModel().getSelectedItem();
+            LoginWindow loginWindow = new LoginWindow();
+            loginWindow.setAuction(auction);
+            loginWindow.isSaleOrNot = true;
+            loginWindow.setIfAllIsSale(Customer.getCustomerWithUsername(auction.getCustomer()), Product.getProductById(auction.getProduct()));
+            try {
+                loginWindow.start(Main.primStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            Main.primStage.setScene(LoginWindow.getScene1());
+            Main.primStage.show();
+        }
     }
 
     private static void goToPage() {
@@ -124,13 +145,13 @@ public class AuctionsFx {
 
     public void userMenu(ActionEvent actionEvent) throws IOException {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SalesFx.class.getClassLoader().getResource("salesFx.fxml")));
-        if(LoginMenu.getLoginAccount() instanceof Seller){
+        if (LoginMenu.getLoginAccount() instanceof Seller) {
             SellerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
-        } else if(LoginMenu.getLoginAccount() instanceof Manager){
+        } else if (LoginMenu.getLoginAccount() instanceof Manager) {
             ManagerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(ManagerMenuFx.class.getClassLoader().getResource("managerMenuFx.fxml")));
-        }else if(LoginMenu.getLoginAccount() instanceof Customer){
+        } else if (LoginMenu.getLoginAccount() instanceof Customer) {
             CustomerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
         }
