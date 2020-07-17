@@ -23,7 +23,7 @@ public class BankAccount {
     public static Type bankAccountType = new TypeToken<ArrayList<BankAccount>>() {
     }.getType();
 
-    public BankAccount(String username, String name, String lastname, String password) {
+    public BankAccount(String username, String name, String lastname, String password) throws IOException {
         this.username = username;
         this.name = name;
         this.lastname = lastname;
@@ -31,6 +31,7 @@ public class BankAccount {
         Random rand = new Random();
         id =  String.valueOf(rand.nextInt(1000));
         allBankAccount.add(this);
+        writeInJ();
     }
 
     public static boolean isThereAccountWithUsernameAndPassword(String username, String password) {
@@ -141,6 +142,7 @@ public class BankAccount {
 
     public void setToken(String token) {
         this.token = token;
+
     }
 
     public static void setAllBankAccount(ArrayList<BankAccount> allBankAccount) {

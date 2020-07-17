@@ -54,8 +54,9 @@ public class Bank {
                if (scanner.hasNext()) {
                    input = scanner.nextLine();
                    String[] inputs = input.split("\\s+");
+                   try {
                    if (input.startsWith("create_account")) {
-                       account(inputs);
+                           account(inputs);
                    } else if (input.startsWith("get_token")) {
                        token(inputs);
                    } else if (input.startsWith("create_receipt")) {
@@ -71,12 +72,15 @@ public class Bank {
                        handleOutput();
                        break;
                    }
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   }
                }
 
             }
         }
 
-        private void token(String[] inputs) {
+        private void token(String[] inputs) throws IOException {
             String username = inputs[1];
             System.out.println(username);
             if (!BankAccount.isThereAccountWithUsername(username)) {
@@ -86,6 +90,7 @@ public class Bank {
                     bankAccount.setToken(uniqueID);
                     Date date = new Date();
                     bankAccount.setTokenDate(date.getTime());
+                    BankAccount.writeInJ();
                   //  DataBase.insertToken(bankAccount);
                     output = bankAccount.getToken();
                     System.out.println(output);
@@ -94,7 +99,7 @@ public class Bank {
             handleOutput();
         }
 
-        private void account(String[] inputs) {
+        private void account(String[] inputs) throws IOException {
             String username = inputs[3];
             if (!BankAccount.isThereAccountWithUsername(username)) {
                 if (inputs[4].equals(inputs[5])) {
