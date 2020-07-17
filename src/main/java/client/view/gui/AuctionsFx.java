@@ -84,8 +84,9 @@ public class AuctionsFx {
 
     }
 
-    private void makeTree() {
-//        checkIfTimeEnds();
+    private void makeTree() throws IOException {
+
+        removeAuction();
         saleId.setCellValueFactory(new PropertyValueFactory<Auction, String>("id"));
         saleStart.setCellValueFactory(new PropertyValueFactory<Auction, Date>("startOfPeriod"));
         saleEnd.setCellValueFactory(new PropertyValueFactory<Auction, Date>("endOfPeriod"));

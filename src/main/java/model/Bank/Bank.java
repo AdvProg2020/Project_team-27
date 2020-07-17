@@ -10,6 +10,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.UUID;
 
 public class Bank {
@@ -19,12 +20,12 @@ public class Bank {
 
 
     public static void main(String[] args) throws IOException {
-        ServerSocket bankServer = new ServerSocket(9090);
+        ServerSocket bankServer = new ServerSocket(9595);
         Socket socket = bankServer.accept();
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
         System.out.println("hiiii");
-        new handleClient(socket, dataInputStream, dataOutputStream, bankServer).run();
+        new handleClient(socket, dataInputStream, dataOutputStream, bankServer, socket).run();
     }
 
 
@@ -36,22 +37,26 @@ public class Bank {
         private static String output;
 
 
-        public handleClient(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ServerSocket serverSocket) {
+        public handleClient(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ServerSocket serverSocket,Socket socket) {
             this.clientServer = clientServer;
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
             this.serverSocket = serverSocket;
+            this.clientServer = socket;
         }
 
         @Override
         public void run() {
             String input = null;
-            try {
-                input = dataInputStream.readUTF();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//             //   input = dataInputStream.readUTF();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+            Scanner scanner = new Scanner(dataInputStream);
+
             while (true) {
+                input = scanner.nextLine();
                 String[] inputs = input.split("\\s+");
                 if (input.startsWith("create_account")) {
                     account(inputs);

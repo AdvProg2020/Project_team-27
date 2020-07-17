@@ -99,9 +99,10 @@ public class Main extends Application {
     }
 
     private static void finishingAuction(Auction auction) throws IOException {
-        String uniqueID = UUID.randomUUID().toString();
-        BuyLog buyLog = new BuyLog(uniqueID);
-        buyLog.addProductToBuyLog(auction.getProduct(), 1);
+      //  String uniqueID = UUID.randomUUID().toString();
+      //  BuyLog buyLog = new BuyLog(uniqueID);
+      //  buyLog.setCustomer(auction.getCustomer());
+      //  buyLog.addProductToBuyLog(auction.getProduct(), 1);
         Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
         Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
     }
