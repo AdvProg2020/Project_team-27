@@ -1,13 +1,21 @@
 package model.Bank;
 
+import client.view.FileHandling;
+import com.google.gson.reflect.TypeToken;
+import model.accounts.Supporter;
+
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 public class Bank {
      static boolean start = true;
+
+
 
 
     public static void main(String[] args) throws IOException {
@@ -224,5 +232,6 @@ public class Bank {
         }
 
     }
+
 
 }

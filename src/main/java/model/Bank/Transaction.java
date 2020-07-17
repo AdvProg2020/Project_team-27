@@ -3,6 +3,7 @@ package model.Bank;
 import com.google.gson.reflect.TypeToken;
 import client.view.FileHandling;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,6 +19,8 @@ public class Transaction {
     //int paid;
     static String toBeJson;
     public static ArrayList<Transaction> allTransactions = new ArrayList<>();
+    public static Type transactionType = new TypeToken<ArrayList<Transaction>>() {
+    }.getType();
 
     public Transaction(String sourceAccountI, String destAccountID, double money, String description, String receiptTyp) {
         this.sourceAccountI = sourceAccountI;
@@ -127,4 +130,10 @@ public class Transaction {
     public static void setAllTransactions(ArrayList<Transaction> allTransactions) {
         Transaction.allTransactions = allTransactions;
     }
-}
+
+    public static void writeInJ() throws IOException {
+
+        String json = FileHandling.getGson().toJson(Transaction.allTransactions, transactionType);
+        FileHandling.writeInFile(json, "transaction.json");
+
+    }}
