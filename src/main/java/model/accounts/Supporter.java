@@ -19,6 +19,7 @@ public class Supporter extends Account {
         super(username);
         role ="supporter";
         allSupporters.add(this);
+        writeInJ();
     }
 
 

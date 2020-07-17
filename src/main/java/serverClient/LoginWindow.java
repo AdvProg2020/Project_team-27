@@ -286,7 +286,6 @@ public class LoginWindow implements Runnable {
     private void send(String message, int text) {
         //  if(message.isEmpty()) return;
         //String text=message;
-        System.out.println(txtUser.getText()+ "           This IS TeXt");
         if (isSaleOrNot){
             try {
                 double price = Double.parseDouble(message);

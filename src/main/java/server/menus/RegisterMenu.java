@@ -203,6 +203,7 @@ public class RegisterMenu {
             outputNo = 12;
         } else if (role.equalsIgnoreCase("supporter")) {
             supporter.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
+            Supporter.writeInJ();
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;

@@ -1,7 +1,11 @@
 package model.Bank;
 
+import client.view.FileHandling;
+import com.google.gson.reflect.TypeToken;
 import model.accounts.Account;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
@@ -16,6 +20,8 @@ public class BankAccount {
     String token;
     long tokenDate;
     static ArrayList<BankAccount> allBankAccount = new ArrayList();
+    public static Type bankAccountType = new TypeToken<ArrayList<BankAccount>>() {
+    }.getType();
 
     public BankAccount(String username, String name, String lastname, String password) {
         this.username = username;
@@ -135,5 +141,16 @@ public class BankAccount {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public static void setAllBankAccount(ArrayList<BankAccount> allBankAccount) {
+        BankAccount.allBankAccount = allBankAccount;
+    }
+
+    public static void writeInJ() throws IOException {
+
+        String json = FileHandling.getGson().toJson(BankAccount.allBankAccount, bankAccountType);
+        FileHandling.writeInFile(json, "bankAccount.json");
+
     }
 }

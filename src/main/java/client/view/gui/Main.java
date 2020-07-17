@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 //import javafx.scene.media.Media;
 //import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import model.Bank.BankAccount;
+import model.Bank.Transaction;
 import model.accounts.*;
 import model.firms.Firm;
 import model.log.BuyLog;
@@ -141,6 +143,37 @@ public class Main extends Application {
         }
 
 
+        Type bankType = new TypeToken<ArrayList<BankAccount>>() {
+        }.getType();
+        try {
+            JsonReader reader99 = new JsonReader(new FileReader("bankAccount.json"));
+            ArrayList<BankAccount> bankAccountArrayList = FileHandling.getGson().fromJson(reader99, bankType);
+            if (null == bankAccountArrayList) {
+                bankAccountArrayList = new ArrayList<>();
+            }
+            BankAccount.setAllBankAccount(bankAccountArrayList);
+
+        } catch (IOException e) {
+            FileHandling.writeInFile("", "bankAccount.json");
+            BankAccount.setAllBankAccount(new ArrayList<>());
+        }
+
+
+
+        Type transactionType = new TypeToken<ArrayList<Transaction>>() {
+        }.getType();
+        try {
+            JsonReader reader100 = new JsonReader(new FileReader("transaction.json"));
+            ArrayList<Transaction> transactionArrayList = FileHandling.getGson().fromJson(reader100, transactionType);
+            if (null == transactionArrayList) {
+                transactionArrayList = new ArrayList<>();
+            }
+            Transaction.setAllTransactions(transactionArrayList);
+        } catch (IOException e) {
+            FileHandling.writeInFile("", "transaction.json");
+            Transaction.setAllTransactions(new ArrayList<>());
+        }
+
 
         Type sellerType = new TypeToken<ArrayList<Seller>>() {
         }.getType();
@@ -190,6 +223,7 @@ public class Main extends Application {
         Account.getAllAccounts().addAll(Customer.getAllCustomers());
         Account.getAllAccounts().addAll(Manager.getAllManagers());
         Account.getAllAccounts().addAll(Seller.getAllSellers());
+        Account.getAllAccounts().addAll(Supporter.getAllSupporters());
 
         Type AccountReType = new TypeToken<ArrayList<AccountRequest>>() {
         }.getType();
