@@ -12,7 +12,7 @@ public class BankAccount {
     String name = null;
     String lastname = null;
     String password = null;
-    double money = 10000;
+    double money = 500;
     String token;
     long tokenDate;
     static ArrayList<BankAccount> allBankAccount = new ArrayList();
@@ -72,6 +72,15 @@ public class BankAccount {
         }
         return null;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getId() {
         return id;
     }

@@ -189,14 +189,14 @@ public class RegisterMenu {
             outputNo = 31;
         } else if (role.equalsIgnoreCase("customer")) {
             customer.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
-            //  BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, customer);
+              BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, customer);
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;
         } else if (role.equalsIgnoreCase("manager")) {
             manager.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
             if(Manager.getAllManagers().size() == 1) {
-                //   BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, manager);
+                   BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, manager);
             }
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);

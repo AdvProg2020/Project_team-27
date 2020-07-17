@@ -13,10 +13,6 @@ import java.net.Socket;
 import java.util.Date;
 import java.util.Scanner;
 
-/**
- * This class handles initiating connection to bankAPI ,sending requests to Bank server
- * and also responses from Bank server.
- */
 public class BankAPI {
     public static final int PORT = 9595;
     // public static final String IP = "192.168.1.4";
@@ -28,11 +24,6 @@ public class BankAPI {
     static Socket socket;
     static boolean first= true;
 
-    /**
-     * This method is used to add initiating socket and IN/OUT data stream .
-     *
-     * @throws IOException when IP/PORT hasn't been set up properly.
-     */
     public static void ConnectToBankServer() throws IOException {
         try {
             //  if(first) {
@@ -46,9 +37,7 @@ public class BankAPI {
         }
     }
 
-    /**
-     * This method is used to start a Thread ,listening on IN data stream.
-     */
+
     public static void StartListeningOnInput() {
         new Thread(() -> {
             while (true) {
@@ -67,7 +56,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                   // System.out.println("*+"+inputStream.readUTF());
                     account.setAccountId(inputStream.readUTF());
                     System.out.println("account: "+account.getAccountId());
                     Manager.writeInJ();
@@ -84,8 +73,8 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
-                    System.out.println("account: "+account.getBankMoney());
+                  //  System.out.println("*+"+inputStream.readUTF());
+                    //System.out.println("account: "+account.getBankMoney());
                     account.setBankMoney(Double.parseDouble(inputStream.readUTF()));
                     System.out.println("account: "+account.getBankMoney());
                     Manager.writeInJ();
@@ -102,7 +91,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                  //  System.out.println("*+"+inputStream.readUTF());
                     account.setToken(inputStream.readUTF());
                     Date date = new Date();
                     account.setTokenDate(date.getTime());
@@ -122,7 +111,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                   // System.out.println("*+"+inputStream.readUTF());
                     Transaction.getTransaction(inputStream.readUTF());
                     System.out.println("tran: "+inputStream.readUTF());
                     Manager.writeInJ();
@@ -139,7 +128,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                  //  System.out.println("*+"+inputStream.readUTF());
                     account.getTransactions().add(Integer.valueOf(inputStream.readUTF()));
                     System.out.println("tran: "+account.getTransactions().get(account.getTransactions().size()-1));
                     Manager.writeInJ();
@@ -152,12 +141,7 @@ public class BankAPI {
             }
         }).start();
     }
-    /**
-     * This method is used to send message with value
-     *
-     * @param msg to Bank server.
-     * @throws IOException when OUT data stream been interrupted.
-     */
+
     public static void SendMessage(String msg) throws IOException {
         try {
             outputStream.writeUTF(msg);
@@ -224,6 +208,7 @@ public class BankAPI {
     public static void startLogin(String start, Account account) throws IOException {
         try {
             ConnectToBankServer();
+           // System.out.println(inputStream.readUTF());
             StartListeningOnInputLo(account);
             // Scanner scanner = new Scanner(System.in);
             //while (true) {
@@ -248,9 +233,6 @@ public class BankAPI {
         }
     }
 
-    /**
-     * This method is used to illustrate an example of using methods of this class.
-     */
     public static void main(String[] args) {
         try {
             ConnectToBankServer();

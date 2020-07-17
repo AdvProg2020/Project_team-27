@@ -1,5 +1,8 @@
 package model.Bank;
 
+import javafx.scene.chart.PieChart;
+import model.data.DataBase;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,31 +43,35 @@ public class Bank {
         @Override
         public void run() {
             String input = null;
-//            try {
-//             //   input = dataInputStream.readUTF();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            Scanner scanner = new Scanner(dataInputStream);
+            Scanner scanner = null;
+            try {
+                scanner = new Scanner(dataInputStream.readUTF());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             while (true) {
-                input = scanner.nextLine();
-                String[] inputs = input.split("\\s+");
-                if (input.startsWith("create_account")) {
-                    account(inputs);
-                } else if (input.startsWith("get_token")) {
-                    token(inputs);
-                } else if (input.startsWith("create_receipt")) {
-                    receipt(input);
-                } else if (input.startsWith("get_transactions")) {
-                    transaction(inputs);
-                } else if (input.startsWith("pay")) {
-                    pay(inputs);
-                } else if (input.startsWith("get_balance")) {
-                    balance(inputs);
-                } else if (input.startsWith("exit")) {
-
-                }
+               if (scanner.hasNext()) {
+                   input = scanner.nextLine();
+                   String[] inputs = input.split("\\s+");
+                   if (input.startsWith("create_account")) {
+                       account(inputs);
+                   } else if (input.startsWith("get_token")) {
+                       token(inputs);
+                   } else if (input.startsWith("create_receipt")) {
+                       receipt(input);
+                   } else if (input.startsWith("get_transactions")) {
+                       transaction(inputs);
+                   } else if (input.startsWith("pay")) {
+                       pay(inputs);
+                   } else if (input.startsWith("get_balance")) {
+                       balance(inputs);
+                   } else if (input.startsWith("exit")) {
+                       output="bye";
+                       handleOutput();
+                       break;
+                   }
+               }
 
             }
         }
@@ -79,7 +86,9 @@ public class Bank {
                     bankAccount.setToken(uniqueID);
                     Date date = new Date();
                     bankAccount.setTokenDate(date.getTime());
+                  //  DataBase.insertToken(bankAccount);
                     output = bankAccount.getToken();
+                    System.out.println(output);
                 } else output = "invalid username or password";
             } else output = "invalid username or password";
             handleOutput();
@@ -91,6 +100,7 @@ public class Bank {
                 if (inputs[4].equals(inputs[5])) {
                     BankAccount bankAccount = new BankAccount(username, inputs[1], inputs[2], inputs[4]);
                     output = bankAccount.getId();
+                   // DataBase.insert(bankAccount);
                 } else output = "passwords do not match";
             } else output = "username is not available";
             handleOutput();
@@ -116,10 +126,12 @@ public class Bank {
                                                 if (!source.equals(-1)) {
                                                     if (BankAccount.getAccountWithid(source).getToken().equals(token)) {
                                                         Transaction transaction = new Transaction(source, dest, Long.parseLong(money), inputs[6], type);
+                                                       // DataBase.insertTransaction(transaction);
                                                         output = transaction.getId();
                                                     } else output = "token expired";
                                                 } else {
                                                     Transaction transaction = new Transaction(source, dest, Long.parseLong(money), inputs[6], type);
+                                                   // DataBase.insertTransaction(transaction);
                                                     output = transaction.getId();
                                                 }
                                             } else output = "token is invalid";
@@ -179,18 +191,24 @@ public class Bank {
                 if(money <= account1.getMoney()) {
                     account1.setMoney(account1.getMoney() - money);
                     account2.setMoney(account2.getMoney() + money);
+                    transaction.setPaid(true);
+                   // DataBase.updatePay();
                     output ="done successfully";
                 }else output = "source account does not have enough money";
             } else if (type.equalsIgnoreCase("”deposit")) {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 double money = transaction.getMoney();
                 account2.setMoney(account2.getMoney() + money);
+                transaction.setPaid(true);
+               // DataBase.updatePay();
                 output ="done successfully";
             } else if (type.equalsIgnoreCase("withdraw")) {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountI());
                 double money = transaction.getMoney();
                 if(money <= account1.getMoney()) {
                     account1.setMoney(account1.getMoney() - money);
+                    transaction.setPaid(true);
+                   // DataBase.updatePay();
                     output ="done successfully";
                 }else output = "source account does not have enough money";
             }
@@ -221,7 +239,8 @@ public class Bank {
         private  void handleOutput() {
             try {
                 dataOutputStream.writeUTF(output);
-               // finish();
+                dataOutputStream.flush();
+             //   finish();
             } catch (IOException e) {
                 e.printStackTrace();
                 finish();
