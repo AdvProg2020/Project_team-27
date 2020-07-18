@@ -56,8 +56,9 @@ public class AccountRequest extends Request {
         writeInJ();
     }
 
-    public static void createBankAccount() throws IOException {
-        BankAPI.SendMessage("create_account" + name + lastname + username +password + password);
+    public static void createBankAccount(Account seller) throws IOException {
+        BankAPI.startRegister("create_account " + name+" " + lastname+" " + username+" " +password+" " + password, seller);
+
     }
 
     @Override
@@ -81,7 +82,7 @@ public class AccountRequest extends Request {
         Request.getAllRequests().remove(this);
         allAccountRequests.remove(this);
         seller.removeAccountRequest(this);
-        createBankAccount();
+        createBankAccount(seller);
 
         writeInJ();
 

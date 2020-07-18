@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.AuctionsFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="882.0" prefWidth="1605.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.AuctionsFx">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" height="882.0" layoutX="-200.0" layoutY="-8.0" stroke="BLACK" strokeType="INSIDE" width="1605.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <fill>
@@ -67,23 +66,23 @@
             <TableColumn fx:id="max" prefWidth="273.0" text="Max" />
             </columns>
         </TableView>
-        <Button layoutX="1344.0" layoutY="781.0" mnemonicParsing="false" onMouseClicked="#viewSale" prefHeight="25.0" prefWidth="81.0" text="View">
+        <Button layoutX="1344.0" layoutY="781.0" mnemonicParsing="false" onMouseClicked="#viewSale" prefHeight="25.0" prefWidth="81.0" text="view">
             <textFill>
                 <LinearGradient endX="1.0" endY="1.0">
                     <stops>
                         <Stop>
                             <color>
-                                <Color blue="0.8500000238418579" green="0.1445000022649765" red="0.5125132203102112" />
+                                <Color red="0.5125132203102112" green="0.1445000022649765" blue="0.8500000238418579" />
                             </color>
                         </Stop>
                         <Stop offset="0.9988558352402748">
                             <color>
-                                <Color blue="0.4446766972541809" green="0.1445000022649765" red="0.8500000238418579" />
+                                <Color red="0.8500000238418579" green="0.1445000022649765" blue="0.4446766972541809" />
                             </color>
                         </Stop>
                         <Stop offset="1.0">
                             <color>
-                                <Color blue="0.5430799126625061" green="0.0484892800450325" red="0.8728070259094238" />
+                                <Color red="0.8728070259094238" green="0.0484892800450325" blue="0.5430799126625061" />
                             </color>
                         </Stop>
                     </stops>

@@ -26,7 +26,8 @@ public class Exchange {
 
     @FXML
     private Label marketCredit;
-
+    @FXML
+    private Label id;
     @FXML
     private TextField amount;
     @FXML
@@ -60,56 +61,60 @@ public class Exchange {
 
     @FXML
     public void initialize() throws IOException {
-        if (customer) {
+        if (!customer) {
             withdraw.setDisable(true);
             withdraw.setVisible(false);
         }
-         account= LoginMenu.getLoginAccount();
+        account = LoginMenu.getLoginAccount();
         bankCredit = account.getBankMoney();
         bankCreditLb.setText(String.valueOf(bankCredit));
         marketCredit.setText(String.valueOf(account.getCredit()));
     }
 
-    public void withdrawMoney(ActionEvent event) throws IOException {
+    public void withdrawMoney(MouseEvent mouseEvent) throws IOException {
         //bardasht az market
-        if(amount.getText().matches("\\d+")) {
-            double curAmount = Double.valueOf(amount.getText());
+        if (amount.getText().matches("\\d+")) {
+            int curAmount = Integer.parseInt((amount.getText()));
             double marketCredit = account.getCredit();
             if (curAmount <= marketCredit) {
                 Account account = LoginMenu.getLoginAccount();
                 Date date = new Date();
-                BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
-                if (account.getTokenDate() - date.getTime() < 3600000) {
-                    if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
-                        BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + account.getAccountId() + " " + -1, account);
-
-                    }
+                if (account.getTokenDate() - date.getTime() >= 3600000) {
+                    BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
                 }
-            }
+                if (Manager.getAllManagers().get(0).getMin() <= marketCredit - curAmount) {
+                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "withdraw " + curAmount + " " + account.getAccountId() + " " + -1, account);
+//                    id.setText(String.valueOf(account.getTransactions().get(account.getTransactions().size() - 1)));
+
+                } else id.setText("not enough money");
+            }else id.setText("not enough money");
         }
 
     }
 
     public void depositMoney(MouseEvent mouseEvent) throws IOException {
         //variz be market
-        if(amount.getText().matches("\\d+")) {
-            double curAmount = Double.valueOf(amount.getText());
+        if (amount.getText().matches("\\d+")) {
+            int curAmount = Integer.parseInt((amount.getText()));
             double marketCredit = account.getCredit();
             if (bankCredit >= curAmount) {
                 Account account = LoginMenu.getLoginAccount();
                 Date date = new Date();
-                BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
-                if (account.getTokenDate() - date.getTime() < 3600000) {
-                    if (Manager.getAllManagers().get(0).getMin() >= marketCredit - curAmount) {
-                        BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
-                    }
+                if (account.getTokenDate() - date.getTime() >= 3600000) {
+                    BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
                 }
+                if (Manager.getAllManagers().get(0).getMin() <= marketCredit - curAmount) {
+                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
+                    //id.setText(String.valueOf(account.getTransactions().get(account.getTransactions().size())));
+                } else id.setText("not enough money");
             }
+
         }
     }
 
 
     private static void goToPage() {
+        customer = false;
         Scene pageTwoScene = new Scene(root);
         //Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
         Main.primStage.setScene(pageTwoScene);

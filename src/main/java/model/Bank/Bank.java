@@ -16,6 +16,7 @@ public class Bank {
 
     public static void main(String[] args) throws IOException {
         ServerSocket bankServer = new ServerSocket(9595);
+        System.out.println("oops");
         Socket socket = bankServer.accept();
         DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));

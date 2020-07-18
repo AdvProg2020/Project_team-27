@@ -104,13 +104,15 @@ public class CustomerMenu {
         //  OutputMassageHandler.showPurchaseOutput(outputNo);
     }
 
-    public static void bankPayment() throws IOException {
+    public static void bankPayment(double hole ) throws IOException {
         Date date = new Date();
         Account account = LoginMenu.getLoginAccount();
         Account manager = Manager.getAllManagers().get(Manager.getAllManagers().size() - 1);
-        if (account.getTokenDate() - date.getTime() < 3600000) {
-            BankAPI.startTran("create_receipt " + account.getToken() + " " + "move " + account.getAccountId() + " " + manager.getAccountId(), account);
+        if (account.getTokenDate() - date.getTime() >=3600000) {
+            BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
+            BankAPI.startTran("create_receipt " + account.getToken() + " " + "move " +(int) hole+" " + account.getAccountId() + " " + manager.getAccountId(), account);
+
     }
 
     private static void finishingPayment() throws IOException {
@@ -175,7 +177,7 @@ public class CustomerMenu {
             //if(market){
             seller.increaseCredit(finalAmount);
             if (!market) {
-                bankPayment();
+                bankPayment(holePrice);
             }
         }
     }

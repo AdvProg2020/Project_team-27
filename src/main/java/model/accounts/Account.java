@@ -24,9 +24,9 @@ public abstract class Account {
     String token;
     long tokenDate;
     String accountId = null;
-    double bankMoney = 50;
+    int bankMoney = 50;
     private String online = "off";
-    private  ArrayList<Integer> transactions = new ArrayList<>();
+    private  ArrayList<String> transactions = new ArrayList<>();
 
     private static ArrayList<Account> allAccounts = new ArrayList<>();
     private static ArrayList<Date> birthdayDates = new ArrayList<>();
@@ -194,15 +194,15 @@ public abstract class Account {
         return bankMoney;
     }
 
-    public void setBankMoney(double bankMoney) {
+    public void setBankMoney(int bankMoney) {
         this.bankMoney = bankMoney;
     }
 
-    public ArrayList<Integer> getTransactions() {
+    public ArrayList<String> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(ArrayList<Integer> transactions) {
+    public void setTransactions(ArrayList<String> transactions) {
         this.transactions = transactions;
     }
 

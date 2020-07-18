@@ -56,7 +56,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                   // System.out.println("*+"+inputStream.readUTF());
+                    System.out.println("*+"+inputStream.readUTF());
                     account.setAccountId(inputStream.readUTF());
                     System.out.println("account: "+account.getAccountId());
                     Manager.writeInJ();
@@ -73,9 +73,9 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                  //  System.out.println("*+"+inputStream.readUTF());
+                      System.out.println("*+"+inputStream.readUTF());
                     //System.out.println("account: "+account.getBankMoney());
-                    account.setBankMoney(Double.parseDouble(inputStream.readUTF()));
+                    account.setBankMoney(Integer.parseInt((inputStream.readUTF())));
                     System.out.println("account: "+account.getBankMoney());
                     Manager.writeInJ();
                     Seller.writeInJ();
@@ -91,7 +91,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                  //  System.out.println("*+"+inputStream.readUTF());
+                    System.out.println("*+"+inputStream.readUTF());
                     account.setToken(inputStream.readUTF());
                     Date date = new Date();
                     account.setTokenDate(date.getTime());
@@ -111,7 +111,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                   // System.out.println("*+"+inputStream.readUTF());
+                    System.out.println("*+"+inputStream.readUTF());
                     Transaction.getTransaction(inputStream.readUTF());
                     System.out.println("tran: "+inputStream.readUTF());
                     Manager.writeInJ();
@@ -128,8 +128,8 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                  //  System.out.println("*+"+inputStream.readUTF());
-                    account.getTransactions().add(Integer.valueOf(inputStream.readUTF()));
+                    System.out.println("*+"+inputStream.readUTF());
+                    account.getTransactions().add(inputStream.readUTF());
                     System.out.println("tran: "+account.getTransactions().get(account.getTransactions().size()-1));
                     Manager.writeInJ();
                     Seller.writeInJ();

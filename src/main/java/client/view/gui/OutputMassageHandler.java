@@ -245,7 +245,7 @@ public class OutputMassageHandler {
         if (output == 0) {
             text = ("please enter discount id");
         } else if (output == 1) {
-            text = ("there is no discount code wiyh yhis id");
+            text = ("there is no discount code with this id");
         } else if (output == 2) {
             text = ("discount ok");
         } else if (output == 3) {

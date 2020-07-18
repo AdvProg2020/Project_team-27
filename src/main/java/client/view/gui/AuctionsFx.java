@@ -119,6 +119,7 @@ public class AuctionsFx {
 //    }
 
 
+
     public void viewSale(MouseEvent mouseEvent) throws IOException {
         if (sales.getSelectionModel().getSelectedItem() != null) {
             Auction auction = sales.getSelectionModel().getSelectedItem();
@@ -191,5 +192,6 @@ public class AuctionsFx {
         Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
         Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
     }
+
 
 }

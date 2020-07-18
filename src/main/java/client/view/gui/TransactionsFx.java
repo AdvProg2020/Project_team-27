@@ -60,7 +60,6 @@ public class TransactionsFx {
     private static Parent priRoot;
 
 
-
     @FXML
     public void initialize() throws IOException {
         makeTree();
@@ -90,27 +89,26 @@ public class TransactionsFx {
     }
 
 
-    public void viewUser(MouseEvent mouseEvent) throws IOException {
-        if (transactions.getSelectionModel().getSelectedItem() != null) {
-           /* Account a = transactions.getSelectionModel().getSelectedItem();
-            Parent curRoot = FXMLLoader.load(Objects.requireNonNull(UsersFx.class.getClassLoader().getResource("usersFx.fxml")));
-            ViewAccountFx.setPriRoot(curRoot);
-            ViewAccountFx.setAccount(a);
-            root = FXMLLoader.load(Objects.requireNonNull(ViewAccountFx.class.getClassLoader().getResource("viewAccountFx.fxml")));
-            goToPage();
-
-            */
-
-        } else usersMs.setText("you have to select first");
-    }
-
-
     public void pay(MouseEvent mouseEvent) throws IOException {
         if (transactions.getSelectionModel().getSelectedItem() != null) {
-            Transaction tr=transactions.getSelectionModel().getSelectedItem();
+            Transaction tr = transactions.getSelectionModel().getSelectedItem();
             BankAPI.start("pay " + tr.getId());
+            payMarket(tr);
+            usersMs.setText("paid");
         }
     }
+
+    private void payMarket(Transaction transaction) throws IOException {
+        if(transaction.getReceiptType().equalsIgnoreCase("deposit")){
+            Account account =LoginMenu.getLoginAccount();
+            account.increaseCredit(transaction.getMoney());
+        }else if(transaction.getReceiptType().equalsIgnoreCase("withdraw")){
+            Account account =LoginMenu.getLoginAccount();
+            account.setCredit(account.getCredit()-transaction.getMoney());
+        }
+
+    }
+
     private static void goToPage() {
         Scene pageTwoScene = new Scene(root);
         //Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
