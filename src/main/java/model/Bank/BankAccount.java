@@ -1,14 +1,12 @@
-package model.Bank;
+package model.bank;
 
 import client.view.FileHandling;
 import com.google.gson.reflect.TypeToken;
-import model.accounts.Account;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.UUID;
 
 public class BankAccount {
     String id;

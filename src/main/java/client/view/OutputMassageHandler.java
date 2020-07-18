@@ -1,4 +1,4 @@
-package client.view.gui;
+package client.view;
 
 
 import javafx.scene.Parent;

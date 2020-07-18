@@ -1,6 +1,7 @@
 package client.view.gui;
 
 
+import client.Main;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,11 +18,7 @@ import javafx.scene.input.MouseEvent;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
-import model.log.BuyLog;
-import model.log.BuyLogShow;
-import model.log.Log;
 import model.off.Auction;
-import model.off.Sale;
 import model.productRelated.Product;
 import server.menus.LoginMenu;
 import serverClient.LoginWindow;

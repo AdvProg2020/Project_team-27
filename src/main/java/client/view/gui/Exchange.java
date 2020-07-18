@@ -1,6 +1,7 @@
 package client.view.gui;
 
-import model.Bank.BankAPI;
+import client.Main;
+import model.bank.BankAPI;
 import server.menus.LoginMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

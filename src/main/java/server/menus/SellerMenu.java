@@ -10,7 +10,7 @@ import model.off.SaleStatus;
 import model.productRelated.Category;
 import model.productRelated.Product;
 import model.productRelated.ProductStatus;
-import client.view.gui.OutputMassageHandler;
+import client.view.OutputMassageHandler;
 
 import java.io.IOException;
 import java.text.ParseException;

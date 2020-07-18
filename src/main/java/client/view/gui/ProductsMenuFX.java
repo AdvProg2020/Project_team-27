@@ -2,6 +2,7 @@ package client.view.gui;
 
 
 //import controller.ProductMenu;
+import client.Main;
 import server.menus.LoginMenu;
 import javafx.animation.*;
 import javafx.beans.value.ChangeListener;

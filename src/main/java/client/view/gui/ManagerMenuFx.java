@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Main;
 import server.menus.LoginMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;

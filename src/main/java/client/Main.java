@@ -1,5 +1,7 @@
-package client.view.gui;
+package client;
 
+import client.view.gui.MainMenuFx;
+import client.view.gui.SignUpFx;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
@@ -9,11 +11,10 @@ import javafx.scene.Scene;
 //import javafx.scene.media.Media;
 //import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import model.Bank.BankAccount;
-import model.Bank.Transaction;
+import model.bank.BankAccount;
+import model.bank.Transaction;
 import model.accounts.*;
 import model.firms.Firm;
-import model.log.BuyLog;
 import model.off.Auction;
 import model.off.DiscountCode;
 import model.off.Sale;
@@ -23,9 +24,9 @@ import model.productRelated.Product;
 import model.request.*;
 import client.view.FileHandling;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.net.Socket;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.*;
@@ -35,11 +36,41 @@ public class Main extends Application {
 
     private final int widthScene = 1800;
     private final int heightScene = 700;
-    static Stage primStage;
+    public static Stage primStage;
     public static String[] a;
     Parent root;
 
+static class Client extends Thread{
+    private static Scanner scanner;
+    private static DataOutputStream dataOutputStream;
+    private static DataInputStream dataInputStream;
+    private static Socket clientSocket;
 
+
+    @Override
+    public void run() {
+        try {
+            clientSocket = new Socket("127.0.0.1", 8888);
+            System.out.println("Successfully connected to server!");
+            handleConnection();
+        } catch (IOException e) {
+            System.err.println("Error client connecting on client side");
+        }
+    }
+
+    private static void handleConnection() {
+        try {
+            dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+            dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
+            scanner = new Scanner(System.in);
+            String userInput = "";
+        } catch (IOException e) {
+            System.err.println("Error handling connection on client side");
+        }
+
+    }
+
+}
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -65,8 +96,7 @@ public class Main extends Application {
     public static void main(String[] args) throws IOException, ParseException {
         a = args;
         gson();
-
-
+      //  new Client().run();
       //  removeAuction();
      //   removeSale();
 

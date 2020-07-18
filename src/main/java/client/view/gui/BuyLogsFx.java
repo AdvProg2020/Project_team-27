@@ -1,6 +1,6 @@
 package client.view.gui;
 
-import model.accounts.Account;
+import client.Main;
 import server.menus.LoginMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

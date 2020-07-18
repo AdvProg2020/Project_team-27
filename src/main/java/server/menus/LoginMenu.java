@@ -1,6 +1,6 @@
 package server.menus;
 
-import model.Bank.BankAPI;
+import model.bank.BankAPI;
 import model.accounts.Account;
 import model.firms.Firm;
 import model.request.AccountRequest;
@@ -204,8 +204,9 @@ public class LoginMenu {
     public static void processLogout() {
         //   if (login) {
         loginAccount.setOnline("off");
-        loginAccount = null;
         login = false;
+        loginAccount = null;
+
 
         //  CommandProcessor.setMenuStatus(MenuStatus.MAINMENU);
         //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);

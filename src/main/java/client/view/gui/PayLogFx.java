@@ -1,5 +1,7 @@
 package client.view.gui;
 
+import client.Main;
+import client.view.OutputMassageHandler;
 import server.menus.ProductMenu;
 import server.menus.CustomerMenu;
 import server.menus.LoginMenu;

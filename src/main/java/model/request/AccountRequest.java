@@ -2,7 +2,7 @@ package model.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.Bank.BankAPI;
+import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Seller;
 import model.firms.Company;

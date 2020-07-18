@@ -1,5 +1,7 @@
 package client.view.gui;
 
+import client.Main;
+import client.view.OutputMassageHandler;
 import server.menus.LoginMenu;
 import server.menus.RegisterMenu;
 import javafx.event.ActionEvent;

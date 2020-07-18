@@ -1,12 +1,11 @@
 package server.menus;
 
-import model.Bank.BankAPI;
+import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
 import model.log.BuyLog;
-import model.log.DeliveryStatus;
 import model.log.SaleLog;
 import model.off.DiscountCode;
 import model.off.Sale;

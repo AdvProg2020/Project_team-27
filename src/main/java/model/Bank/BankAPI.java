@@ -1,4 +1,4 @@
-package model.Bank;
+package model.bank;
 
 
 import model.accounts.Account;
@@ -56,7 +56,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                   // System.out.println("*+"+inputStream.readUTF());
                     account.setAccountId(inputStream.readUTF());
                     System.out.println("account: "+account.getAccountId());
                     Manager.writeInJ();
@@ -73,7 +73,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                      System.out.println("*+"+inputStream.readUTF());
+                    //  System.out.println("*+"+inputStream.readUTF());
                     //System.out.println("account: "+account.getBankMoney());
                     account.setBankMoney(Integer.parseInt((inputStream.readUTF())));
                     System.out.println("account: "+account.getBankMoney());
@@ -91,7 +91,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                   // System.out.println("*+"+inputStream.readUTF());
                     account.setToken(inputStream.readUTF());
                     Date date = new Date();
                     account.setTokenDate(date.getTime());
@@ -111,7 +111,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                    //System.out.println("*+"+inputStream.readUTF());
                     Transaction.getTransaction(inputStream.readUTF());
                     System.out.println("tran: "+inputStream.readUTF());
                     Manager.writeInJ();
@@ -145,6 +145,7 @@ public class BankAPI {
     public static void SendMessage(String msg) throws IOException {
         try {
             outputStream.writeUTF(msg);
+            outputStream.flush();
         } catch (IOException e) {
             throw new IOException("Exception while sending message:");
         }
@@ -233,20 +234,20 @@ public class BankAPI {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            ConnectToBankServer();
-            StartListeningOnInput();
-            Scanner scanner = new Scanner(inputStream);
-            while (true) {
-                SendMessage(scanner.nextLine());
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-    }
+//    public static void main(String[] args) {
+//        try {
+//            ConnectToBankServer();
+//            StartListeningOnInput();
+//            Scanner scanner = new Scanner(inputStream);
+//            while (true) {
+//                SendMessage(scanner.nextLine());
+//            }
+//        } catch (IOException e) {
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//        }
+//
+//    }
 
 
 }

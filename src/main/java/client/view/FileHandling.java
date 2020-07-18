@@ -35,7 +35,7 @@ public class FileHandling {
         FileWriter writer = new FileWriter(fileName);
         try {
             writer.append(json);
-            System.out.println("Successfully serialized operators!");
+           // System.out.println("Successfully serialized operators!");
         }catch (IOException ex) {
             System.err.format("An IO Exception was occurred: %s%n", ex);
             System.exit(-1);

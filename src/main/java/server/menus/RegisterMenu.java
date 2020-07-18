@@ -1,13 +1,13 @@
 package server.menus;
 
-import model.Bank.BankAPI;
+import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Supporter;
 import model.request.AccountRequest;
 import model.request.Request;
-import client.view.gui.OutputMassageHandler;
+import client.view.OutputMassageHandler;
 import client.view.justConsole.SubMenuStatus;
 
 import java.io.IOException;

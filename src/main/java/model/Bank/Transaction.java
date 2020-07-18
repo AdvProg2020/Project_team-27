@@ -1,4 +1,4 @@
-package model.Bank;
+package model.bank;
 
 import com.google.gson.reflect.TypeToken;
 import client.view.FileHandling;
@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Transaction {
     String id;
-    String sourceAccountI;
+    String sourceAccountID;
     String destAccountID;
     double money;
     String description;
@@ -23,7 +23,7 @@ public class Transaction {
     }.getType();
 
     public Transaction(String sourceAccountI, String destAccountID, double money, String description, String receiptTyp) {
-        this.sourceAccountI = sourceAccountI;
+        this.sourceAccountID = sourceAccountI;
         this.destAccountID = destAccountID;
         this.money = money;
         this.description = description;
@@ -75,12 +75,12 @@ public class Transaction {
         this.receiptType = receiptType;
     }
 
-    public String getSourceAccountI() {
-        return sourceAccountI;
+    public String getSourceAccountID() {
+        return sourceAccountID;
     }
 
-    public void setSourceAccountI(String sourceAccountI) {
-        this.sourceAccountI = sourceAccountI;
+    public void setSourceAccountID(String sourceAccountID) {
+        this.sourceAccountID = sourceAccountID;
     }
 
     public String getDestAccountID() {

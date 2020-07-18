@@ -7,7 +7,9 @@ module Project.team {
     requires  javafx.archetype.simple;
     requires javafx.baseEmpty;
 
+
     opens client.view.gui to javafx.fxml,javafx.controls,javafx.graphics,javafx.base;
+    opens client to javafx.graphics;
     opens model.accounts to javafx.base;
     opens model.off to javafx.base;
     opens model.request to javafx.base;

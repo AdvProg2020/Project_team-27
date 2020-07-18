@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Main;
 import server.menus.ProductMenu;
 import server.menus.LoginMenu;
 import javafx.collections.FXCollections;
