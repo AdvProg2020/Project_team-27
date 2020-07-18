@@ -11,6 +11,7 @@ public class Server {
     private static DataOutputStream dataOutputStream;
     private static Socket clientServer;
     private static Scanner scanner;
+    public static File file;
 
     public static void main(String[] args) {
         run();
@@ -47,5 +48,22 @@ public class Server {
         }catch (IOException e){
             System.err.println("Error handling connection on server side");
         }
+    }
+
+    public static void serverSellFile() throws IOException {
+        ServerSocket serverSocket = new ServerSocket(15123);
+        Socket socket = serverSocket.accept();
+        System.out.println("Accepted connection : " + socket);
+        File transferFile = file;
+        byte[] bytearray = new byte[(int) transferFile.length()];
+        FileInputStream fin = new FileInputStream(transferFile);
+        BufferedInputStream bin = new BufferedInputStream(fin);
+        bin.read(bytearray, 0, bytearray.length);
+        OutputStream os = socket.getOutputStream();
+        System.out.println("Sending Files...");
+        os.write(bytearray, 0, bytearray.length);
+        os.flush();
+        socket.close();
+        System.out.println("File transfer complete");
     }
 }

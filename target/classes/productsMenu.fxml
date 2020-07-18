@@ -287,6 +287,26 @@
                                             </children></AnchorPane>
                                     </content>
                                 </Tab>
+                        <Tab text="All Files">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" height="795.0" layoutY="-6.0" stroke="BLACK" strokeType="INSIDE" width="1659.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-181.0" AnchorPane.topAnchor="-6.0">
+                                       <fill>
+                                          <LinearGradient endX="1.0" endY="1.0" startX="0.20229007224090229">
+                                             <stops>
+                                                <Stop color="#1b7577" />
+                                                <Stop color="#1cb5b7" offset="0.5226027397260273" />
+                                                <Stop color="#c3ffb2" offset="1.0" />
+                                             </stops>
+                                          </LinearGradient>
+                                       </fill>
+                                    </Rectangle>
+                                    <TableView fx:id="filesInProductsMenuTableView" layoutX="196.0" layoutY="103.0" prefHeight="630.0" prefWidth="1060.0" />
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
                             </tabs>
                         </TabPane>
                     </children>

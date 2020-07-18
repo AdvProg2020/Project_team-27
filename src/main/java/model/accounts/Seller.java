@@ -1,6 +1,7 @@
 package model.accounts;
 
 import com.google.gson.reflect.TypeToken;
+import model.fileTransfer.SelectFileChooserExample;
 import model.firms.Firm;
 import model.log.SaleLog;
 import model.off.Auction;
@@ -11,6 +12,7 @@ import model.request.ProductRequest;
 import model.request.SaleRequest;
 import client.view.FileHandling;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -25,6 +27,8 @@ public class Seller extends Account {
     private ArrayList<ProductRequest> allProductRequests = new ArrayList<>();
     private ArrayList<SaleRequest> allSaleRequests = new ArrayList<>();
     private ArrayList<Auction> allAuctions = new ArrayList<>();
+    public static String [] a ;
+    public  ArrayList<File> files = new ArrayList<>();
 
     public static Type SellerType = new TypeToken<ArrayList<Seller>>() {
     }.getType();
@@ -36,6 +40,25 @@ public class Seller extends Account {
         writeInJ();
     }
 
+
+    public void sellFile(){
+        SelectFileChooserExample.setSeller(this);
+        SelectFileChooserExample.main(a);
+
+    }
+
+    public  File getFileWithName(String name){
+        for (File file : files) {
+            if (file.getName().equals(name)){
+                return file;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<File> getFiles() {
+        return files;
+    }
 
     public void addSale(Sale sale) throws IOException {
         allSales.add(sale);

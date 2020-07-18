@@ -31,6 +31,7 @@ public class ProductInMenusShow {
     public static ArrayList<ProductInMenusShow> list = new ArrayList<>();
     public StackPane stackPane = new StackPane();
     public Label inSaleOrFinishLabel = new Label();
+    public Label isFile = new Label();
 
     public ProductInMenusShow(String id) {
         this.id = id;
@@ -162,6 +163,14 @@ public class ProductInMenusShow {
 
     public int getNumberOfViews() {
         return numberOfViews;
+    }
+
+    public Label getIsFile() {
+        return isFile;
+    }
+
+    public void setIsFile(Label isFile) {
+        this.isFile = isFile;
     }
 
     public void setNumberOfViews(int numberOfViews) {

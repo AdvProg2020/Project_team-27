@@ -6,6 +6,7 @@ import model.accounts.Customer;
 import model.firms.Firm;
 import client.view.FileHandling;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class Product {
     String productImageId;
     String productVideoId;
     private String categoryName;
+    private File file;
 
     private ArrayList<Customer> listOfBuyers = new ArrayList<>();
     private static ArrayList<Product> allProduct = new ArrayList<Product>();
@@ -96,6 +98,13 @@ public class Product {
         this.productCategorySpecifications = productCategorySpecifications;
     }
 
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
 
     public boolean isInAuction() {
         return inAuction;
