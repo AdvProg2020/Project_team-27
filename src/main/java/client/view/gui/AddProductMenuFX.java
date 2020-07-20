@@ -130,6 +130,7 @@ public class AddProductMenuFX {
     @FXML
     public void addProduct(MouseEvent actionEvent) throws IOException {
         String ms = null;
+        handleTraits();
         if (imageId != null) {
             if (cat) {
                 if (SellerMenu.getCreate() == 0) {

@@ -146,7 +146,6 @@ public class CustomerMenu {
                 Server.file = p.getFile();
                 try {
                     Server.serverSellFile();
-                    Client.buyingFile();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

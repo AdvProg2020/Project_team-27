@@ -112,9 +112,12 @@ public class SellerMenuFx {
         goToPage();
     }
 
-    public void addFile(MouseEvent mouseEvent) {
+    public void addFile(MouseEvent mouseEvent) throws IOException {
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
+        AddProductMenuFX.setPriRoot(curRoot);
+        root = FXMLLoader.load(Objects.requireNonNull(AddProductMenuFX.class.getClassLoader().getResource("addFileFx.fxml")));
+        goToPage();
     }
-
     public void manageProducts(MouseEvent mouseEvent) throws IOException {
         if (LoginMenu.getLoginAccount() instanceof Seller) {
             Seller seller = (Seller) LoginMenu.getLoginAccount();

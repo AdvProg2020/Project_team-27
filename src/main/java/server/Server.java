@@ -35,7 +35,9 @@ public class Server {
 
     public static void serverSellFile() throws IOException {
         ServerSocket serverSocket = new ServerSocket(15123);
+        Client.buyingFile();
         Socket socket = serverSocket.accept();
+        Client.buyingFile();
         System.out.println("Accepted connection : " + socket);
         File transferFile = file;
         byte[] bytearray = new byte[(int) transferFile.length()];
