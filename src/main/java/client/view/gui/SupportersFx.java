@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import model.accounts.*;
 import serverClient.LoginWindow;
+import serverClient.ServerMain;
 
 import java.io.IOException;
 import java.util.ArrayList;

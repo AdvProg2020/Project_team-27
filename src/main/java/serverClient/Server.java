@@ -41,6 +41,7 @@ public class Server implements Runnable {
         clients = new ArrayList<>();
         run = new Thread(this, "Run Thread");
         run.start();
+
     }
 
     public void run() {
@@ -159,21 +160,16 @@ public class Server implements Runnable {
                     byte[] data = new byte[1024];
                     DatagramPacket packet = new DatagramPacket(data, data.length);
                     packet.setData(data);
-                    System.out.println(packet.getData().toString() + "     ahahahhaha");
-                    System.out.println(packet.getLength() + "      safid;f");
                     try {
                         socket.receive(packet);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                     process(packet);
-                    // clients.add(new ServerClient("Ashmeet",packet.getAddress(),packet.getPort(),50));
-                    //System.out.println(clients.get(0).address.toString()+ " : "+clients.get(0).port);
-                    // System.out.println("Clients Size : "+clients.size());
                     String string = new String(packet.getData());
                     string.substring(3);
                     string = string.split("/e/")[0];
-                    System.out.println("received String " + string);// shows the String that are Recived VIA socket
+                    System.out.println("received String " + string);
                 }
             }
         };

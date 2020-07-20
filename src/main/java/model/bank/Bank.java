@@ -3,6 +3,7 @@ package model.bank;
 import client.view.FileHandling;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import serverClient.ServerMain;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -18,6 +19,7 @@ public class Bank {
     }.getType();
     public static void main(String[] args) throws IOException {
         gson();
+        ServerMain.startServer(4293);
         new Bank.BankImp().run();
     }
 
@@ -71,7 +73,7 @@ public class Bank {
                     // System.out.println("client accept");
                     dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
                     dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-                    new handleClient(socket, dataInputStream, dataOutputStream, bankServer, socket, this).start();
+                    new handleClient(socket, dataInputStream, dataOutputStream, bankServer, this).start();
                 } catch (Exception e) {
                     System.out.println("error accepting");
                 }
@@ -122,7 +124,7 @@ public class Bank {
                         if (money.matches("\\d+")) {
                             if (source!= Integer.parseInt(dest)) {
                                 if (source == -1 || BankAccount.isThereAccountWithSource(String.valueOf(source))) {
-                                    if (source== -1 ||BankAccount.isThereAccountWithSource(dest)) {
+                                    if (Integer.parseInt(dest)== -1 ||BankAccount.isThereAccountWithSource(dest)) {
                                         if (!(type.equals("move") && (source==(-1) && dest.equals(-1)))) {
                                             Date date = new Date();
                                             if (BankAccount.getAccountWithToken(token).getTokenDate() - date.getTime() < 3600000) {
@@ -230,7 +232,7 @@ public class Bank {
                 Transaction transaction = Transaction.getAccountWithid(id);
                 if (!transaction.isPaid()) {
                     payReceipt(transaction);
-                } else output = "”receipt is paid before";
+                } else output = "receipt is paid before";
             } else output = "invalid receipt id";
         }
 
@@ -241,8 +243,12 @@ public class Bank {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
+                    System.out.println("credit1: "+ account1.getMoney());
+                    System.out.println("credit2: "+ account2.getMoney());
                     account1.setMoney(account1.getMoney() - money);
                     account2.setMoney(account2.getMoney() + money);
+                    System.out.println("credit1: "+ account1.getMoney());
+                    System.out.println("credit2: "+ account2.getMoney());
                     transaction.setPaid(true);
                     // DataBase.updatePay();
                     output = "done successfully";
@@ -250,7 +256,9 @@ public class Bank {
             } else if (type.equalsIgnoreCase("deposit")) {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
-                account2.setMoney(account2.getMoney() + money);
+                System.out.println("credit2: "+ account2.getMoney());
+                account2.setMoney(account2.getMoney() - money);
+                System.out.println("credit2: "+ account2.getMoney());
                 transaction.setPaid(true);
                 // DataBase.updatePay();
                 output = "done successfully";
@@ -258,12 +266,15 @@ public class Bank {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
-                    account1.setMoney((int) (account1.getMoney() - money));
+                    System.out.println("credit1: "+ account1.getMoney());
+                    account1.setMoney((int) (account1.getMoney() +money));
+                    System.out.println("credit1: "+ account1.getMoney());
                     transaction.setPaid(true);
                     // DataBase.updatePay();
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             }
+            BankAccount.writeInJ();
             Transaction.writeInJ();
             handleOutput();
         }
@@ -312,7 +323,7 @@ public class Bank {
         private static Bank.BankImp bankImp;
 
 
-        public handleClient(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ServerSocket serverSocket, Socket socket, Bank.BankImp bankImp) {
+        public handleClient(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ServerSocket serverSocket, Bank.BankImp bankImp) {
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
             this.serverSocket = serverSocket;
@@ -356,6 +367,7 @@ public class Bank {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    bankImp.finish();
                 }
                 //  }
 

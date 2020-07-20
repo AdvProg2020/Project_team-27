@@ -23,6 +23,7 @@ import model.productRelated.Comment;
 import model.productRelated.Product;
 import model.request.*;
 import client.view.FileHandling;
+import serverClient.ServerMain;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -45,19 +46,6 @@ public static class Client extends Thread{
     private static DataOutputStream dataOutputStream;
     private static DataInputStream dataInputStream;
     private static Socket clientSocket;
-
-
-    @Override
-    public void run() {
-        try {
-            clientSocket = new Socket("127.0.0.1", 8888);
-            System.out.println("Successfully connected to server!");
-            dataInputStream = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
-            dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientSocket.getOutputStream()));
-        } catch (IOException e) {
-            System.err.println("Error client connecting on client side");
-        }
-    }
 
     public static void buyingFile() throws IOException {
         int filesize = 1022386;
