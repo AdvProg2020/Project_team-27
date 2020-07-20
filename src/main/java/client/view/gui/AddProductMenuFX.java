@@ -2,6 +2,10 @@ package client.view.gui;
 
 import client.Main;
 import client.view.OutputMassageHandler;
+import javafx.event.EventHandler;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import model.fileTransfer.SelectFileChooserExample;
 import server.menus.LoginMenu;
 import server.menus.SellerMenu;
 import javafx.collections.FXCollections;
@@ -41,44 +45,23 @@ import java.util.Objects;
 
 public class AddProductMenuFX {
 
-    public Button addToCardButton;
-    public AnchorPane productMenuPane;
-    public AnchorPane topSplitPane;
-    public TextArea productImageRectangle;
-    public TextArea productProperties;
-    public Tab specificationsTab;
-    public Rectangle specificationPane;
-    public TextArea specificatonTextbox;
-    public AnchorPane commentsPane;
-    public Tab averageScoreTab;
-    public AnchorPane averageScorePane;
-    public Label productFinishedError;
-    public Tab commentTab;
     public MenuItem account;
     public MenuItem back;
     public MenuItem logout;
     public MenuItem exit;
-    public MenuItem deleteProduct;
-    public MenuItem editProduct;
-    public TextArea commentTitleField;
-    public TextArea commnetContentField;
-    public Button addCommentButton;
-    public Button addScoreButton;
+    public File selectedFile;
 
-    private static int outputNo = 0;
-    private static Product selectedProduct;
     public ImageView productImage;
-    public TextField priceTextField;
-    public TextField productNameTextField;
-    public Button addProductButton;
+    public TextField priceTextField = new TextField();
+    public TextField productNameTextField = new TextField();
+    public Button addProductButton = new Button();
     public Label error;
     public static Scene prevScene;
-    public static Stage thisStage;
-    public TextField categoryNameTextField;
-    public TextField sellerNameTextField;
-    public TextField idTextField;
-    public TextField numberOfProductTextField;
-    public TextArea additionaldetailTextField;
+    public static Stage thisStage = new Stage();
+    public TextField categoryNameTextField = new TextField();
+    public TextField idTextField = new TextField();
+    public TextField numberOfProductTextField = new TextField();
+    public TextArea additionaldetailTextField = new TextArea();
     public boolean finish = false;
     @FXML
     public TableView<Category> categoryTableView = new TableView<>();
@@ -94,12 +77,15 @@ public class AddProductMenuFX {
     public AnchorPane pane;
     public ArrayList<TextField> traitsTextFields = new ArrayList<>();
     public ArrayList<String> traits = new ArrayList<>();
-//    public javafx.scene.media.MediaView MediaView;
+    public Text actionStatus = new Text();
+    public Button addFileButton = new Button();
+    //    public javafx.scene.media.MediaView MediaView;
     String imageId;
     String videoId;
     List<File> files;
     Category productCategory;
     ArrayList<String> traitText = new ArrayList<>();
+    public boolean isFile = false;
     private static Parent priRoot;
     private static Parent root;
     private static boolean cat = false;
@@ -154,6 +140,7 @@ public class AddProductMenuFX {
                     if (SellerMenu.getDetailMenu() == 1) {
                         ms = OutputMassageHandler.showSellerOutput(SellerMenu.addProduct(productNameTextField.getText(), 1, null));
                         Product.getProductById(idTextField.getText()).setProductVideoId(videoId);
+                        Product.getProductById(idTextField.getText()).setFile(selectedFile);
                         Seller.writeInJ();
                     }
                     if (SellerMenu.getDetailMenu() == 2) {
@@ -169,8 +156,12 @@ public class AddProductMenuFX {
                         Seller.writeInJ();
                     }
                     if (SellerMenu.getDetailMenu() == 5) {
-                        ms = OutputMassageHandler.showSellerOutput(SellerMenu.addProduct(numberOfProductTextField.getText(), 5, null));
-
+                        if (!isFile){
+                            ms = OutputMassageHandler.showSellerOutput(SellerMenu.addProduct(numberOfProductTextField.getText(), 5, null));
+                        }
+                        else {
+                            ms = OutputMassageHandler.showSellerOutput(SellerMenu.addProduct("1", 5, null));
+                        }
                         // addImageView();
                         //  addCategoryTrait();
                         Seller.writeInJ();
@@ -185,6 +176,7 @@ public class AddProductMenuFX {
                         // }else ms ="fill all field";
                         //} else ms = "process add finished you should edit";
                         finish = true;
+                        Seller.writeInJ();
                     }
                 }
             } else ms = "add trait button";
@@ -429,8 +421,8 @@ public class AddProductMenuFX {
     }
     public void handleDropMedia(DragEvent dragEvent) throws FileNotFoundException {
 //        files = dragEvent.getDragboard().getFiles();
- //       videoId = files.get(0).getPath();
- //       File file = new File(videoId);
+        //       videoId = files.get(0).getPath();
+        //       File file = new File(videoId);
 //        Media media = new Media(file.toURI().toString());
 //        MediaPlayer mediaPlayer = new MediaPlayer(media);
 //        mediaPlayer.setAutoPlay(true);
@@ -464,5 +456,38 @@ public class AddProductMenuFX {
         goToPage();
     }
 
+
+    public void addFile(MouseEvent mouseEvent) {
+        SingleFcButtonListener singleFcButtonListener = new SingleFcButtonListener();
+        singleFcButtonListener.handle(mouseEvent);
+    }
+
+    private class SingleFcButtonListener implements EventHandler<MouseEvent> {
+
+        @Override
+        public void handle(MouseEvent mouseEvent) {
+            showSingleFileChooser();
+        }
+    }
+
+    public static void setSeller(Seller seller) {
+        SelectFileChooserExample.seller = seller;
+    }
+
+    private void showSingleFileChooser() {
+
+        FileChooser fileChooser = new FileChooser();
+        selectedFile = fileChooser.showOpenDialog(null);
+        Seller seller = (Seller) LoginMenu.getLoginAccount();
+        seller.getFiles().add(selectedFile);
+        isFile = true;
+        if (selectedFile != null) {
+
+            actionStatus.setText("File selected: " + selectedFile.getName());
+        }
+        else {
+            actionStatus.setText("File selection cancelled.");
+        }
+    }
 
 }

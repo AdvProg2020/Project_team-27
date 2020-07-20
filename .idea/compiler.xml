@@ -15,6 +15,7 @@
     <bytecodeTargetLevel target="11">
       <module name="backUp3" target="11" />
       <module name="Project_team" target="11" />
+      <module name="Project_team-27" target="11" />
       <module name="Project_team-m" target="11" />
     </bytecodeTargetLevel>
   </component>

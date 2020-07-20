@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
-
+import client.Main.*;
 public class Server {
     private static ServerSocket serverSocket;
     private static DataInputStream dataInputStream;

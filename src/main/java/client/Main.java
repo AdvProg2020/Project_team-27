@@ -40,7 +40,7 @@ public class Main extends Application {
     public static String[] a;
     Parent root;
 
-static class Client extends Thread{
+public static class Client extends Thread{
     private static Scanner scanner;
     private static DataOutputStream dataOutputStream;
     private static DataInputStream dataInputStream;
@@ -59,6 +59,27 @@ static class Client extends Thread{
         }
     }
 
+    public static void buyingFile() throws IOException {
+        int filesize = 1022386;
+        int bytesRead;
+        int currentTot = 0;
+        Socket socket = new Socket("127.0.0.1", 15123);
+        byte[] bytearray = new byte[filesize];
+        InputStream is = socket.getInputStream();
+        FileOutputStream fos = new FileOutputStream("copy2.pdf");
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        bytesRead = is.read(bytearray, 0, bytearray.length);
+        currentTot = bytesRead;
+        do {
+            bytesRead = is.read(bytearray, currentTot, (bytearray.length - currentTot));
+            if (bytesRead >= 0) currentTot += bytesRead;
+        } while (bytesRead > -1);
+        bos.write(bytearray, 0, currentTot);
+        bos.flush();
+        bos.close();
+        System.out.println("file received");
+        socket.close();
+    }
 
 }
     @Override
