@@ -1,5 +1,7 @@
 package server;
 
+import model.bank.Bank;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -26,6 +28,7 @@ public class Server {
                 System.out.println("client connected");
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientServer.getOutputStream()));
                 dataInputStream = new DataInputStream(new BufferedInputStream(clientServer.getInputStream()));
+                new handleMarket(clientServer,dataInputStream,dataOutputStream).start();
             }
         } catch (IOException e) {
             System.err.println("Error newing server");
@@ -48,5 +51,25 @@ public class Server {
         os.flush();
         socket.close();
         System.out.println("File transfer complete");
+    }
+
+    static class handleMarket extends Thread{
+        private static DataInputStream dataInputStream;
+        private static DataOutputStream dataOutputStream;
+        private static Socket clientServer;
+        private static String output;
+        private static Server server;
+
+        public handleMarket(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream) {
+            this.dataInputStream = dataInputStream;
+            this.dataOutputStream = dataOutputStream;
+            this.clientServer = clientServer;
+        }
+
+        @Override
+        public void run() {
+
+        }
+
     }
 }

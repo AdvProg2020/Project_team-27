@@ -1,6 +1,7 @@
 package client.view.gui;
 
 import client.Main;
+
 import model.bank.BankAPI;
 import server.menus.ProductMenu;
 import server.menus.LoginMenu;
@@ -77,14 +78,16 @@ public class CustomerMenuFx {
     public void exchange(MouseEvent mouseEvent) throws IOException {
         Account account = LoginMenu.getLoginAccount();
         Date date = new Date();
-      //  BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
+        //  BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
         if (account.getTokenDate() - date.getTime() >= 3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-            BankAPI.startGetBa("get_balance " + account.getToken() , account);
-            Exchange.setCustomer(true);
-            root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
-            goToPage();
+        BankAPI.startGetBa("get_balance " + account.getToken() , account);
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
+        Exchange.setCustomer(true);
+        Exchange.setPriRoot(curRoot);
+        root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
+        goToPage();
     }
 
     public void auctions(MouseEvent mouseEvent) throws IOException {
@@ -144,11 +147,17 @@ public class CustomerMenuFx {
 
 
     public void transactions(MouseEvent mouseEvent) throws IOException {
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
         Account account = LoginMenu.getLoginAccount();
         Date date = new Date();
-        if (account.getTokenDate() - date.getTime() < 3600000) {
-            BankAPI.startGetTra("get_transactions " + account.getToken() + " " + "*");
+        if (account.getTokenDate() - date.getTime() >=3600000) {
+            BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
+        BankAPI.startGetTra("get_transactions " + account.getToken() + " " + "*");
+        TransactionsFx.setPriRoot(curRoot);
+        root = FXMLLoader.load(Objects.requireNonNull(TransactionsFx.class.getClassLoader().getResource("transactionsFx.fxml")));
+        goToPage();
+
     }
 
     private static void goToPage() {

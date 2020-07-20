@@ -299,11 +299,12 @@ public class LoginWindow implements Runnable {
                     auction.setMoney(highPrice);
                     label.setLayoutY(50);
                     label.setLayoutX(10);
+                    Seller.writeInJ();
                 }
                 else {
                     label.setText("Highest offer till now : " + highPrice);
                 }
-            }catch (NumberFormatException e){
+            }catch (NumberFormatException | IOException e){
                 System.out.println("not num");
             }
         }

@@ -465,4 +465,6 @@ public class AddProductMenuFX {
     }
 
 
+    public void addFile(MouseEvent mouseEvent) {
+    }
 }

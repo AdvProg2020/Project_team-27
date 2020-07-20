@@ -62,7 +62,7 @@ public class Exchange {
 
     @FXML
     public void initialize() throws IOException {
-        if (!customer) {
+        if (customer) {
             withdraw.setDisable(true);
             withdraw.setVisible(false);
         }

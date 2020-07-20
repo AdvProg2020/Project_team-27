@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
+import model.log.BuyLog;
 import model.off.Auction;
 import model.productRelated.Product;
 import server.menus.LoginMenu;
@@ -28,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class AuctionsFx {
 
@@ -174,7 +176,7 @@ public class AuctionsFx {
     private static void removeAuction() throws IOException {
         for (Auction allAuction : Auction.getAllAuctions()) {
             LocalDate localDate = LocalDate.now();
-            if(allAuction.getEndOfPeriod().isAfter(localDate)){
+            if(allAuction.getEndOfPeriod().isBefore(localDate)){
                 finishingAuction(allAuction);
                 Auction.getAllAuctions().remove(allAuction);
             }
@@ -182,12 +184,16 @@ public class AuctionsFx {
     }
 
     private static void finishingAuction(Auction auction) throws IOException {
-        //  String uniqueID = UUID.randomUUID().toString();
-        //  BuyLog buyLog = new BuyLog(uniqueID);
-        //  buyLog.setCustomer(auction.getCustomer());
-        //  buyLog.addProductToBuyLog(auction.getProduct(), 1);
-        Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
-        Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
+        if(auction.getCustomer() != null) {
+            if(auction.getMoney() != 0) {
+                  String uniqueID = UUID.randomUUID().toString();
+                  BuyLog buyLog = new BuyLog(uniqueID);
+                  buyLog.setCustomer(auction.getCustomer());
+                  buyLog.addProductToBuyLog(auction.getProduct(), 1);
+                Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
+                Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
+            }
+        }
     }
 
 

@@ -1,4 +1,4 @@
-module Project.team {
+module Project.team.m {
 
     requires javafx.controls;
     requires  javafx.fxml;
@@ -17,5 +17,6 @@ module Project.team {
     opens model.log to javafx.base;
     opens server.menus to java.base;
     opens serverClient to javafx.graphics;
+    opens model.bank to javafx.base;
 
 }
