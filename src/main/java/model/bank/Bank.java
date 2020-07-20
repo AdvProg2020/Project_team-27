@@ -18,7 +18,7 @@ public class Bank {
     }.getType();
     public static void main(String[] args) throws IOException {
         gson();
-        new Bank.BankImp().run();
+        new Bank.BankImp();
     }
 
     private static void gson() throws IOException {
@@ -61,40 +61,11 @@ public class Bank {
         private static DataInputStream dataInputStream;
         private static DataOutputStream dataOutputStream;
 
-        public void run() throws IOException {
-            ServerSocket bankServer = new ServerSocket(9595);
-            System.out.println("connect to bank");
-            while (true) {
-                try {
-                    // System.out.println("client...");
-                    Socket socket = bankServer.accept();
-                    // System.out.println("client accept");
-                    dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-                    dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-                    new handleClient(socket, dataInputStream, dataOutputStream, bankServer, socket, this).start();
-                } catch (Exception e) {
-                    System.out.println("error accepting");
-                }
-            }
-        }
+
 
 
         void token(String[] inputs) throws IOException {
-            String username = inputs[1];
-            if (BankAccount.isThereAccountWithUsername(username)) {
-                if (BankAccount.isThereAccountWithUsernameAndPassword(username, inputs[2])) {
-                    BankAccount bankAccount = BankAccount.getAccountWithUsername(username);
-                    String uniqueID = UUID.randomUUID().toString();
-                    bankAccount.setToken(uniqueID);
-                    Date date = new Date();
-                    bankAccount.setTokenDate(date.getTime());
-                    BankAccount.writeInJ();
-                    //  DataBase.insertToken(bankAccount);
-                    output = bankAccount.getToken();
-                    System.out.println(output);
-                } else output = "invalid username or password";
-            } else output = "invalid username or password";
-            handleOutput();
+
         }
 
         void account(String[] inputs) throws IOException {
