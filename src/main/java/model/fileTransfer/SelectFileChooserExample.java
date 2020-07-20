@@ -1,7 +1,7 @@
 package model.fileTransfer;
 //package sample;
 
-import client.view.gui.Main;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

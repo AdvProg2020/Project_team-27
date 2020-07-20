@@ -21,34 +21,17 @@ public class Server {
         try {
             serverSocket = new ServerSocket(8888);
             System.out.println("Waiting for client");
-            waitForClient();
+            while (true) {
+                clientServer = serverSocket.accept();
+                System.out.println("client connected");
+                dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientServer.getOutputStream()));
+                dataInputStream = new DataInputStream(new BufferedInputStream(clientServer.getInputStream()));
+            }
         } catch (IOException e) {
             System.err.println("Error newing server");
         }
     }
 
-    private static void waitForClient() {
-        try {
-            clientServer = serverSocket.accept();
-            System.out.println("client connected");
-            handleConnection();
-        } catch (IOException e) {
-            System.err.println("Error client to be connected on server side");
-        }
-    }
-
-
-    private static void handleConnection() {
-        try {
-
-            dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientServer.getOutputStream()));
-            dataInputStream = new DataInputStream(new BufferedInputStream(clientServer.getInputStream()));
-            Scanner scanner = new Scanner(System.in);
-            String input = "";
-        }catch (IOException e){
-            System.err.println("Error handling connection on server side");
-        }
-    }
 
     public static void serverSellFile() throws IOException {
         ServerSocket serverSocket = new ServerSocket(15123);

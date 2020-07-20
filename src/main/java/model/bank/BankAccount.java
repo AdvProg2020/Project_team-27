@@ -14,7 +14,7 @@ public class BankAccount {
     String name = null;
     String lastname = null;
     String password = null;
-    double money = 500;
+    int money = 500;
     String token;
     long tokenDate;
     static ArrayList<BankAccount> allBankAccount = new ArrayList();
@@ -27,7 +27,7 @@ public class BankAccount {
         this.lastname = lastname;
         this.password = password;
         Random rand = new Random();
-        id =  String.valueOf(rand.nextInt(1000));
+        id =  String.valueOf(rand.nextInt(10000));
         allBankAccount.add(this);
         writeInJ();
     }
@@ -47,7 +47,9 @@ public class BankAccount {
 
     public static boolean isThereAccountWithToken(String username) {
         for (BankAccount account : allBankAccount) {
-            if (account.token.equalsIgnoreCase(username)) return true;
+            if(account.token != null) {
+                if (account.token.equalsIgnoreCase(username)) return true;
+            }
         }
         return false;
     }
@@ -73,7 +75,9 @@ public class BankAccount {
 
     public static BankAccount getAccountWithToken(String username) {
         for (BankAccount account : allBankAccount) {
-            if (account.token.equalsIgnoreCase(username)) return account;
+            if(account.token != null) {
+                if (account.token.equalsIgnoreCase(username)) return account;
+            }
         }
         return null;
     }
@@ -98,8 +102,9 @@ public class BankAccount {
         return tokenDate;
     }
 
-    public void setTokenDate(long tokenDate) {
+    public void setTokenDate(long tokenDate) throws IOException {
         this.tokenDate = tokenDate;
+        writeInJ();
     }
 
     public String getName() {
@@ -126,11 +131,11 @@ public class BankAccount {
         this.password = password;
     }
 
-    public double getMoney() {
+    public int getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public void setMoney(int money) {
         this.money = money;
     }
 
@@ -138,8 +143,9 @@ public class BankAccount {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(String token) throws IOException {
         this.token = token;
+        writeInJ();
 
     }
 
@@ -152,5 +158,9 @@ public class BankAccount {
         String json = FileHandling.getGson().toJson(BankAccount.allBankAccount, bankAccountType);
         FileHandling.writeInFile(json, "bankAccount.json");
 
+    }
+
+    public static ArrayList<BankAccount> getAllBankAccount() {
+        return allBankAccount;
     }
 }

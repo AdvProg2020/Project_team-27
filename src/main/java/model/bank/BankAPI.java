@@ -27,7 +27,7 @@ public class BankAPI {
     public static void ConnectToBankServer() throws IOException {
         try {
             //  if(first) {
-            socket = new Socket(IP, PORT);
+            socket = new Socket("localhost", PORT);
             //     first = false;
             // }
             outputStream = new DataOutputStream(socket.getOutputStream());
@@ -43,7 +43,7 @@ public class BankAPI {
             while (true) {
                 try {
                     input = inputStream.readUTF();
-                    System.out.println(inputStream.readUTF());
+                    System.out.println(input);
                 } catch (IOException e) {
                     System.out.println("disconnected");
                     System.exit(0);
@@ -56,7 +56,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                   // System.out.println("*+"+inputStream.readUTF());
+                    // System.out.println("*+"+inputStream.readUTF());
                     account.setAccountId(inputStream.readUTF());
                     System.out.println("account: "+account.getAccountId());
                     Manager.writeInJ();
@@ -75,7 +75,7 @@ public class BankAPI {
                 try {
                     //  System.out.println("*+"+inputStream.readUTF());
                     //System.out.println("account: "+account.getBankMoney());
-                    account.setBankMoney(Integer.parseInt((inputStream.readUTF())));
+                    account.setBankMoney(Integer.parseInt(inputStream.readUTF()));
                     System.out.println("account: "+account.getBankMoney());
                     Manager.writeInJ();
                     Seller.writeInJ();
@@ -91,7 +91,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                   // System.out.println("*+"+inputStream.readUTF());
+                    // System.out.println("*+"+inputStream.readUTF());
                     account.setToken(inputStream.readUTF());
                     Date date = new Date();
                     account.setTokenDate(date.getTime());
@@ -113,7 +113,9 @@ public class BankAPI {
                 try {
                     //System.out.println("*+"+inputStream.readUTF());
                     Transaction.getTransaction(inputStream.readUTF());
-                    System.out.println("tran: "+inputStream.readUTF());
+                    for (Transaction allTransaction : Transaction.getAllTransactions()) {
+                        System.out.println(allTransaction.getId());
+                    }
                     Manager.writeInJ();
                     Seller.writeInJ();
                     Customer.writeInJ();
@@ -128,7 +130,7 @@ public class BankAPI {
         new Thread(() -> {
             while (true) {
                 try {
-                    System.out.println("*+"+inputStream.readUTF());
+                    // System.out.println("*+"+inputStream.readUTF());
                     account.getTransactions().add(inputStream.readUTF());
                     System.out.println("tran: "+account.getTransactions().get(account.getTransactions().size()-1));
                     Manager.writeInJ();
@@ -209,7 +211,7 @@ public class BankAPI {
     public static void startLogin(String start, Account account) throws IOException {
         try {
             ConnectToBankServer();
-           // System.out.println(inputStream.readUTF());
+            // System.out.println(inputStream.readUTF());
             StartListeningOnInputLo(account);
             // Scanner scanner = new Scanner(System.in);
             //while (true) {

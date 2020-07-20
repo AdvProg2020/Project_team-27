@@ -1,15 +1,59 @@
 package model.bank;
 
+import client.view.FileHandling;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 public class Bank {
 
+    public static Type transactionType = new TypeToken<ArrayList<Transaction>>() {
+    }.getType();
     public static void main(String[] args) throws IOException {
-        new Bank.BankImp();
+        gson();
+        new Bank.BankImp().run();
+    }
+
+    private static void gson() throws IOException {
+        Type bankType = new TypeToken<ArrayList<BankAccount>>() {
+        }.getType();
+        try {
+            JsonReader reader99 = new JsonReader(new FileReader("bankAccount.json"));
+            ArrayList<BankAccount> bankAccountArrayList = FileHandling.getGson().fromJson(reader99, bankType);
+            if (null == bankAccountArrayList) {
+                bankAccountArrayList = new ArrayList<>();
+            }
+            BankAccount.setAllBankAccount(bankAccountArrayList);
+            for (BankAccount bankAccount : BankAccount.getAllBankAccount()) {
+                // System.out.println(bankAccount);
+            }
+
+        } catch (IOException e) {
+            FileHandling.writeInFile("", "bankAccount.json");
+            BankAccount.setAllBankAccount(new ArrayList<>());
+        }
+
+
+        Type transactionType = new TypeToken<ArrayList<Transaction>>() {
+        }.getType();
+        try {
+            JsonReader reader100 = new JsonReader(new FileReader("transaction.json"));
+            ArrayList<Transaction> transactionArrayList = FileHandling.getGson().fromJson(reader100, transactionType);
+            if (null == transactionArrayList) {
+                transactionArrayList = new ArrayList<>();
+            }
+            Transaction.setAllTransactions(transactionArrayList);
+        } catch (IOException e) {
+            FileHandling.writeInFile("", "transaction.json");
+            Transaction.setAllTransactions(new ArrayList<>());
+        }
     }
 
     static class BankImp {
@@ -17,7 +61,22 @@ public class Bank {
         private static DataInputStream dataInputStream;
         private static DataOutputStream dataOutputStream;
 
-
+        public void run() throws IOException {
+            ServerSocket bankServer = new ServerSocket(9595);
+            System.out.println("connect to bank");
+            while (true) {
+                try {
+                    // System.out.println("client...");
+                    Socket socket = bankServer.accept();
+                    // System.out.println("client accept");
+                    dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+                    dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                    new handleClient(socket, dataInputStream, dataOutputStream, bankServer, socket, this).start();
+                } catch (Exception e) {
+                    System.out.println("error accepting");
+                }
+            }
+        }
 
 
         void token(String[] inputs) throws IOException {
@@ -50,31 +109,37 @@ public class Bank {
             handleOutput();
         }
 
-        void receipt(String input) {
+        void receipt(String input) throws IOException {
             String[] inputs = input.split("\\s+");
             String token = inputs[1];
             String type = inputs[2];
             String money = inputs[3];
-            String source = inputs[4];
+            int source = Integer.parseInt(inputs[4]);
             String dest = inputs[5];
             if (!input.contains("*")) {
-                if (!(inputs.length == 7 || inputs.length == 6)) {
+                if ((inputs.length == 7 || inputs.length == 6)) {
                     if (type.matches("(?i)(?:deposit|withdraw|move)")) {
                         if (money.matches("\\d+")) {
-                            if (source.equals(dest)) {
-                                if (BankAccount.isThereAccountWithSource(source)) {
-                                    if (BankAccount.isThereAccountWithSource(dest)) {
-                                        if (type.equals("move") && (source.equals(-1) || dest.equals(-1))) {
+                            if (source!= Integer.parseInt(dest)) {
+                                if (source == -1 || BankAccount.isThereAccountWithSource(String.valueOf(source))) {
+                                    if (source== -1 ||BankAccount.isThereAccountWithSource(dest)) {
+                                        if (!(type.equals("move") && (source==(-1) && dest.equals(-1)))) {
                                             Date date = new Date();
-                                            if (BankAccount.getAccountWithid(token).getTokenDate() - date.getTime() < 3600000) {
-                                                if (!source.equals(-1)) {
-                                                    if (BankAccount.getAccountWithid(source).getToken().equals(token)) {
-                                                        Transaction transaction = new Transaction(source, dest, Long.parseLong(money), inputs[6], type);
+                                            if (BankAccount.getAccountWithToken(token).getTokenDate() - date.getTime() < 3600000) {
+                                                if (source!=(-1)) {
+                                                    if (BankAccount.getAccountWithid(String.valueOf(source)).getToken().equals(token)) {
+                                                        Transaction transaction = new Transaction(String.valueOf(source), dest, Integer.parseInt(money), type);
+                                                        if(inputs.length == 7){
+                                                            transaction.setDescription(inputs[6]);
+                                                        }
                                                         // DataBase.insertTransaction(transaction);
                                                         output = transaction.getId();
                                                     } else output = "token expired";
                                                 } else {
-                                                    Transaction transaction = new Transaction(source, dest, Long.parseLong(money), inputs[6], type);
+                                                    Transaction transaction = new Transaction(String.valueOf(source), dest, Integer.parseInt(money), type);
+                                                    if(inputs.length == 7){
+                                                        transaction.setDescription(inputs[6]);
+                                                    }
                                                     // DataBase.insertTransaction(transaction);
                                                     output = transaction.getId();
                                                 }
@@ -95,8 +160,8 @@ public class Bank {
             String token = inputs[1];
             String type = inputs[2];
             Date date = new Date();
-            if (Transaction.isThereAccountWithId(token)) {
-                if (BankAccount.getAccountWithid(token).getTokenDate() - date.getTime() < 3600000) {
+            if (BankAccount.isThereAccountWithToken(token)) {
+                if (BankAccount.getAccountWithToken(token).getTokenDate() - date.getTime() < 3600000) {
                     checkType(type);
                 } else output = "token expired";
             } else output = "token is invalid";
@@ -104,19 +169,62 @@ public class Bank {
         }
 
         void checkType(String type) {
+            String starJson = "";
             if (type.equals("-")) {
-
+                starJson =  makeJsonWithStar(separateTransactionWithNegative());
             } else if (type.equals("*")) {
-
+                starJson =  makeJsonWithStar(Transaction.getAllTransactions());
             } else if (type.equals("+")) {
-
+                starJson = makeJsonWithStar(separateTransactionWithPlus());
             } else if (Transaction.isThereAccountWithId(type)) {
-
+                starJson = makeObjJson(getTransactionWithId(type));
             } else output = "invalid receipt id";
+            output = starJson;
             handleOutput();
         }
 
-        void pay(String[] inputs) {
+        public ArrayList<Transaction> separateTransactionWithPlus(){
+            ArrayList<Transaction> list = new ArrayList<>();
+            for (Transaction transaction : Transaction.getAllTransactions()) {
+                if (transaction.getSourceAccountID().equals("-1")){
+                    list.add(transaction);
+                }
+            }
+            return null;
+        }
+
+        public ArrayList<Transaction> separateTransactionWithNegative(){
+            ArrayList<Transaction> list = new ArrayList<>();
+            for (Transaction transaction : Transaction.getAllTransactions()) {
+                if (transaction.getDestAccountID().equals("-1")){
+                    list.add(transaction);
+                }
+            }
+            return null;
+        }
+
+        public Transaction getTransactionWithId(String type){
+            for (Transaction transaction : Transaction.getAllTransactions()) {
+                if (transaction.getId().equals(type)){
+                    return transaction;
+                }
+            }
+            return null;
+        }
+
+        public String  makeJsonWithStar(ArrayList<Transaction> list){
+            String json = FileHandling.getGson().toJson(list, transactionType);
+            json.replaceAll("},\\{","}\\*\\{");
+            return json;
+        }
+
+        public String makeObjJson(Transaction transaction){
+            String json = FileHandling.getGson().toJson(transaction, Transaction.class);
+            return json;
+        }
+
+
+        void pay(String[] inputs) throws IOException {
             String id = inputs[1];
             if (Transaction.isThereAccountWithId(id)) {
                 Transaction transaction = Transaction.getAccountWithid(id);
@@ -126,12 +234,12 @@ public class Bank {
             } else output = "invalid receipt id";
         }
 
-        void payReceipt(Transaction transaction) {
+        void payReceipt(Transaction transaction) throws IOException {
             String type = transaction.getReceiptType();
             if (type.equalsIgnoreCase("move")) {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
-                double money = transaction.getMoney();
+                int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
                     account1.setMoney(account1.getMoney() - money);
                     account2.setMoney(account2.getMoney() + money);
@@ -139,23 +247,24 @@ public class Bank {
                     // DataBase.updatePay();
                     output = "done successfully";
                 } else output = "source account does not have enough money";
-            } else if (type.equalsIgnoreCase("”deposit")) {
+            } else if (type.equalsIgnoreCase("deposit")) {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
-                double money = transaction.getMoney();
+                int money = (int) transaction.getMoney();
                 account2.setMoney(account2.getMoney() + money);
                 transaction.setPaid(true);
                 // DataBase.updatePay();
                 output = "done successfully";
             } else if (type.equalsIgnoreCase("withdraw")) {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
-                double money = transaction.getMoney();
+                int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
-                    account1.setMoney(account1.getMoney() - money);
+                    account1.setMoney((int) (account1.getMoney() - money));
                     transaction.setPaid(true);
                     // DataBase.updatePay();
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             }
+            Transaction.writeInJ();
             handleOutput();
         }
 
@@ -163,7 +272,8 @@ public class Bank {
             String token = inputs[1];
             Date date = new Date();
             if (BankAccount.isThereAccountWithToken(token)) {
-                if (BankAccount.getAccountWithid(token).getTokenDate() - date.getTime() < 3600000) {
+                BankAccount bankAccount = BankAccount.getAccountWithToken(token);
+                if (bankAccount.getTokenDate() - date.getTime() < 3600000) {
                     output = String.valueOf(BankAccount.getAccountWithToken(token).getMoney());
                 } else output = "”token is invalid";
             } else output = "token expired";
@@ -215,7 +325,7 @@ public class Bank {
             String input = null;
             // Scanner scanner = null;
             // outer:
-
+            while (true) {
                 try {
                     // scanner = new Scanner(dataInputStream.readUTF());
                     input = dataInputStream.readUTF();
@@ -242,14 +352,14 @@ public class Bank {
                     } else if (input.startsWith("exit")) {
                         output = "bye";
                         bankImp.handleOutput();
-                      //  break;
+                        break;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 //  }
 
-
+            }
         }
     }
 

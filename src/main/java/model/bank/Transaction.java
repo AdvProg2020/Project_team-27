@@ -6,13 +6,13 @@ import client.view.FileHandling;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.UUID;
 
 public class Transaction {
     String id;
     String sourceAccountID;
     String destAccountID;
-    double money;
+    int money;
     String description;
     String receiptType;
     boolean paid = false;
@@ -22,15 +22,16 @@ public class Transaction {
     public static Type transactionType = new TypeToken<ArrayList<Transaction>>() {
     }.getType();
 
-    public Transaction(String sourceAccountI, String destAccountID, double money, String description, String receiptTyp) {
+    public Transaction(String sourceAccountI, String destAccountID, int money, String receiptTyp) throws IOException {
         this.sourceAccountID = sourceAccountI;
         this.destAccountID = destAccountID;
         this.money = money;
-        this.description = description;
         this.receiptType = receiptTyp;
-        Random rand = new Random();
-        id =  String.valueOf(rand.nextInt(1000));
+        id= UUID.randomUUID().toString();
+        //Random rand = new Random();
+        // id =  String.valueOf(rand.nextInt(1000));
         allTransactions.add(this);
+        writeInJ();
     }
 
     public static boolean isThereAccountWithId(String username) {
@@ -91,11 +92,21 @@ public class Transaction {
         this.destAccountID = destAccountID;
     }
 
-    public double getMoney() {
+    public int getMoney() {
         return money;
     }
 
-    public void setMoney(double money) {
+    public static Type getTransactionType() {
+        return transactionType;
+    }
+
+    public static void setTransactionType(Type transactionType) {
+        Transaction.transactionType = transactionType;
+    }
+
+
+
+    public void setMoney(int money) {
         this.money = money;
     }
 

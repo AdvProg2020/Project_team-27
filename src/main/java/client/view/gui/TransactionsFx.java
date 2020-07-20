@@ -102,7 +102,7 @@ public class TransactionsFx {
     private void payMarket(Transaction transaction) throws IOException {
         if(transaction.getReceiptType().equalsIgnoreCase("deposit")){
             Account account =LoginMenu.getLoginAccount();
-            account.increaseCredit(transaction.getMoney());
+            account.increaseCredit((double)transaction.getMoney());
         }else if(transaction.getReceiptType().equalsIgnoreCase("withdraw")){
             Account account =LoginMenu.getLoginAccount();
             account.setCredit(account.getCredit()-transaction.getMoney());
