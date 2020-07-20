@@ -1,5 +1,6 @@
 package server.menus;
 
+import client.Main;
 import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
@@ -10,6 +11,8 @@ import model.log.SaleLog;
 import model.off.DiscountCode;
 import model.off.Sale;
 import model.productRelated.Product;
+import server.Server;
+import client.Main.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -139,6 +142,15 @@ public class CustomerMenu {
 
 
         for (Product p : buyLog.getChosenProduct().keySet()) {
+            if (p.getFile() != null) {
+                Server.file = p.getFile();
+                try {
+                    Server.serverSellFile();
+                    Client.buyingFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             //  Account.getAccountWithUsername(p.getSeller()).setCredit(Account.getAccountWithUsername(p.getSeller()).getCredit() + p.getPrice());
             int n = p.getNumberOfProducts() - buyLog.getChosenProduct().get(p);
             p.setNumberOfProducts(n);
