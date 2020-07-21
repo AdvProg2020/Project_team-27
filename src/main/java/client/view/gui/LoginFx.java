@@ -55,6 +55,8 @@ public class LoginFx {
             goToPage();
         }else if( LoginMenu.getLoginAccount() instanceof Supporter) {
             LoginWindow loginWindow = new LoginWindow();
+            Supporter supporter = (Supporter) LoginMenu.getLoginAccount();
+            loginWindow.setSupporter(supporter);
             try {
                 loginWindow.start(Main.primStage);
             } catch (Exception e) {

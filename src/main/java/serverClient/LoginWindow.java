@@ -25,6 +25,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.accounts.Customer;
 import model.accounts.Seller;
+import model.accounts.Supporter;
 import model.off.Auction;
 import model.productRelated.Product;
 
@@ -37,13 +38,13 @@ public class LoginWindow implements Runnable {
     public double highPrice = 0;
     public boolean isSaleOrNot = false;
     public Label label = new Label();
-
     Stage window;
     public AnchorPane anchorPane;
     static Scene scene1, scene2;
     private Auction auction;
-    Text login;
-    Label lblWelcome, lblUser, lblIp;
+    Text login = new Text();
+    Label lblWelcome = new Label(), lblUser = new Label(), lblIp = new Label();
+    public Supporter supporter;
     TextField txtUser, txtIp, messageField;
     Button loginBtn, clearBtn, sendBtn, logoutBtn; //browse for images
     TextArea textArea = new TextArea();
@@ -64,7 +65,9 @@ public class LoginWindow implements Runnable {
         return scene1;
     }
 
-
+    public void setSupporter(Supporter supporter) {
+        this.supporter = supporter;
+    }
 
     List<ServerClient> connectedClients = new ArrayList<>();
 
