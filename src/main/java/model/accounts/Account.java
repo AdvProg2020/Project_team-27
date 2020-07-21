@@ -1,6 +1,5 @@
 package model.accounts;
 
-
 import model.firms.Firm;
 
 import java.io.IOException;
@@ -81,6 +80,23 @@ public abstract class Account {
 
     }
 
+
+
+    public  void setAllAccount(String username, String name, String lastname, String password, String email, double phoneNo, double credit, double currentPhoneNo, String address, Date birthdayDate, boolean fast) {
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.password = password;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.credit = credit;
+        this.currentPhoneNo = currentPhoneNo;
+        this.address = address;
+        this.birthdayDate = birthdayDate;
+        this.fast = fast;
+
+    }
+
     public String getPassword() {
         return password;
     }
@@ -105,6 +121,7 @@ public abstract class Account {
 
     public void increaseCredit(Double money){
         credit = credit + money;
+
     }
 
     public String getImageId() {
@@ -263,6 +280,22 @@ public abstract class Account {
     //-----------------------------------------------------------------
     public static ArrayList<Account> getAllAccounts() {
         return allAccounts;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public double getCurrentPhoneNo() {
+        return currentPhoneNo;
+    }
+
+    public void setBirthdayDate(Date birthdayDate) {
+        this.birthdayDate = birthdayDate;
+    }
+
+    public boolean isFast() {
+        return fast;
     }
 
     public Date getBirthdayDate() {
