@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import server.menus.LoginMenu;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ public class ManagerMenuFx {
 
 
     public void viewPersonalInfo(MouseEvent mouseEvent) throws IOException {
+        Client.start("viewAc "+ LoginMenu.getLoginAccount());
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ManagerMenuFx.class.getClassLoader().getResource("managerMenuFx.fxml")));
         ViewAccountFx.setPriRoot(curRoot);
         ViewAccountFx.setAccount(LoginMenu.getLoginAccount());

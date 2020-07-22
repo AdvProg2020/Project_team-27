@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import client.view.OutputMassageHandler;
 import server.menus.LoginMenu;
@@ -104,7 +105,18 @@ public class SignUpFx {
     public void signUp(MouseEvent mouseEvent) throws IOException, ParseException {
         if (imageId != null) {
             if (role != null) {
-                if (RegisterMenu.getSignUpNo() == 0) {
+                String user = userSign.getText();
+                String pass = passSign.getText();
+                String name = nameSign.getText();
+                String last =lastNameSign.getText();
+                String email = emailSign.getText();
+                String phone = phoneNoSign.getText();
+                String birth =birthdaySign.getText();
+                String wagee = wage.getText();
+                String mine = min.getText();
+
+                Client.start("reg "+ user+" "+role+" "+imageId+" "+ pass+" "+ name+" "+ last+" "+ email +" "+ phone+" "+birth+" "+wagee+" "+mine);
+               /* if (RegisterMenu.getSignUpNo() == 0) {
                     userLoginMs.setText(OutputMassageHandler.showAccountOutput(RegisterMenu.processRegister(role, userSign.getText(), imageId)));
                 }
                 if (RegisterMenu.getSignUpNo() == 1) {
@@ -129,6 +141,9 @@ public class SignUpFx {
                         RegisterMenu.min(min.getText());
                     }
                 }
+
+                */
+                userLoginMs.setText(Client.getInput());
                 if (role != null && RegisterMenu.getSignUpNo() == 6) {
                     RegisterMenu.setSignUpNo(0);
                     RegisterMenu.setDetailMenu(0);
@@ -138,7 +153,7 @@ public class SignUpFx {
         } else userLoginMs.setText("drag image first");
     }
 
-    private void goToMenu() throws IOException {
+    public static void goToMenu() throws IOException {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SignUpFx.class.getClassLoader().getResource("signUpFx.fxml")));
         if (role == "seller") {
             FirmFx.setPriRoot(curRoot);

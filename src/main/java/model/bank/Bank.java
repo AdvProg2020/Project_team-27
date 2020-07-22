@@ -3,12 +3,15 @@ package model.bank;
 import client.view.FileHandling;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import server.Server;
+import serverClient.ServerMain;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,7 +21,7 @@ public class Bank {
     }.getType();
     public static void main(String[] args) throws IOException {
         gson();
-        new Bank.BankImp();
+        new Bank.BankImp().run();
     }
 
     private static void gson() throws IOException {
@@ -60,12 +63,42 @@ public class Bank {
         String output;
         private static DataInputStream dataInputStream;
         private static DataOutputStream dataOutputStream;
+        private static Socket socket;
 
-
+        public void run() throws IOException {
+            ServerSocket bankServer = new ServerSocket(9595);
+            System.out.println("connect to bank");
+            while (true) {
+                try {
+                    // System.out.println("client...");
+                    socket = bankServer.accept();
+                    // System.out.println("client accept");
+                    dataOutputStream = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+                    dataInputStream = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                    new handleClient(socket, dataInputStream, dataOutputStream, bankServer, this).start();
+                } catch (Exception e) {
+                    System.out.println("error accepting");
+                }
+            }
+        }
 
 
         void token(String[] inputs) throws IOException {
-
+            String username = inputs[1];
+            if (BankAccount.isThereAccountWithUsername(username)) {
+                if (BankAccount.isThereAccountWithUsernameAndPassword(username, inputs[2])) {
+                    BankAccount bankAccount = BankAccount.getAccountWithUsername(username);
+                    String uniqueID = UUID.randomUUID().toString();
+                    bankAccount.setToken(uniqueID);
+                    Date date = new Date();
+                    bankAccount.setTokenDate(date.getTime());
+                    BankAccount.writeInJ();
+                    //  DataBase.insertToken(bankAccount);
+                    output = bankAccount.getToken();
+                    System.out.println(output);
+                } else output = "invalid username or password";
+            } else output = "invalid username or password";
+            handleOutput();
         }
 
         void account(String[] inputs) throws IOException {
@@ -93,7 +126,7 @@ public class Bank {
                         if (money.matches("\\d+")) {
                             if (source!= Integer.parseInt(dest)) {
                                 if (source == -1 || BankAccount.isThereAccountWithSource(String.valueOf(source))) {
-                                    if (source== -1 ||BankAccount.isThereAccountWithSource(dest)) {
+                                    if (Integer.parseInt(dest)== -1 ||BankAccount.isThereAccountWithSource(dest)) {
                                         if (!(type.equals("move") && (source==(-1) && dest.equals(-1)))) {
                                             Date date = new Date();
                                             if (BankAccount.getAccountWithToken(token).getTokenDate() - date.getTime() < 3600000) {
@@ -201,7 +234,7 @@ public class Bank {
                 Transaction transaction = Transaction.getAccountWithid(id);
                 if (!transaction.isPaid()) {
                     payReceipt(transaction);
-                } else output = "”receipt is paid before";
+                } else output = "receipt is paid before";
             } else output = "invalid receipt id";
         }
 
@@ -212,8 +245,12 @@ public class Bank {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
+                    System.out.println("credit1: "+ account1.getMoney());
+                    System.out.println("credit2: "+ account2.getMoney());
                     account1.setMoney(account1.getMoney() - money);
                     account2.setMoney(account2.getMoney() + money);
+                    System.out.println("credit1: "+ account1.getMoney());
+                    System.out.println("credit2: "+ account2.getMoney());
                     transaction.setPaid(true);
                     // DataBase.updatePay();
                     output = "done successfully";
@@ -221,7 +258,9 @@ public class Bank {
             } else if (type.equalsIgnoreCase("deposit")) {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
-                account2.setMoney(account2.getMoney() + money);
+                System.out.println("credit2: "+ account2.getMoney());
+                account2.setMoney(account2.getMoney() - money);
+                System.out.println("credit2: "+ account2.getMoney());
                 transaction.setPaid(true);
                 // DataBase.updatePay();
                 output = "done successfully";
@@ -229,12 +268,15 @@ public class Bank {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
-                    account1.setMoney((int) (account1.getMoney() - money));
+                    System.out.println("credit1: "+ account1.getMoney());
+                    account1.setMoney((int) (account1.getMoney() +money));
+                    System.out.println("credit1: "+ account1.getMoney());
                     transaction.setPaid(true);
                     // DataBase.updatePay();
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             }
+            BankAccount.writeInJ();
             Transaction.writeInJ();
             handleOutput();
         }
@@ -253,7 +295,7 @@ public class Bank {
 
         static void finish() {
             try {
-
+                socket.close();
                 dataInputStream.close();
                 dataOutputStream.close();
             } catch (IOException e) {
@@ -265,10 +307,10 @@ public class Bank {
             try {
                 dataOutputStream.writeUTF(output);
                 dataOutputStream.flush();
-                //   finish();
             } catch (IOException e) {
-                e.printStackTrace();
                 finish();
+                e.printStackTrace();
+
             }
         }
 
@@ -283,7 +325,7 @@ public class Bank {
         private static Bank.BankImp bankImp;
 
 
-        public handleClient(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ServerSocket serverSocket, Socket socket, Bank.BankImp bankImp) {
+        public handleClient(Socket clientServer, DataInputStream dataInputStream, DataOutputStream dataOutputStream, ServerSocket serverSocket, Bank.BankImp bankImp) {
             this.dataInputStream = dataInputStream;
             this.dataOutputStream = dataOutputStream;
             this.serverSocket = serverSocket;
@@ -301,6 +343,7 @@ public class Bank {
                     // scanner = new Scanner(dataInputStream.readUTF());
                     input = dataInputStream.readUTF();
                 } catch (IOException e) {
+                    bankImp.finish();
                     e.printStackTrace();
                 }
                 // if (scanner.hasNext()) {
@@ -323,10 +366,15 @@ public class Bank {
                     } else if (input.startsWith("exit")) {
                         output = "bye";
                         bankImp.handleOutput();
+                        bankImp.finish();
                         break;
+                    }else{
+                        output ="invalid input";
+                        bankImp.handleOutput();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
+                    bankImp.finish();
                 }
                 //  }
 

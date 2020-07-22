@@ -84,7 +84,7 @@ public class Exchange {
                     BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
                 }
                 if (Manager.getAllManagers().get(0).getMin() <= marketCredit - curAmount) {
-                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "withdraw " + curAmount + " " + account.getAccountId() + " " + -1, account);
+                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getBankToken() + " " + "withdraw " + curAmount + " " + account.getAccountId() + " " + -1, account);
 //                    id.setText(String.valueOf(account.getTransactions().get(account.getTransactions().size() - 1)));
 
                 } else id.setText("not enough money");
@@ -105,7 +105,7 @@ public class Exchange {
                     BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
                 }
                 if (Manager.getAllManagers().get(0).getMin() <= marketCredit - curAmount) {
-                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
+                    BankAPI.startTran("create_receipt " + LoginMenu.getLoginAccount().getBankToken() + " " + "deposit " + curAmount + " " + -1 + " " + account.getAccountId(), account);
                     //id.setText(String.valueOf(account.getTransactions().get(account.getTransactions().size())));
                 } else id.setText("not enough money");
             }

@@ -11,7 +11,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
-import java.util.Scanner;
 
 public class BankAPI {
     public static final int PORT = 9595;
@@ -92,10 +91,10 @@ public class BankAPI {
             while (true) {
                 try {
                     // System.out.println("*+"+inputStream.readUTF());
-                    account.setToken(inputStream.readUTF());
+                    account.setBankToken(inputStream.readUTF());
                     Date date = new Date();
                     account.setTokenDate(date.getTime());
-                    System.out.println("token: "+account.getToken());
+                    System.out.println("token: "+account.getBankToken());
                     System.out.println("token date: "+account.getTokenDate());
                     Manager.writeInJ();
                     Seller.writeInJ();
@@ -151,8 +150,6 @@ public class BankAPI {
         } catch (IOException e) {
             throw new IOException("Exception while sending message:");
         }
-        //  System.out.println(inputStream.readUTF());
-        // return inputStream.readUTF();
     }
     public static void startRegister(String start, Account account) throws IOException {
         try {

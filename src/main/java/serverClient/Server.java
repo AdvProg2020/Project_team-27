@@ -47,8 +47,8 @@ public class Server implements Runnable {
         running = true;
         serverStartTime = System.currentTimeMillis();
         clients = new ArrayList<ServerClient>();
-        System.out.println("Server Started Time : " + serverStartTime);
-        System.out.println("Server Started on Port " + port);
+       // System.out.println("Server Started Time : " + serverStartTime);
+      //  System.out.println("Server Started on Port " + port);
         manageClients();
         receive();
 
@@ -91,10 +91,10 @@ public class Server implements Runnable {
                         ServerClient c = clients.get(i);
                         if (id == c.getID()) {
                             disconnect(id, true);
-                            System.out.println("Client " + id + " has been kicked by Server");
+                            System.out.println("client.Client " + id + " has been kicked by Server");
                             break;
                         } else {
-                            System.out.println("Client Doesnot Exists ! Check ID number");
+                            System.out.println("client.Client Doesnot Exists ! Check ID number");
                         }
                     }
                 } else {
@@ -126,7 +126,7 @@ public class Server implements Runnable {
     public void manageClients() {
         manage = new Thread("Manage") {
             public void run() {
-                System.out.println("Manage Thead is running");
+              //  System.out.println("Manage Thead is running");
             }
         };
         manage.start();
@@ -159,8 +159,8 @@ public class Server implements Runnable {
                     byte[] data = new byte[1024];
                     DatagramPacket packet = new DatagramPacket(data, data.length);
                     packet.setData(data);
-                    System.out.println(packet.getData().toString() + "     ahahahhaha");
-                    System.out.println(packet.getLength() + "      safid;f");
+               //     System.out.println(packet.getData().toString() + "     ahahahhaha");
+              //      System.out.println(packet.getLength() + "      safid;f");
                     try {
                         socket.receive(packet);
                     } catch (IOException ex) {
@@ -187,7 +187,7 @@ public class Server implements Runnable {
         }
         if (string.startsWith("/c/")) {
             int id = idTo++;
-            System.out.println("Client ID : " + id);
+            System.out.println("client.Client ID : " + id);
             String name = string.split("/c/|/e/")[1];
 
             clients.add(new ServerClient(name,packet.getAddress(),packet.getPort(),id));

@@ -1,5 +1,6 @@
 package server.menus;
 
+import client.view.OutputMassageHandler;
 import model.bank.BankAPI;
 import model.accounts.Account;
 import model.firms.Firm;
@@ -40,7 +41,7 @@ public class LoginMenu {
         return login;
     }
 
-    public static int processLogin(String username) {
+    public synchronized static int processLogin(String username) {
         if (!login) {
             if (username.matches("(\\s*\\S+\\s*)+")) {
                 if (Account.isThereAccountWithUsername(username)) {
@@ -52,11 +53,12 @@ public class LoginMenu {
                 } else outputNo = 13;
             } else outputNo = 32;
         } else outputNo = 24;
+        OutputMassageHandler.showAccountOutput(outputNo);
         return outputNo;
-        //  OutputMassageHandler.showAccountOutput(outputNo);
+
     }
 
-    public static int checkPassword(String password) throws IOException {
+    public static synchronized int checkPassword(String password) throws IOException {
         if (password.matches(".+")) {
             if (Account.isThereAccountWithUsernameAndPassword(username, password)) {
                 loginAccount = Account.getAccountWithUsername(username);
@@ -70,6 +72,7 @@ public class LoginMenu {
                 // findRole();
                 String role = loginAccount.getRole();
                 yes = false;
+                System.out.println(yes);
                 LoginFx.goToMenu(role);
                 outputNo = 0;
                 // CommandProcessor.setSubMenuStatus(subMenuStatus);

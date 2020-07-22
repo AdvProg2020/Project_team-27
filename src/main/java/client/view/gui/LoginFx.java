@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import client.view.OutputMassageHandler;
 import server.menus.LoginMenu;
@@ -74,14 +75,18 @@ public class LoginFx {
 //            Media media = new Media(new File(path).toURI().toString());
 //            MediaPlayer mediaPlayer = new MediaPlayer(media);
 //            mediaPlayer.setAutoPlay(true);
-        int user = LoginMenu.processLogin(userLogin.getText());
-        int pass = 0;
-        if(LoginMenu.yes) {
-            pass = LoginMenu.checkPassword(passLogin.getText());
+        String user = userLogin.getText();
+        String pass = passLogin.getText();
+ //       int user = LoginMenu.processLogin(userLogin.getText());
+//        int pass = 0;
+//        if(LoginMenu.yes) {
+//            pass = LoginMenu.checkPassword(passLogin.getText());
+//        }
+        Client.start("login "+ user + " " + pass);
 
-        }
-        userLoginMs.setText(OutputMassageHandler.showAccountOutput(user));
-        passLoginMs.setText(OutputMassageHandler.showAccountOutput(pass));
+
+        userLoginMs.setText(Client.getInput());
+ //       passLoginMs.setText(OutputMassageHandler.showAccountOutput(pass));
     }
 
     public void back(MouseEvent mouseEvent) {

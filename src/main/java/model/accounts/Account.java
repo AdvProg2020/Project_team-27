@@ -21,6 +21,7 @@ public abstract class Account {
     boolean fast = false;
     String imageId;
     String token;
+    String bankToken;
     long tokenDate;
     String accountId = null;
     int bankMoney = 50;
@@ -50,7 +51,7 @@ public abstract class Account {
         if (lastname != null) {
             this.lastname = lastname;
         }
-        if (email != null) {
+        if (Emai != null) {
             this.email = Emai;
         }
         if (phoneNo != 0) {
@@ -185,12 +186,12 @@ public abstract class Account {
     }
 
 
-    public String getToken() {
-        return token;
+    public String getBankToken() {
+        return bankToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setBankToken(String bankToken) {
+        this.bankToken = bankToken;
     }
 
     public String getAccountId() {

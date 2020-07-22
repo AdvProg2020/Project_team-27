@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import server.menus.ProductMenu;
 import server.menus.LoginMenu;
@@ -74,6 +75,25 @@ public class ViewAccountFx {
     @FXML
     public void initialize() throws FileNotFoundException {
         if (request == null) {
+            String[] s = Client.getInput().split("\\s+");
+            username.setText(s[0]);
+            name.setText(s[1]);
+            lastName.setText(s[2]);
+            role.setText(s[3]);
+            phoneNo.setText(s[4]);
+            email.setText(s[5]);
+            credit.setText(s[6]);
+            birthday.setText(s[7]);
+            File file = new File(s[8]);
+            Image image = new Image(new FileInputStream(file));
+            accountImg.setImage(image);
+
+        } else showRequest();
+    }
+
+ /*   @FXML
+    public void initialize() throws FileNotFoundException {
+        if (request == null) {
             Account curAccount = account;
             username.setText(curAccount.getUsername());
             name.setText(curAccount.getName());
@@ -90,6 +110,7 @@ public class ViewAccountFx {
         } else showRequest();
     }
 
+  */
     private void showRequest() {
         AccountRequest accountRequest = null;
         if (request instanceof AccountRequest) {

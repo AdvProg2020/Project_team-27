@@ -1,6 +1,6 @@
 package server.menus;
 
-import client.Main;
+import client.Client;
 import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
@@ -12,7 +12,6 @@ import model.off.DiscountCode;
 import model.off.Sale;
 import model.productRelated.Product;
 import server.Server;
-import client.Main.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -113,7 +112,7 @@ public class CustomerMenu {
         if (account.getTokenDate() - date.getTime() >=3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-            BankAPI.startTran("create_receipt " + account.getToken() + " " + "move " +(int) hole+" " + account.getAccountId() + " " + manager.getAccountId(), account);
+            BankAPI.startTran("create_receipt " + account.getBankToken() + " " + "move " +(int) hole+" " + account.getAccountId() + " " + manager.getAccountId(), account);
 
     }
 

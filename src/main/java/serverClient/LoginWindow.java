@@ -289,6 +289,7 @@ public class LoginWindow implements Runnable {
         if (isSaleOrNot){
             try {
                 double price = Double.parseDouble(message);
+               //  highPrice = auction.getMoney();
                 label.setVisible(true);
                 if (price > highPrice && Customer.getCustomerWithUsername(txtUser.getText()).getCredit() > price){
                     highPrice = price;
@@ -381,12 +382,12 @@ public class LoginWindow implements Runnable {
                     String message = receive();
                     if (message.startsWith("/c/")) {
                         ID = Integer.parseInt(message.split("/c/|/e/")[1]);
-                        console("Successfully Connected to Server! Client ID : " + ID);
+                        console("Successfully Connected to Server! client.Client ID : " + ID);
                     } else if (message.startsWith("/d/")) {
                         String disconnectUser = message.split("/d/|/i/")[1];
                         String disconnectID = message.split("/i/|/e/")[1];
                         String disconnectMessage = message.split("/d/|/e/")[1];
-                        alertBox("Client Disconnected",disconnectMessage+ " left the Chat");
+                        alertBox("client.Client Disconnected",disconnectMessage+ " left the Chat");
                         System.out.println("Disconnected User : " + disconnectUser);
                         System.out.println("Disconnected ID   : " + disconnectID);
                         disconnectedUser = disconnectUser;

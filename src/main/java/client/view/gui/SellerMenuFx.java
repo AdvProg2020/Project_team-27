@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import model.bank.BankAPI;
 import server.menus.LoginMenu;
@@ -33,6 +34,7 @@ public class SellerMenuFx {
     }
 
     public void viewPersonalInfo(MouseEvent mouseEvent) throws IOException {
+        Client.start("viewAc "+ LoginMenu.getLoginAccount());
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
         ViewAccountFx.setPriRoot(curRoot);
         ViewAccountFx.setAccount(LoginMenu.getLoginAccount());
@@ -99,7 +101,7 @@ public class SellerMenuFx {
         if (account.getTokenDate() - date.getTime() >= 3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-            BankAPI.startGetBa("get_balance " + account.getToken() , account);
+            BankAPI.startGetBa("get_balance " + account.getBankToken() , account);
             Exchange.setCustomer(false);
             Exchange.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
@@ -126,7 +128,7 @@ public class SellerMenuFx {
         if (account.getTokenDate() - date.getTime() >=3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-        BankAPI.startGetTra("get_transactions " + account.getToken() + " " + "*");
+        BankAPI.startGetTra("get_transactions " + account.getBankToken() + " " + "*");
         root = FXMLLoader.load(Objects.requireNonNull(TransactionsFx.class.getClassLoader().getResource("transactionsFx.fxml")));
         goToPage();
     }

@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 
 import model.bank.BankAPI;
@@ -41,6 +42,7 @@ public class CustomerMenuFx {
 //            Media media = new Media(new File(path).toURI().toString());
 //            MediaPlayer mediaPlayer = new MediaPlayer(media);
 //            mediaPlayer.setAutoPlay(true);
+        Client.start("viewAc "+ LoginMenu.getLoginAccount());
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
         ViewAccountFx.setPriRoot(curRoot);
         ViewAccountFx.setAccount(LoginMenu.getLoginAccount());
@@ -82,7 +84,7 @@ public class CustomerMenuFx {
         if (account.getTokenDate() - date.getTime() >= 3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-        BankAPI.startGetBa("get_balance " + account.getToken() , account);
+        BankAPI.startGetBa("get_balance " + account.getBankToken() , account);
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
         Exchange.setCustomer(true);
         Exchange.setPriRoot(curRoot);
@@ -153,7 +155,7 @@ public class CustomerMenuFx {
         if (account.getTokenDate() - date.getTime() >=3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-        BankAPI.startGetTra("get_transactions " + account.getToken() + " " + "*");
+        BankAPI.startGetTra("get_transactions " + account.getBankToken() + " " + "*");
         TransactionsFx.setPriRoot(curRoot);
         root = FXMLLoader.load(Objects.requireNonNull(TransactionsFx.class.getClassLoader().getResource("transactionsFx.fxml")));
         goToPage();
