@@ -34,7 +34,7 @@ public class SellerMenuFx {
     }
 
     public void viewPersonalInfo(MouseEvent mouseEvent) throws IOException {
-        Client.start("viewAc "+ LoginMenu.getLoginAccount());
+        Client.start("viewAc "+ LoginMenu.getLoginAccount().getUsername());
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
         ViewAccountFx.setPriRoot(curRoot);
         ViewAccountFx.setAccount(LoginMenu.getLoginAccount());

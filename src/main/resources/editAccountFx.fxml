@@ -88,7 +88,7 @@
                 <Font size="19.0" />
             </font>
         </Label>
-        <Button layoutX="782.0" layoutY="670.0" mnemonicParsing="false" onMouseClicked="#editAccount" prefHeight="40.0" prefWidth="118.0" text="Edit">
+        <Button layoutX="859.0" layoutY="670.0" mnemonicParsing="false" onMouseClicked="#editAccount" prefHeight="40.0" prefWidth="118.0" text="Edit">
             <textFill>
                 <LinearGradient endX="1.0" endY="1.0">
                     <stops>
@@ -98,5 +98,15 @@
                 </LinearGradient>
             </textFill>
         </Button>
+      <Button layoutX="724.0" layoutY="670.0" mnemonicParsing="false" onMouseClicked="#back" prefHeight="40.0" prefWidth="118.0" text="back">
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="RED" />
+                  <Stop color="#00a1ff" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
     </children>
 </AnchorPane>

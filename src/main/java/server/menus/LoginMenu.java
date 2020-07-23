@@ -1,12 +1,16 @@
 package server.menus;
 
 import client.view.OutputMassageHandler;
+import model.accounts.Customer;
+import model.accounts.Manager;
+import model.accounts.Seller;
 import model.bank.BankAPI;
 import model.accounts.Account;
 import model.firms.Firm;
 import model.request.AccountRequest;
 import model.request.Request;
 import client.view.gui.LoginFx;
+import server.HandleMarket;
 
 import java.io.IOException;
 import java.util.Date;
@@ -58,11 +62,12 @@ public class LoginMenu {
 
     }
 
-    public static synchronized int checkPassword(String password) throws IOException {
+    public static synchronized int checkPassword(String password, HandleMarket marketServer) throws IOException {
         if (password.matches(".+")) {
             if (Account.isThereAccountWithUsernameAndPassword(username, password)) {
                 loginAccount = Account.getAccountWithUsername(username);
                 login = true;
+                marketServer.setLoginAccount(loginAccount);
                 loginAccount.setOnline("online");
                 //token =
                 Date date = new Date();
@@ -162,8 +167,12 @@ public class LoginMenu {
                 outputNo = 0;
             } else outputNo = 11;
         }
+        Seller.writeInJ();
+        Customer.writeInJ();
+        Manager.writeInJ();
+        OutputMassageHandler.showAccountOutput(outputNo);
         return outputNo;
-        //OutputMassageHandler.showAccountOutput(outputNo);
+
     }
 
     public static void firmName(String name) throws IOException {

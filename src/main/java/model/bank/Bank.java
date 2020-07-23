@@ -3,15 +3,12 @@ package model.bank;
 import client.view.FileHandling;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import server.Server;
-import serverClient.ServerMain;
 
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Date;
 import java.util.UUID;
 
@@ -353,16 +350,22 @@ public class Bank {
                     System.out.println(input);
                     if (input.startsWith("create_account")) {
                         bankImp.account(inputs);
+                        break;
                     } else if (input.startsWith("get_token")) {
                         bankImp.token(inputs);
+                        break;
                     } else if (input.startsWith("create_receipt")) {
                         bankImp.receipt(input);
+                        break;
                     } else if (input.startsWith("get_transactions")) {
                         bankImp.transaction(inputs);
+                        break;
                     } else if (input.startsWith("pay")) {
                         bankImp.pay(inputs);
+                        break;
                     } else if (input.startsWith("get_balance")) {
                         bankImp.balance(inputs);
+                        break;
                     } else if (input.startsWith("exit")) {
                         output = "bye";
                         bankImp.handleOutput();

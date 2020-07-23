@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import client.view.OutputMassageHandler;
 import server.menus.LoginMenu;
@@ -68,24 +69,23 @@ public class AddSaleFx {
 
     public void makeTree() {
         addSaleProduct.setCellValueFactory(new PropertyValueFactory<Product, String>("productId"));
-            list.clear();
-            addAll.clear();
-            list();
-            list.addAll(addAll);
-            addSaleProducts.setEditable(true);
-            addSaleProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-            addSaleProducts.getSelectionModel().setCellSelectionEnabled(true);
-            addSaleProducts.setItems(list);
-
+        list.clear();
+        addAll.clear();
+        list();
+        list.addAll(addAll);
+        addSaleProducts.setEditable(true);
+        addSaleProducts.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        addSaleProducts.getSelectionModel().setCellSelectionEnabled(true);
+        addSaleProducts.setItems(list);
 
 
     }
 
-    private  static void list(){
+    private static void list() {
         if (LoginMenu.getLoginAccount() instanceof Seller) {
             Seller seller = (Seller) LoginMenu.getLoginAccount();
             for (Product product : seller.getAllProduct()) {
-                if(product.getProductStatus()== ProductStatus.CONFIRMED){
+                if (product.getProductStatus() == ProductStatus.CONFIRMED) {
                     addAll.add(product);
                 }
             }
@@ -94,7 +94,9 @@ public class AddSaleFx {
 
     public void createSale(MouseEvent mouseEvent) throws IOException, ParseException {
         if (addSaleProducts.getSelectionModel().getSelectedItem() != null) {
-            if (SellerMenu.getCreate() == 0) {
+            Product product = addSaleProducts.getSelectionModel().getSelectedItem();
+            Client.start("addSale " + saleIdTextField.getText() + " " + startSaleDatePicker.getText() + " " + endSaleDatePicker.getText() + " " + saleAmount.getText() + " " + product.getId());
+           /* if (SellerMenu.getCreate() == 0) {
                 saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(saleIdTextField.getText(), 0)));
             }
             if (SellerMenu.getCreate() == 1) {
@@ -110,10 +112,14 @@ public class AddSaleFx {
                     saleAmountAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.setDetailsToSale(product.getId(), 4)));
                 }
             }
+
+            */
+            saleIdAlertLabel.setText(Client.getInput());
         } else saleIdAlertLabel.setText("you have to select first");
     }
 
     public void editSale(MouseEvent mouseEvent) throws IOException, ParseException {
+       // Client.start("editSale "+saleIdTextField.getText()+" "+ );
         if (SellerMenu.getEdit() == 0) {
             saleIdAlertLabel.setText(OutputMassageHandler.showSaleOutput(SellerMenu.editOff(saleIdTextField.getText())));
         }

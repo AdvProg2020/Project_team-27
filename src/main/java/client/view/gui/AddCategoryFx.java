@@ -70,14 +70,14 @@ public class AddCategoryFx {
 
     public void createCategory(MouseEvent mouseEvent) throws IOException {
         if (LoginMenu.getLoginAccount() instanceof Manager) {
-            if (ManagerMenu.getCreate() == 0) {
+          //  if (ManagerMenu.getCreate() == 0) {
                 categoryIdMs.setText(OutputMassageHandler.showManagerOutput(ManagerMenu.addCategory(categoryId.getText())));
                 catName = categoryId.getText();
-            }
-            if (ManagerMenu.getCreate() == 1) {
+            //}
+            //if (ManagerMenu.getCreate() == 1) {
                 categoryAddTraitMs.setText(OutputMassageHandler.showManagerOutput(ManagerMenu.setDetailToCategory(categoryAddTrait.getText())));
-                makeTree();
-            }
+                //makeTree();
+            //}
         } else categoryTraitMs.setText("only manager have access");
     }
 

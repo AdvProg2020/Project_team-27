@@ -42,7 +42,7 @@ public class Client {
 
     public static void SendMessage(String msg) throws IOException {
         try {
-            System.out.println(msg);
+          //  System.out.println(msg);
             dataOutputStream.writeUTF(msg);
             dataOutputStream.flush();
         } catch (IOException e) {
