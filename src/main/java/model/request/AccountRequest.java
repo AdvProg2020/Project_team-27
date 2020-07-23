@@ -2,9 +2,10 @@ package model.request;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Seller;
+
+import model.bank.BankAPI;
 import model.firms.Company;
 import model.firms.Factory;
 import model.firms.Firm;

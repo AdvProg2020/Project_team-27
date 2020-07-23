@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="842.0" prefWidth="1627.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.SellerMenuFx">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="842.0" prefWidth="1627.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.SellerMenuFx">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" height="842.0" layoutX="-136.0" layoutY="-6.0" stroke="BLACK" strokeType="INSIDE" width="1627.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <fill>
@@ -42,7 +43,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <Button layoutX="631.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#viewPersonalInfo" prefHeight="54.0" prefWidth="328.0" text="view personal info">
+      <Button layoutX="631.0" layoutY="410.0" mnemonicParsing="false" onMouseClicked="#viewPersonalInfo" prefHeight="54.0" prefWidth="328.0" text="view personal info">
          <textFill>
             <LinearGradient endX="1.0" endY="1.0" startX="0.05339805825242718">
                <stops>
@@ -208,6 +209,21 @@
          </textFill>
       </Button>
       <Button layoutX="1052.0" layoutY="356.0" mnemonicParsing="false" onMouseClicked="#addFile" prefHeight="54.0" prefWidth="328.0" text="add File">
+         <font>
+            <Font size="25.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0" startX="0.05339805825242718">
+               <stops>
+                  <Stop color="#ff8500" />
+                  <Stop color="#00afff" offset="0.28104575163398693" />
+                  <Stop color="#1850d9" offset="0.48366013071895425" />
+                  <Stop color="#c016da" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+      <Button layoutX="631.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#transactions" prefHeight="54.0" prefWidth="328.0" text="transactions">
          <font>
             <Font size="25.0" />
          </font>

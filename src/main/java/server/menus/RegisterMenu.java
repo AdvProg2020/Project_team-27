@@ -1,5 +1,6 @@
 package server.menus;
 
+import client.view.gui.LoginFx;
 import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Customer;
@@ -76,8 +77,8 @@ public class RegisterMenu {
                 //   } else outputNo = 26;
             } else outputNo = 1;
         } else outputNo = 36;
+          OutputMassageHandler.showAccountOutput(outputNo);
         return outputNo;
-        //  OutputMassageHandler.showAccountOutput(outputNo);
     }
 
     private static void registerByRole(String role, String username) throws IOException {
@@ -115,39 +116,38 @@ public class RegisterMenu {
             outputNo = 23;
         }
     }
-
-    public static int completeRegisterProcess(String detail, int detailMen) throws IOException, ParseException {
-        if (detailMen == 0) {
+    public static int completeRegisterProcess(String detail) throws IOException, ParseException {
+        if (detailMenu == 0) {
             if (detail.matches(".+")) {
                 password = detail;
                 detailMenu = 1;
                 outputNo = 0;
             } else outputNo = 3;
-        } else if (detailMen == 1) {
+        } else if (detailMenu == 1) {
             if (detail.matches("(\\s*\\S+\\s*)+")) {
                 name = detail;
                 detailMenu = 2;
                 outputNo = 0;
             } else outputNo = 5;
-        } else if (detailMen == 2) {
+        } else if (detailMenu == 2) {
             if (detail.matches("(\\s*\\S+\\s*)+")) {
                 lastName = detail;
                 detailMenu = 3;
                 outputNo = 0;
             } else outputNo = 7;
-        } else if (detailMen == 3) {
+        } else if (detailMenu == 3) {
             if (detail.matches(".+")) {
                 Email = detail;
                 detailMenu = 4;
                 outputNo = 0;
             } else outputNo = 9;
-        } else if (detailMen == 4) {
+        } else if (detailMenu == 4) {
             if (detail.matches(".+")) {
                 phoneNo = Double.parseDouble(detail);
                 detailMenu = 5;
                 outputNo = 0;
             } else outputNo = 11;
-        } else if (detailMen == 5) {
+        } else if (detailMenu == 5) {
             if (detail.matches("^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$")) {
                 Date currentDate = new Date();
                 Date inputDate = new SimpleDateFormat("dd/MM/yyyy").parse(detail);
@@ -157,14 +157,17 @@ public class RegisterMenu {
                     //                   birthdayDate = format.parse(detail);
                     birthdayDate = inputDate;
                     detailMenu = 0;
+                    signUpNo =0;
                     setSignUpNo(6);
                     createAccountWithDetails();
+                    LoginFx.goToMenu(role);
                 } else outputNo = 30;
             } else outputNo = 30;
         }
         OutputMassageHandler.showAccountOutput(outputNo);
         return outputNo;
     }
+
 
     public static int wage(String wage) {
         if (wage.matches("\\d+")) {

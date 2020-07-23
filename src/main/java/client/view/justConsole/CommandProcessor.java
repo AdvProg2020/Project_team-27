@@ -1,8 +1,8 @@
 package client.view.justConsole;
 
 public class CommandProcessor {
-
-/* private static MenuStatus menuStatus = MenuStatus.MAINMENU;
+/*
+ private static MenuStatus menuStatus = MenuStatus.MAINMENU;
     private static SubMenuStatus subMenuStatus = SubMenuStatus.MAINMENU;
     private static InternalMenu internalMenu = InternalMenu.MAINMENU;
     private boolean error = true;

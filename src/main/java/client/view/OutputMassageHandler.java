@@ -9,6 +9,14 @@ public class OutputMassageHandler {
     private static String text;
     private static ArrayList<Parent> allRoots = new ArrayList<>();
 
+    public static String getText() {
+        return text;
+    }
+
+    public static void setText(String text) {
+        OutputMassageHandler.text = text;
+    }
+
     public static void addRoot(Parent root) {
         allRoots.add(root);
     }

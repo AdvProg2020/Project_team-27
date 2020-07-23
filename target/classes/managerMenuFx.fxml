@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="848.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.ManagerMenuFx">
+<AnchorPane fx:id="managerMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="848.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.view.gui.ManagerMenuFx">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="856.0" layoutX="-45.0" layoutY="-4.0" strokeType="INSIDE" width="1607.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="856.0" layoutX="-3.0" layoutY="-4.0" strokeType="INSIDE" width="1565.0">
          <stroke>
             <LinearGradient endX="1.0" endY="1.0">
                <stops>

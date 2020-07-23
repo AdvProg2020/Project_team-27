@@ -1,6 +1,8 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
+import javafx.scene.Node;
 import server.menus.ProductMenu;
 import server.menus.LoginMenu;
 import javafx.collections.FXCollections;
@@ -31,6 +33,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static client.view.gui.LoginFx.mouseEvent;
+
 public class ViewAccountFx {
     @FXML
     private Label birthday = new Label();
@@ -57,6 +61,7 @@ public class ViewAccountFx {
     private static Account account;
     private static Request request;
     private static Parent priRoot;
+    private static MouseEvent mouseEvent;
     private Customer customer;
 
     public static void setPriRoot(Parent priRoot) {
@@ -72,6 +77,25 @@ public class ViewAccountFx {
     }
 
     @FXML
+    public void initialize() throws FileNotFoundException {
+        if (request == null) {
+            String[] s = Client.getInput().split("\\s+");
+            username.setText(s[0]);
+            name.setText(s[1]);
+            lastName.setText(s[2]);
+            role.setText(s[3]);
+            phoneNo.setText(s[4]);
+            email.setText(s[5]);
+            credit.setText(s[6]);
+            birthday.setText(s[7]);
+            File file = new File(s[8]);
+           // Image image = new Image(new FileInputStream(file));
+          //  accountImg.setImage(image);
+
+        } else showRequest();
+    }
+
+ /*   @FXML
     public void initialize() throws FileNotFoundException {
         if (request == null) {
             Account curAccount = account;
@@ -90,6 +114,7 @@ public class ViewAccountFx {
         } else showRequest();
     }
 
+  */
     private void showRequest() {
         AccountRequest accountRequest = null;
         if (request instanceof AccountRequest) {
@@ -174,9 +199,9 @@ public class ViewAccountFx {
     private static void goToPage() {
         remove();
         Scene pageTwoScene = new Scene(root);
-        //Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
-        Main.primStage.setScene(pageTwoScene);
-        Main.primStage.show();
+        Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        window.setScene(pageTwoScene);
+        window.show();
     }
 
     private void show(String text) {
@@ -199,12 +224,14 @@ public class ViewAccountFx {
         if (LoginMenu.getLoginAccount() instanceof Seller) {
             ViewFirmFx.setAccount(LoginMenu.getLoginAccount());
             ViewFirmFx.setPriRoot(curRoot);
+            this.mouseEvent = mouseEvent;
             root = FXMLLoader.load(Objects.requireNonNull(ViewFirmFx.class.getClassLoader().getResource("viewFirmFx.fxml")));
             goToPage();
         } else if (LoginMenu.getLoginAccount() instanceof Manager) {
             if(request != null) {
                 ViewFirmFx.setRequest(request);
                 ViewFirmFx.setPriRoot(curRoot);
+                this.mouseEvent = mouseEvent;
                 root = FXMLLoader.load(Objects.requireNonNull(ViewFirmFx.class.getClassLoader().getResource("viewFirmFx.fxml")));
                 goToPage();
             }
@@ -215,11 +242,13 @@ public class ViewAccountFx {
     public void edit(MouseEvent mouseEvent) throws IOException {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ViewAccountFx.class.getClassLoader().getResource("viewAccountFx.fxml")));
         EditAccountFx.setPriRoot(curRoot);
+        this.mouseEvent = mouseEvent;
         root = FXMLLoader.load(Objects.requireNonNull(EditAccountFx.class.getClassLoader().getResource("editAccountFx.fxml")));
         goToPage();
     }
 
     public void userMenu(ActionEvent actionEvent) throws IOException {
+
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(ViewAccountFx.class.getClassLoader().getResource("viewAccountFx.fxml")));
         if (LoginMenu.getLoginAccount() instanceof Seller) {
             SellerMenuFx.setPriRoot(curRoot);
@@ -231,7 +260,10 @@ public class ViewAccountFx {
             CustomerMenuFx.setPriRoot(curRoot);
             root = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
         }
-        goToPage();
+        Scene pageTwoScene = new Scene(root);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(pageTwoScene);
+        window.show();
     }
 
     public void back(ActionEvent actionEvent) {
@@ -246,7 +278,10 @@ public class ViewAccountFx {
     public void logout(ActionEvent actionEvent) throws IOException {
         LoginMenu.processLogout();
         root = FXMLLoader.load(Objects.requireNonNull(MainMenuFx.class.getClassLoader().getResource("mainMenuFx.fxml")));
-        goToPage();
+        Scene pageTwoScene = new Scene(root);
+        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        window.setScene(pageTwoScene);
+        window.show();
     }
 
 }

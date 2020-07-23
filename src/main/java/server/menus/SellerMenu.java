@@ -338,9 +338,9 @@ public class SellerMenu {
             outputNo = 0;
         } else outputNo = 5;
 
-
+        OutputMassageHandler.showSaleOutput(outputNo);
         return outputNo;
-        // OutputMassageHandler.showSaleOutput(outputNo);
+
     }
 
 
@@ -415,8 +415,8 @@ public class SellerMenu {
         return false;
     }
 
-    public static int setDetailsToSale(String detail, int detailMen) throws ParseException, IOException {
-        if (detailMen == 0) {
+    public static int setDetailsToSale(String detail) throws ParseException, IOException {
+        if (detailMenu == 0) {
             if (detail.matches("^(?!\\s*$).+")) {
                 if (checkSaleId(detail)) {
                     detailMenu = 1;
@@ -424,7 +424,7 @@ public class SellerMenu {
                     outputNo = 0;
                 }
             } else outputNo = 9;
-        } else if (detailMen == 1) {
+        } else if (detailMenu == 1) {
             if (detail.matches("^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$")) {
                 LocalDate localDate = LocalDate.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -435,7 +435,7 @@ public class SellerMenu {
                     outputNo = 0;
                 } else outputNo = 12;
             } else outputNo = 9;
-        } else if (detailMen == 2) {
+        } else if (detailMenu == 2) {
             if (detail.matches("^\\d{1,2}\\/\\d{1,2}\\/\\d{4}$")) {
                 LocalDate localDate = LocalDate.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -446,13 +446,13 @@ public class SellerMenu {
                     outputNo = 0;
                 } else outputNo = 12;
             } else outputNo = 19;
-        } else if (detailMen == 3) {
+        } else if (detailMenu == 3) {
             if (detail.matches("\\d+")) {
                 saleRequest.setSaleAmount(Integer.parseInt(detail));
                 detailMenu = 4;
                 outputNo = 0;
             } else outputNo = 15;
-        } else if (detailMen == 4) {
+        } else if (detailMenu == 4) {
             if (detail.matches("((?!^ +$)^.+$)")) {
                 // if (!detail.equalsIgnoreCase("finish")) {
                 // if (checkProductSale(detail)) {
@@ -473,8 +473,9 @@ public class SellerMenu {
                 }
             } else outputNo = 19;
         }
+        OutputMassageHandler.showSaleOutput(outputNo);
         return outputNo;
-        // OutputMassageHandler.showSaleOutput(outputNo);
+
     }
 
 

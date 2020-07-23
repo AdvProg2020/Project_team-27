@@ -10,10 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.accounts.Seller;
 import model.fileTransfer.FileToShow;
 import model.fileTransfer.SelectFileChooserExample;
-import server.Server;
+import server.MarketServer;
 
 import java.io.File;
-import java.io.IOException;
 
 public class SellFileFx {
     @FXML
@@ -48,7 +47,7 @@ public class SellFileFx {
 
         SelectFileChooserExample.seller.getFileWithName(selectedFile.file.getName());
         SelectFileChooserExample.seller.files.add(selectedFile.file);
-        Server.file = selectedFile.file;
-        Server.main(SelectFileChooserExample.a);
+        MarketServer.file = selectedFile.file;
+        MarketServer.main(SelectFileChooserExample.a);
     }
 }

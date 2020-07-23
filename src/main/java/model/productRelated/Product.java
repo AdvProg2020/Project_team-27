@@ -54,6 +54,19 @@ public class Product {
         //writeInJ();
     }
 
+
+
+    public void setAllProduct(String productId, String productName, double price, String seller, ProductStatus productStatus, int numberOfProducts, String additionalDetail, double score) {
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+        this.seller = seller;
+        this.productStatus = productStatus;
+        this.numberOfProducts = numberOfProducts;
+        this.additionalDetail = additionalDetail;
+        this.score = score;
+    }
+
     public String getProductVideoId() {
         return productVideoId;
     }

@@ -1,6 +1,7 @@
 package client.view.gui;
 
 import client.Main;
+
 import model.bank.BankAPI;
 import model.bank.Transaction;
 import server.menus.LoginMenu;
@@ -66,17 +67,24 @@ public class TransactionsFx {
         makeTree();
     }
 
+    public static Parent getPriRoot() {
+        return priRoot;
+    }
+
+    public static void setPriRoot(Parent priRoot) {
+        TransactionsFx.priRoot = priRoot;
+    }
+
     public static void makeList() {
         list.clear();
         list.addAll(Transaction.getAllTransactions());
     }
 
     private void makeTree() {
-
-        sourceAccount.setCellValueFactory(new PropertyValueFactory<Transaction, Number>("sourceAccountI"));
+        sourceAccount.setCellValueFactory(new PropertyValueFactory<Transaction, Number>("sourceAccountID"));
         destAccount.setCellValueFactory(new PropertyValueFactory<Transaction, Number>("destAccountID"));
         id.setCellValueFactory(new PropertyValueFactory<Transaction, String>("id"));
-        type.setCellValueFactory(new PropertyValueFactory<Transaction, String>("receiptTyp"));
+        type.setCellValueFactory(new PropertyValueFactory<Transaction, String>("receiptType"));
         money.setCellValueFactory(new PropertyValueFactory<Transaction, Number>("money"));
         paid.setCellValueFactory(new PropertyValueFactory<Transaction, Number>("paid"));
         description.setCellValueFactory(new PropertyValueFactory<Transaction, String>("description"));
@@ -93,20 +101,31 @@ public class TransactionsFx {
     public void pay(MouseEvent mouseEvent) throws IOException {
         if (transactions.getSelectionModel().getSelectedItem() != null) {
             Transaction tr = transactions.getSelectionModel().getSelectedItem();
-            BankAPI.start("pay " + tr.getId());
-            payMarket(tr);
-            usersMs.setText("paid");
+            if(!tr.isPaid()) {
+                BankAPI.start("pay " + tr.getId());
+                payMarket(tr);
+                makeTree();
+                usersMs.setText("done successfully");
+            } else usersMs.setText("receipt is paid before");
         }
     }
 
     private void payMarket(Transaction transaction) throws IOException {
         if(transaction.getReceiptType().equalsIgnoreCase("deposit")){
             Account account =LoginMenu.getLoginAccount();
-            account.increaseCredit((double)transaction.getMoney());
+            System.out.println("credit: "+ account.getCredit());
+            account.increaseCredit(Double.valueOf(transaction.getMoney()));
+            System.out.println("credit: "+ account.getCredit());
         }else if(transaction.getReceiptType().equalsIgnoreCase("withdraw")){
             Account account =LoginMenu.getLoginAccount();
+            System.out.println("credit: "+ account.getCredit());
             account.setCredit(account.getCredit()-transaction.getMoney());
+            System.out.println("credit: "+ account.getCredit());
         }
+        Customer.writeInJ();
+        Seller.writeInJ();
+        Manager.writeInJ();
+
 
     }
 

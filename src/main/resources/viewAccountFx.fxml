@@ -135,48 +135,6 @@
                 <Font size="25.0" />
             </font>
         </Label>
-        <Button layoutX="1071.0" layoutY="236.0" mnemonicParsing="false" onMouseClicked="#viewCart" prefHeight="50.0" prefWidth="257.0" text="client.view cart">
-            <textFill>
-                <LinearGradient endX="1.0" endY="1.0">
-                    <stops>
-                        <Stop color="#8049da" />
-                        <Stop color="#cd2bb2" offset="0.48366013071895425" />
-                        <Stop color="#34c8d1" offset="1.0" />
-                    </stops>
-                </LinearGradient>
-            </textFill>
-            <font>
-                <Font size="23.0" />
-            </font>
-        </Button>
-        <Button layoutX="1071.0" layoutY="336.0" mnemonicParsing="false" onMouseClicked="#viewCustomerDiscount" prefHeight="37.0" prefWidth="257.0" text="client.view discount codes">
-            <font>
-                <Font size="23.0" />
-            </font>
-            <textFill>
-                <LinearGradient endX="1.0" endY="1.0">
-                    <stops>
-                        <Stop color="#8049da" />
-                        <Stop color="#cd2bb2" offset="0.48366013071895425" />
-                        <Stop color="#34c8d1" offset="1.0" />
-                    </stops>
-                </LinearGradient>
-            </textFill>
-        </Button>
-        <Button layoutX="1073.0" layoutY="442.0" mnemonicParsing="false" onMouseClicked="#viewLogs" prefHeight="24.0" prefWidth="257.0" text="client.view logs">
-            <font>
-                <Font size="23.0" />
-            </font>
-            <textFill>
-                <LinearGradient endX="1.0" endY="1.0">
-                    <stops>
-                        <Stop color="#8049da" />
-                        <Stop color="#cd2bb2" offset="0.48366013071895425" />
-                        <Stop color="#34c8d1" offset="1.0" />
-                    </stops>
-                </LinearGradient>
-            </textFill>
-        </Button>
         <Text layoutX="497.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Creadit:" wrappingWidth="158.0">
             <font>
                 <Font name="System Bold Italic" size="28.0" />
@@ -187,7 +145,7 @@
                 <Font size="25.0" />
             </font>
         </Label>
-        <Button layoutX="1071.0" layoutY="540.0" mnemonicParsing="false" onMouseClicked="#edit" prefHeight="50.0" prefWidth="257.0" text="Edit">
+        <Button layoutX="1071.0" layoutY="323.0" mnemonicParsing="false" onMouseClicked="#edit" prefHeight="50.0" prefWidth="257.0" text="Edit">
             <font>
                 <Font size="23.0" />
             </font>
@@ -201,7 +159,7 @@
                 </LinearGradient>
             </textFill>
         </Button>
-        <Button layoutX="1071.0" layoutY="639.0" mnemonicParsing="false" onMouseClicked="#viewFirm" prefHeight="49.0" prefWidth="257.0" text="View firm">
+        <Button layoutX="1071.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#viewFirm" prefHeight="49.0" prefWidth="257.0" text="View firm">
             <font>
                 <Font size="23.0" />
             </font>
