@@ -123,6 +123,10 @@ public class AuctionsFx {
         if (sales.getSelectionModel().getSelectedItem() != null) {
             Auction auction = sales.getSelectionModel().getSelectedItem();
             LoginWindow loginWindow = new LoginWindow();
+            loginWindow.label.setVisible(true);
+            loginWindow.label.setLayoutX(500);
+            loginWindow.label.setLayoutY(250);
+            loginWindow.label.setText(String.valueOf(Product.getProductById(auction.getProduct())) + "  : Is based price");
             loginWindow.setAuction(auction);
             loginWindow.isSaleOrNot = true;
             loginWindow.setIfAllIsSale(Customer.getCustomerWithUsername(auction.getCustomer()), Product.getProductById(auction.getProduct()));
