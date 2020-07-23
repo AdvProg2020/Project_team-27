@@ -11,13 +11,15 @@ public class ServerClient {
     public InetAddress address;
     public int ID;
     public int  attempt=0;
+    public String userId;
 
 
-    public ServerClient(String name,InetAddress address, int port,final int ID){
+    public ServerClient(String name,InetAddress address, int port,final int ID,String userId){
         this.port=port;
         this.name=name;
         this.address=address;
         this.ID=ID;
+        this.userId = userId;
     }
 
     public String getName() {

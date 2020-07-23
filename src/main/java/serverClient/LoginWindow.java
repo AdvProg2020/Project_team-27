@@ -9,13 +9,23 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
+import client.Main;
+import client.view.gui.MainMenuFx;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -23,33 +33,42 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Seller;
 import model.accounts.Supporter;
 import model.off.Auction;
 import model.productRelated.Product;
+import server.menus.LoginMenu;
 
 
 public class LoginWindow implements Runnable {
 
+    public Account account;
     public Customer customerWithHigherPrice;
     public Product productToBuy;
     public Seller sellerWhoHasPro;
     public double highPrice = 0;
     public boolean isSaleOrNot = false;
+    public static boolean locked = false;
     public Label label = new Label();
     Stage window;
     public AnchorPane anchorPane;
     static Scene scene1, scene2;
     private Auction auction;
     Text login = new Text();
+    private static Parent priRoot;
+    private static Parent root;
     Label lblWelcome = new Label(), lblUser = new Label(), lblIp = new Label();
     public Supporter supporter;
-    TextField txtUser, txtIp, messageField;
-    Button loginBtn, clearBtn, sendBtn, logoutBtn; //browse for images
+    TextField txtUser, txtIp, txtPort, messageField;
+    Button loginBtn, clearBtn, sendBtn, logoutBtn;
     TextArea textArea = new TextArea();
+    TableView<ServerClient> showOnline = new TableView<>();
+    TableColumn<ServerClient,String> clientName = new TableColumn<>("name");
+    ObservableList<ServerClient> data = FXCollections.observableArrayList();
+
     VBox vBox;
-//    Image chatImage = new Image("ChatImage.png", 200, 200, true, true);
 
     InetAddress ip;
     DatagramSocket socket;
@@ -79,6 +98,17 @@ public class LoginWindow implements Runnable {
         this.auction = auction;
     }
 
+    public void initializeList(){
+        data.addAll(connectedClients);
+    }
+
+    public void initialize(){
+        initializeList();
+        clientName.setCellValueFactory(new PropertyValueFactory<ServerClient,String>("name"));
+        showOnline.getColumns().add(clientName);
+        showOnline.setItems(data);
+    }
+
 
     //    public static void main(String[] args) {
 //        start();
@@ -102,18 +132,20 @@ public class LoginWindow implements Runnable {
         login.setFont(Font.font("Serif", FontWeight.BOLD, 20));
         vBox = new VBox();
         vBox.getChildren().addAll(lblWelcome, sep1, login);
-
-        lblUser = new Label("User name");
+        lblUser = new Label("Name");
         grid.add(lblUser, 0, 0);
         txtUser = new TextField();
+        txtPort = new TextField();
         grid.add(txtUser, 1, 0);
+        grid.add(txtPort,1,2);
         lblIp = new Label("Host IP");
         grid.add(lblIp, 0, 1);
         txtIp = new TextField();
+
         grid.add(txtIp, 1, 1);
-        loginBtn = new Button("Login");
+        loginBtn = new Button("Chat!");
         loginBtn.setOnAction(e -> {
-            window.setScene(clientWindow(txtIp.getText(), port));
+            window.setScene(clientWindow(txtIp.getText(), Integer.parseInt(txtPort.getText())));
             //for current time
             long clientCurrentTime = System.currentTimeMillis();
             // long timeDifference=server.getServerStartTime()-clientCurrentTime;
@@ -154,17 +186,19 @@ public class LoginWindow implements Runnable {
     }
 
     private Scene clientWindow(String address, int port) {
-
+        if (isSaleOrNot){
+            label.setText(String.valueOf(highPrice) + "  : Is based price");
+        }
         boolean checkConnect = openConnection(address, port);
         if (checkConnect) {
             try {
-                ServerClient serverClient = new ServerClient(txtUser.getText(),InetAddress.getByName(address),port,ID);
+                ServerClient serverClient = new ServerClient(txtUser.getText(),InetAddress.getByName(address),port,ID,account.getAccountId());
                 connectedClients.add(serverClient);
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
-            String message = "/c/" + txtUser.getText() + "/e/";
+            String message = "/c/" + account.getAccountId() + txtUser.getText() + "/e/";
             send(message.getBytes());
         }
         running = true;
@@ -174,36 +208,18 @@ public class LoginWindow implements Runnable {
         window.setTitle(txtUser.getText() + " Window");
         textArea.setEditable(false);
         textArea.setMaxWidth(500);
-        textArea.setMinHeight(400);
+        textArea.setMinHeight(550);
         textArea.setPadding(new Insets(0, 0, 0, 10));
         messageField = new TextField();
         messageField.setPromptText("Type message here");
         messageField.setMinWidth(500);
-//        messageField.setOnKeyPressed(e -> {
-//            if (e.getCode() == KeyCode.ENTER) {
-//                System.out.println(messageField.getText());
-//                send(messageField.getText(), 0);
-//                typeAttempt = true;
-//                messageField.setText("");
-//            } else {
-////                send(" : is Typing", 1);
-////                typeAttempt=true;
-////                System.out.println(txtUser.getText()+" is Typing");
-//            }
-//        });
+
         sendBtn = new Button("Send");
         sendBtn.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                System.out.println(messageField.getText());
-                send(messageField.getText(), 0);
-                typeAttempt = true;
-                //console(messageField.getText());
-                messageField.setText("");
-            }  //                send(" : is Typing", 1);
-            //                typeAttempt=true;
-            //                System.out.println(txtUser.getText()+" is Typing");
-            //                send(messageField.getText(), 0);
-
+            System.out.println(messageField.getText());
+            send(messageField.getText(), 0);
+            typeAttempt = true;
+            messageField.setText("");
         });
         logoutBtn = new Button("Logout");
         logoutBtn.setOnAction(e -> {
@@ -215,25 +231,40 @@ public class LoginWindow implements Runnable {
             System.out.println("Disconnection Request ");
             running = false;
             //  }
-            window.setScene(scene1);
+            try {
+                logout(e);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             textArea.clear();
             txtUser.clear();
             txtIp.clear();
         });
-        HBox hBox = new HBox();
-        hBox.getChildren().add(logoutBtn);
-        hBox.setAlignment(Pos.TOP_RIGHT);
+
+
+//        HBox hBox = new HBox();
+
+//        hBox.getChildren().add(logoutBtn);
+//        hBox.setAlignment(Pos.TOP_RIGHT);
         VBox vBox1 = new VBox();
-        vBox1.getChildren().addAll(textArea);
+        vBox1.getChildren().add(textArea);
         HBox hBox1 = new HBox();
         hBox1.setPadding(new Insets(0, 0, 10, 10));
         hBox1.setSpacing(10);
-        hBox1.getChildren().addAll(messageField, sendBtn);
+        hBox1.getChildren().addAll(messageField, sendBtn,logoutBtn);
 
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(hBox);
-        borderPane.setCenter(vBox1);
-        borderPane.setBottom(hBox1);
+        AnchorPane borderPane = new AnchorPane();
+        vBox1.setLayoutX(10);
+        vBox1.setLayoutY(10);
+        hBox1.setLayoutX(10);
+        hBox1.setLayoutY(600);
+        borderPane.getChildren().add(vBox1);
+        borderPane.getChildren().add(hBox1);
+        showOnline.setLayoutX(600);
+        borderPane.getChildren().add(showOnline);
+//        borderPane.setTop(hBox);
+//        borderPane.setCenter(vBox1);
+//        borderPane.setBottom(hBox1);
 
 //        scene2.getStylesheets().add("ChatCSS.css");
 
@@ -241,8 +272,6 @@ public class LoginWindow implements Runnable {
             scene2.setOnMousePressed(e -> {
                 seenAttempt = true;
                 send("message seen", 3);
-//            seenAttempt=false;
-                //System.out.println("Message Seen ");
             });
         }
         if (isSaleOrNot){
@@ -250,9 +279,9 @@ public class LoginWindow implements Runnable {
             Label customerWithHighest = new Label();
             customerWithHighest.setText("Seller : " + Seller.getSellerWithUsername(productToBuy.getSeller()).getName());
             proName.setText("Product name : " + productToBuy.getProductName());
-            proName.setLayoutY(100);
-            proName.setLayoutX(10);
-            customerWithHighest.setLayoutX(10);
+            proName.setLayoutY(200);
+            proName.setLayoutX(500);
+            customerWithHighest.setLayoutX(500);
             customerWithHighest.setLayoutY(150);
             proName.setVisible(true);
             proName.setTextFill(Color.DARKRED);
@@ -260,9 +289,8 @@ public class LoginWindow implements Runnable {
             customerWithHighest.setTextFill(Color.DARKRED);
             anchorPane = new AnchorPane();
             anchorPane.getChildren().addAll(proName,customerWithHighest);
-            label.setVisible(false);
             anchorPane.getChildren().add(label);
-            borderPane.setRight(anchorPane);
+            borderPane.getChildren().add(anchorPane);
         }
         scene2 = new Scene(borderPane, 600, 500);
         return scene2;
@@ -301,7 +329,7 @@ public class LoginWindow implements Runnable {
                     auction.setCustomer(customerWithHigherPrice.getUsername());
                     auction.setMoney(highPrice);
                     label.setLayoutY(50);
-                    label.setLayoutX(10);
+                    label.setLayoutX(500);
                 }
                 else {
                     label.setText("Highest offer till now : " + highPrice);
@@ -310,7 +338,7 @@ public class LoginWindow implements Runnable {
                 System.out.println("not num");
             }
         }
-        console(txtUser.getText()+" : "+message);
+        //console(txtUser.getText()+" : "+message);
         switch (text) {
             case 0:
                 if (message.isEmpty()) {
@@ -400,7 +428,7 @@ public class LoginWindow implements Runnable {
                     } else if (message.startsWith("/m/")) {
                         String text = message.substring(3);
                         text = text.split("/e/")[0];
-                       // 88888888888888888888888888888888888888888888
+                        // 88888888888888888888888888888888888888888888
                         console(text);
                         ////////////////////////////////////////////////////////////////////////////////
                         //console(message + "\n");
@@ -468,5 +496,19 @@ public class LoginWindow implements Runnable {
         alert.setContentText(text);
         alert.showAndWait();
     }
+
+    public void logout(ActionEvent actionEvent) throws IOException {
+        LoginMenu.processLogout();
+        root = FXMLLoader.load(Objects.requireNonNull(MainMenuFx.class.getClassLoader().getResource("mainMenuFx.fxml")));
+        goToPage();
+    }
+
+    private static void goToPage() {
+        Scene pageTwoScene = new Scene(root);
+        //Stage window = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+        Main.primStage.setScene(pageTwoScene);
+        Main.primStage.show();
+    }
+
 }
 

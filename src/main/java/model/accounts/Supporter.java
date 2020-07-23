@@ -13,6 +13,7 @@ public class Supporter extends Account {
     private static ArrayList<Supporter> allSupporters = new ArrayList<>();
     public static Type SupporterType = new TypeToken<ArrayList<Supporter>>() {
     }.getType();
+    public int ip;
 
 
     public Supporter(String username) throws IOException {
@@ -22,7 +23,13 @@ public class Supporter extends Account {
         writeInJ();
     }
 
+    public int getIp() {
+        return ip;
+    }
 
+    public void setIp(int ip) {
+        this.ip = ip;
+    }
 
     public static ArrayList<Supporter> getAllSupporters() {
         return allSupporters;

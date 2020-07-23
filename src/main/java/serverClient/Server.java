@@ -40,6 +40,7 @@ public class Server implements Runnable {
         }
         clients = new ArrayList<>();
         run = new Thread(this, "Run Thread");
+        run();
         run.start();
 
     }
@@ -185,8 +186,9 @@ public class Server implements Runnable {
             int id = idTo++;
             System.out.println("Client ID : " + id);
             String name = string.split("/c/|/e/")[1];
-
-            clients.add(new ServerClient(name,packet.getAddress(),packet.getPort(),id));
+            String userId = string.split(":")[0];
+            System.out.println("user id                                       "+ userId);
+            clients.add(new ServerClient(name,packet.getAddress(),packet.getPort(),id,userId));
             System.out.println("client connected " + name + " || clients no : " + clients.size());
             String ID = "/c/" + id;
             send(ID, packet.getAddress(), packet.getPort());

@@ -78,6 +78,7 @@ public class SupportersFx {
         if (usersList.getSelectionModel().getSelectedItem() != null) {
             Account supporter = usersList.getSelectionModel().getSelectedItem();
             LoginWindow loginWindow = new LoginWindow();
+            loginWindow.account = LoginMenu.getLoginAccount();
             loginWindow.isSaleOrNot = false;
             try {
                 loginWindow.start(Main.primStage);

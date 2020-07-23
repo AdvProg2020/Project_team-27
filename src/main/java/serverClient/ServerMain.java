@@ -3,11 +3,15 @@ package serverClient;
 import java.util.Scanner;
 
 public class ServerMain {
-    int port;
+    public static int port = 4293;
     static Server server;
 
+    public static void main(String[] args) {
+        startServer(port);
+    }
+
     public ServerMain(int port) {
-        this.port = port;
+        ServerMain.port = port;
         server = new Server(port);
         System.out.println("Server Started ");
     }
