@@ -1,6 +1,8 @@
 package serverClient;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -12,7 +14,10 @@ import java.util.List;
 import java.util.Objects;
 
 import client.Main;
+import client.view.FileHandling;
 import client.view.gui.MainMenuFx;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,6 +44,8 @@ import model.accounts.Customer;
 import model.accounts.Seller;
 import model.accounts.Supporter;
 import model.off.Auction;
+import model.off.DiscountCode;
+import model.productRelated.Category;
 import model.productRelated.Product;
 import server.menus.LoginMenu;
 
@@ -46,6 +53,8 @@ import server.menus.LoginMenu;
 public class LoginWindow implements Runnable {
 
     public Account account;
+    public BorderPane borderPane = new BorderPane();
+    public AnchorPane mPane;
     public Customer customerWithHigherPrice;
     public Product productToBuy;
     public Seller sellerWhoHasPro;
@@ -66,7 +75,7 @@ public class LoginWindow implements Runnable {
     Button loginBtn, clearBtn, sendBtn, logoutBtn;
     TextArea textArea = new TextArea();
     public TableView<ServerClient> showOnline = new TableView<>();
-    public TableColumn<ServerClient,String> clientName = new TableColumn<>("name");
+    public TableColumn<ServerClient,Integer> clientName = new TableColumn<>("ID");
     public ObservableList<ServerClient> data = FXCollections.observableArrayList();
 
     VBox vBox;
@@ -89,7 +98,7 @@ public class LoginWindow implements Runnable {
         this.supporter = supporter;
     }
 
-    List<ServerClient> connectedClients = new ArrayList<>();
+    public List<ServerClient> connectedClients = new ArrayList<>();
 
     public Auction getAuction() {
         return auction;
@@ -100,15 +109,14 @@ public class LoginWindow implements Runnable {
     }
 
     public void initializeList(){
-        for (ServerClient client : Server.clients) {
-            data.add(client);
+        for (ServerClient connectedClient : connectedClients) {
+            data.add(connectedClient);
         }
     }
 
-    @FXML
-    public void initialize(){
+    public void make(){
         initializeList();
-        clientName.setCellValueFactory(new PropertyValueFactory<ServerClient,String>("name"));
+        clientName.setCellValueFactory(new PropertyValueFactory<ServerClient,Integer>("ID"));
         showOnline.getColumns().add(clientName);
         showOnline.setItems(data);
     }
@@ -170,7 +178,7 @@ public class LoginWindow implements Runnable {
         hBox.getChildren().addAll(loginBtn, clearBtn);
         grid.add(hBox, 1, 2);
 
-        BorderPane borderPane = new BorderPane();
+        borderPane = new BorderPane();
         borderPane.setTop(vBox);
         borderPane.setCenter(grid);
         borderPane.setRight(stackPane);
@@ -189,6 +197,48 @@ public class LoginWindow implements Runnable {
 
     }
 
+    public void readOnlinePeople(){
+        Type serverClientType = new TypeToken<ArrayList<ServerClient>>() {
+        }.getType();
+        try {
+            JsonReader reader3 = new JsonReader(new FileReader("onlineClients.json"));
+            ArrayList<ServerClient> categoryArrayList = FileHandling.getGson().fromJson(reader3, serverClientType);
+            if (null == categoryArrayList) {
+                categoryArrayList = new ArrayList<>();
+            }
+            connectedClients.addAll(categoryArrayList);
+        } catch (IOException e) {
+            try {
+                FileHandling.writeInFile("", "onlineClients.json");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            connectedClients = new ArrayList<>();
+        }
+        if (account instanceof Supporter){
+            createButtons();
+        }
+    }
+
+    private void createButtons() {
+        for (ServerClient client : connectedClients) {
+            Button button = new Button(String.valueOf(client.getUserId()));
+            button.setLayoutY((connectedClients.indexOf(client)+1)*30);
+            button.setLayoutX(600);
+            button.setOnAction(event -> {
+                setUpPrivateChatroom(client.getUserId());
+            });
+            mPane.getChildren().add(button);
+        }
+    }
+
+    private void setUpPrivateChatroom(String userUd) {
+        Customer customer = Customer.getCustomerWithUsername(userUd);
+        PrivateChatRoom privateChatRoom = new PrivateChatRoom(supporter,customer);
+        privateChatRoom.startPage();
+    }
+
+
     private Scene clientWindow(String address, int port) {
         if (isSaleOrNot){
             label.setText(String.valueOf(highPrice) + "  : Is based price");
@@ -197,6 +247,7 @@ public class LoginWindow implements Runnable {
         if (checkConnect) {
             try {
                 ServerClient serverClient = new ServerClient(txtUser.getText(),InetAddress.getByName(address),port,ID,account.getAccountId());
+
                 String message = "/c/" + " "+ account.getUsername() + "/h/" + txtUser.getText() + "/e/";
                 send(message.getBytes());
                 connectedClients.add(serverClient);
@@ -259,15 +310,15 @@ public class LoginWindow implements Runnable {
         hBox1.setSpacing(10);
         hBox1.getChildren().addAll(messageField, sendBtn,logoutBtn);
 
-        AnchorPane borderPane = new AnchorPane();
+        mPane = new AnchorPane();
         vBox1.setLayoutX(10);
         vBox1.setLayoutY(10);
         hBox1.setLayoutX(10);
         hBox1.setLayoutY(600);
-        borderPane.getChildren().add(vBox1);
-        borderPane.getChildren().add(hBox1);
-        showOnline.setLayoutX(600);
-        borderPane.getChildren().add(showOnline);
+        mPane.getChildren().add(vBox1);
+        mPane.getChildren().add(hBox1);
+//        showOnline.setLayoutX(600);
+//        borderPane.getChildren().add(showOnline);
         if (messageReceived) {
             scene2.setOnMousePressed(e -> {
                 seenAttempt = true;
@@ -290,9 +341,13 @@ public class LoginWindow implements Runnable {
             anchorPane = new AnchorPane();
             anchorPane.getChildren().addAll(proName,customerWithHighest);
             anchorPane.getChildren().add(label);
-            borderPane.getChildren().add(anchorPane);
+            mPane.getChildren().add(anchorPane);
         }
-        scene2 = new Scene(borderPane, 600, 500);
+        readOnlinePeople();
+//        mPane.getChildren().add(showOnline);
+//        readOnlinePeople();
+//        make();
+        scene2 = new Scene(mPane, 600, 500);
         return scene2;
     }
 
@@ -315,8 +370,7 @@ public class LoginWindow implements Runnable {
     }
 
     private void send(String message, int text) {
-        //  if(message.isEmpty()) return;
-        //String text=message;
+
         if (isSaleOrNot){
             try {
                 double price = Double.parseDouble(message);
@@ -338,7 +392,6 @@ public class LoginWindow implements Runnable {
                 System.out.println("not num");
             }
         }
-        //console(txtUser.getText()+" : "+message);
         switch (text) {
             case 0:
                 if (message.isEmpty()) {
@@ -397,7 +450,6 @@ public class LoginWindow implements Runnable {
             ex.printStackTrace();
         }
         String string = new String(packet.getData());
-        System.out.println(string + " ******** ");
         return string;
     }
 
@@ -512,4 +564,3 @@ public class LoginWindow implements Runnable {
     }
 
 }
-

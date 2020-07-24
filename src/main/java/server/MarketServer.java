@@ -4,8 +4,12 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+
+import client.Main;
 import client.Main.*;
-public class Server {
+import serverClient.ServerMain;
+
+public class MarketServer {
     private static ServerSocket serverSocket;
     private static DataInputStream dataInputStream;
     private static DataOutputStream dataOutputStream;
@@ -19,13 +23,16 @@ public class Server {
 
     private static void run() {
         try {
+            Main.gson();
+            ServerMain.startServer(4293);
             serverSocket = new ServerSocket(8888);
-            System.out.println("Waiting for client");
+            System.out.println("market connected");
             while (true) {
                 clientServer = serverSocket.accept();
-                System.out.println("client connected");
+                //  System.out.println("client connected");
                 dataOutputStream = new DataOutputStream(new BufferedOutputStream(clientServer.getOutputStream()));
                 dataInputStream = new DataInputStream(new BufferedInputStream(clientServer.getInputStream()));
+                new HandleMarket(clientServer,dataInputStream,dataOutputStream).start();
             }
         } catch (IOException e) {
             System.err.println("Error newing server");
@@ -35,9 +42,7 @@ public class Server {
 
     public static void serverSellFile() throws IOException {
         ServerSocket serverSocket = new ServerSocket(15123);
-        Client.buyingFile();
         Socket socket = serverSocket.accept();
-        Client.buyingFile();
         System.out.println("Accepted connection : " + socket);
         File transferFile = file;
         byte[] bytearray = new byte[(int) transferFile.length()];
@@ -51,4 +56,5 @@ public class Server {
         socket.close();
         System.out.println("File transfer complete");
     }
+
 }

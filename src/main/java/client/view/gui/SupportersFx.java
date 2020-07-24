@@ -46,7 +46,10 @@ public class SupportersFx {
     private static ArrayList<Account> accounts = new ArrayList<>();
     private static Parent priRoot;
 
-   
+
+    public static void setPriRoot(Parent priRoot) {
+        SupportersFx.priRoot = priRoot;
+    }
 
     @FXML
     public void initialize() throws IOException {
@@ -64,7 +67,7 @@ public class SupportersFx {
         userLast.setCellValueFactory(new PropertyValueFactory<Account, String>("lastname"));
         userPhoneNo.setCellValueFactory(new PropertyValueFactory<Account, Double>("phoneNo"));
         online.setCellValueFactory(new PropertyValueFactory<Account, String>("online"));
-        
+
 
         makeList();
         usersList.setEditable(true);

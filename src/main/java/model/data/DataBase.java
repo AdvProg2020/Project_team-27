@@ -1,18 +1,14 @@
 package model.data;
 
 
-import javafx.scene.chart.XYChart;
 import model.accounts.*;
-import model.bank.BankAccount;
 import model.firms.Firm;
 import model.log.BuyLog;
 import model.log.DeliveryStatus;
 import model.log.SaleLog;
 import model.productRelated.Category;
-import model.productRelated.Comment;
 import model.productRelated.Product;
 import model.productRelated.ProductStatus;
-import server.Server;
 
 import java.io.File;
 import java.sql.Connection;
@@ -21,7 +17,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class DataBase {
     private static Connection connection;
@@ -185,7 +180,6 @@ public class DataBase {
     }
 
     public static void insertProductSa(Product product) {
-
         String sql = "INSERT INTO PRODUCT (ID,NAME,PRICE,NUMBER,SELLER,STATUS,ADDITIONAL, SCORE,CAT,FIRM,SALE,IMG)" +
                 "VALUES ('" + product.getId() + "','" + product.getProductName() + "','" + product.getPrice() + "','" + product.getNumberOfProducts() + "', '" +
                 product.getSeller() + "', '" + product.getProductStatus() + "', '" + product.getAdditionalDetail() + "', '" + product.getScore() + "', '" + product.getCategory().getName() +

@@ -157,7 +157,7 @@ public class Main extends Application {
         Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
     }
 
-    private static void gson() throws IOException {
+    public static void gson() throws IOException {
 
         for (DiscountCode allDiscountCode : DiscountCode.getAllDiscountCodes()) {
             System.out.println(allDiscountCode.getDiscountId());

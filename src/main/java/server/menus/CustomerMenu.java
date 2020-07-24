@@ -11,7 +11,7 @@ import model.log.SaleLog;
 import model.off.DiscountCode;
 import model.off.Sale;
 import model.productRelated.Product;
-import server.Server;
+import server.MarketServer;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -142,9 +142,9 @@ public class CustomerMenu {
 
         for (Product p : buyLog.getChosenProduct().keySet()) {
             if (p.getFile() != null) {
-                Server.file = p.getFile();
+                MarketServer.file = p.getFile();
                 try {
-                    Server.serverSellFile();
+                    MarketServer.serverSellFile();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
