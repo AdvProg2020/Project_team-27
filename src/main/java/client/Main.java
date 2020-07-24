@@ -99,8 +99,8 @@ public class Main extends Application {
         a = args;
         gson();
         data();
-        removeAuction();
-        removeSale();
+  //      removeAuction();
+   //     removeSale();
 
         if (Manager.getAllManagers().size() != 0) {
             if (Customer.getAllCustomers().size() >= 2) {
@@ -116,6 +116,8 @@ public class Main extends Application {
         DataBase.getAccount();
         DataBase.getProduct();
         BankData.getAcc();
+        DataBase.getBuy();
+        DataBase.getSale();
        // BankData.getATr();
 
         for (Account checkAllAccount : Account.getCheckAllAccounts()) {

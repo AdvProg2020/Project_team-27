@@ -27,6 +27,15 @@ public class SaleLog extends Log {
 
     //setterAndGetter--------------------------------------------
 
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public void addPrice(double p) {
         price += p;
     }

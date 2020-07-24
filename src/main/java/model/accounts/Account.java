@@ -24,8 +24,9 @@ public abstract class Account {
     boolean fast = false;
     String imageId;
     String token;
-    String bankToken;
     long tokenDate;
+    String bankToken;
+    long bankTokenDate;
     String accountId = null;
     int bankMoney = 50;
     private String online = "off";
@@ -90,6 +91,13 @@ public abstract class Account {
     }
 
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public Account(String username) throws IOException {
         this.username = username;
@@ -228,6 +236,14 @@ public abstract class Account {
 
     }
 
+    public long getTokenDate() {
+        return tokenDate;
+    }
+
+    public void setTokenDate(long tokenDate) {
+        this.tokenDate = tokenDate;
+    }
+
     public double getBankMoney() {
         return bankMoney;
     }
@@ -250,12 +266,12 @@ public abstract class Account {
 
     }
 
-    public long getTokenDate() {
-        return tokenDate;
+    public long getBankTokenDate() {
+        return bankTokenDate;
     }
 
-    public void setTokenDate(long tokenDate) {
-        this.tokenDate = tokenDate;
+    public void setBankTokenDate(long bankTokenDate) {
+        this.bankTokenDate = bankTokenDate;
     }
 
     public void setEmail(String email) throws IOException {

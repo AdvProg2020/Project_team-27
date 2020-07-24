@@ -80,7 +80,7 @@ public class Exchange {
             if (curAmount <= marketCredit) {
                 Account account = LoginMenu.getLoginAccount();
                 Date date = new Date();
-                if (account.getTokenDate() - date.getTime() >= 3600000) {
+                if (account.getBankTokenDate() - date.getTime() >= 3600000) {
                     BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
                 }
                 if (Manager.getAllManagers().get(0).getMin() <= marketCredit - curAmount) {
@@ -101,7 +101,7 @@ public class Exchange {
             if (bankCredit >= curAmount) {
                 Account account = LoginMenu.getLoginAccount();
                 Date date = new Date();
-                if (account.getTokenDate() - date.getTime() >= 3600000) {
+                if (account.getBankTokenDate() - date.getTime() >= 3600000) {
                     BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
                 }
                 if (Manager.getAllManagers().get(0).getMin() <= marketCredit - curAmount) {

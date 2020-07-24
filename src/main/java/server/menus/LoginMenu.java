@@ -10,6 +10,7 @@ import client.view.gui.LoginFx;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 public class LoginMenu {
     private static int outputNo;
@@ -63,11 +64,14 @@ public class LoginMenu {
                 loginAccount = Account.getAccountWithUsername(username);
                 login = true;
                 loginAccount.setOnline("online");
-                //token =
+                String uniqueID = UUID.randomUUID().toString();
+                loginAccount.setToken(uniqueID);
                 Date date = new Date();
-                //if (loginAccount.getTokenDate() - date.getTime() >= 3600000) {
+                loginAccount.setTokenDate(date.getTime());
+                //token =
+            //    if (loginAccount.getBankTokenDate() - date.getTime() >= 3600000) {
                 BankAPI.startLogin("get_token " + username + " " + password, loginAccount);
-                //}
+             //   }
                 // findRole();
                 String role = loginAccount.getRole();
                 yes = false;

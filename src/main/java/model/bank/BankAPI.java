@@ -93,9 +93,9 @@ public class BankAPI {
       //               System.out.println("*+"+inputStream.readUTF());
                     account.setBankToken(inputStream.readUTF());
                     Date date = new Date();
-                    account.setTokenDate(date.getTime());
+                    account.setBankTokenDate(date.getTime());
                     System.out.println("token: "+account.getBankToken());
-                    System.out.println("token date: "+account.getTokenDate());
+                    System.out.println("token date: "+account.getBankTokenDate());
                     Manager.writeInJ();
                     Seller.writeInJ();
                     Customer.writeInJ();

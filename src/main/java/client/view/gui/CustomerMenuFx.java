@@ -81,7 +81,7 @@ public class CustomerMenuFx {
         Account account = LoginMenu.getLoginAccount();
         Date date = new Date();
         //  BankAPI.startLogin("get_token " + account.getUsername()+" " + account.getPassword(), account);
-        if (account.getTokenDate() - date.getTime() >= 3600000) {
+        if (account.getBankTokenDate() - date.getTime() >= 3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
         BankAPI.startGetBa("get_balance " + account.getBankToken() , account);
@@ -152,7 +152,7 @@ public class CustomerMenuFx {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(CustomerMenuFx.class.getClassLoader().getResource("customerMenuFx.fxml")));
         Account account = LoginMenu.getLoginAccount();
         Date date = new Date();
-        if (account.getTokenDate() - date.getTime() >=3600000) {
+        if (account.getBankTokenDate() - date.getTime() >=3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
         BankAPI.startGetTra("get_transactions " + account.getBankToken() + " " + "*");

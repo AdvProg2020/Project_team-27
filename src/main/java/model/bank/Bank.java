@@ -18,9 +18,10 @@ public class Bank {
 
     public static Type transactionType = new TypeToken<ArrayList<Transaction>>() {
     }.getType();
+
     public static void main(String[] args) throws IOException {
         gson();
-     //   ServerMain.startServer(4293);
+        //   ServerMain.startServer(4293);
         new Bank.BankImp().run();
     }
 
@@ -92,8 +93,8 @@ public class Bank {
                     Date date = new Date();
                     bankAccount.setTokenDate(date.getTime());
                     BankAccount.writeInJ();
-                      BankData.deleteAccount(bankAccount);
-                      BankData.insertTok(bankAccount);
+                    BankData.deleteAccount(bankAccount);
+                    BankData.insertTok(bankAccount);
                     output = bankAccount.getToken();
                     System.out.println(output);
                 } else output = "invalid username or password";
@@ -124,27 +125,27 @@ public class Bank {
                 if ((inputs.length == 7 || inputs.length == 6)) {
                     if (type.matches("(?i)(?:deposit|withdraw|move)")) {
                         if (money.matches("\\d+")) {
-                            if (source!= Integer.parseInt(dest)) {
+                            if (source != Integer.parseInt(dest)) {
                                 if (source == -1 || BankAccount.isThereAccountWithSource(String.valueOf(source))) {
-                                    if (Integer.parseInt(dest)== -1 ||BankAccount.isThereAccountWithSource(dest)) {
-                                        if (!(type.equals("move") && (source==(-1) && dest.equals(-1)))) {
+                                    if (Integer.parseInt(dest) == -1 || BankAccount.isThereAccountWithSource(dest)) {
+                                        if (!(type.equals("move") && (source == (-1) && dest.equals(-1)))) {
                                             Date date = new Date();
                                             if (BankAccount.getAccountWithToken(token).getTokenDate() - date.getTime() < 3600000) {
-                                                if (source!=(-1)) {
+                                                if (source != (-1)) {
                                                     if (BankAccount.getAccountWithid(String.valueOf(source)).getToken().equals(token)) {
                                                         Transaction transaction = new Transaction(String.valueOf(source), dest, Integer.parseInt(money), type);
-                                                        if(inputs.length == 7){
+                                                        if (inputs.length == 7) {
                                                             transaction.setDescription(inputs[6]);
                                                         }
-                                                       // BankData.insertTransaction(transaction);
+                                                        // BankData.insertTransaction(transaction);
                                                         output = transaction.getId();
                                                     } else output = "token expired";
                                                 } else {
                                                     Transaction transaction = new Transaction(String.valueOf(source), dest, Integer.parseInt(money), type);
-                                                    if(inputs.length == 7){
+                                                    if (inputs.length == 7) {
                                                         transaction.setDescription(inputs[6]);
                                                     }
-                                                   // BankData.insertTransaction(transaction);
+                                                    // BankData.insertTransaction(transaction);
                                                     output = transaction.getId();
                                                 }
                                             } else output = "token is invalid";
@@ -175,9 +176,9 @@ public class Bank {
         void checkType(String type) {
             String starJson = "";
             if (type.equals("-")) {
-                starJson =  makeJsonWithStar(separateTransactionWithNegative());
+                starJson = makeJsonWithStar(separateTransactionWithNegative());
             } else if (type.equals("*")) {
-                starJson =  makeJsonWithStar(Transaction.getAllTransactions());
+                starJson = makeJsonWithStar(Transaction.getAllTransactions());
             } else if (type.equals("+")) {
                 starJson = makeJsonWithStar(separateTransactionWithPlus());
             } else if (Transaction.isThereAccountWithId(type)) {
@@ -187,42 +188,42 @@ public class Bank {
             handleOutput();
         }
 
-        public ArrayList<Transaction> separateTransactionWithPlus(){
+        public ArrayList<Transaction> separateTransactionWithPlus() {
             ArrayList<Transaction> list = new ArrayList<>();
             for (Transaction transaction : Transaction.getAllTransactions()) {
-                if (transaction.getSourceAccountID().equals("-1")){
+                if (transaction.getSourceAccountID().equals("-1")) {
                     list.add(transaction);
                 }
             }
             return null;
         }
 
-        public ArrayList<Transaction> separateTransactionWithNegative(){
+        public ArrayList<Transaction> separateTransactionWithNegative() {
             ArrayList<Transaction> list = new ArrayList<>();
             for (Transaction transaction : Transaction.getAllTransactions()) {
-                if (transaction.getDestAccountID().equals("-1")){
+                if (transaction.getDestAccountID().equals("-1")) {
                     list.add(transaction);
                 }
             }
             return null;
         }
 
-        public Transaction getTransactionWithId(String type){
+        public Transaction getTransactionWithId(String type) {
             for (Transaction transaction : Transaction.getAllTransactions()) {
-                if (transaction.getId().equals(type)){
+                if (transaction.getId().equals(type)) {
                     return transaction;
                 }
             }
             return null;
         }
 
-        public String  makeJsonWithStar(ArrayList<Transaction> list){
+        public String makeJsonWithStar(ArrayList<Transaction> list) {
             String json = FileHandling.getGson().toJson(list, transactionType);
-            json.replaceAll("},\\{","}\\*\\{");
+            json.replaceAll("},\\{", "}\\*\\{");
             return json;
         }
 
-        public String makeObjJson(Transaction transaction){
+        public String makeObjJson(Transaction transaction) {
             String json = FileHandling.getGson().toJson(transaction, Transaction.class);
             return json;
         }
@@ -245,34 +246,34 @@ public class Bank {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
-                    System.out.println("credit1: "+ account1.getMoney());
-                    System.out.println("credit2: "+ account2.getMoney());
+                    System.out.println("credit1: " + account1.getMoney());
+                    System.out.println("credit2: " + account2.getMoney());
                     account1.setMoney(account1.getMoney() - money);
                     account2.setMoney(account2.getMoney() + money);
-                    System.out.println("credit1: "+ account1.getMoney());
-                    System.out.println("credit2: "+ account2.getMoney());
+                    System.out.println("credit1: " + account1.getMoney());
+                    System.out.println("credit2: " + account2.getMoney());
                     transaction.setPaid(true);
-                   // BankData.updatePay(transaction);
+                    // BankData.updatePay(transaction);
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             } else if (type.equalsIgnoreCase("deposit")) {
                 BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
-                System.out.println("credit2: "+ account2.getMoney());
+                System.out.println("credit2: " + account2.getMoney());
                 account2.setMoney(account2.getMoney() - money);
-                System.out.println("credit2: "+ account2.getMoney());
+                System.out.println("credit2: " + account2.getMoney());
                 transaction.setPaid(true);
-               // BankData.updatePay(transaction);
+                // BankData.updatePay(transaction);
                 output = "done successfully";
             } else if (type.equalsIgnoreCase("withdraw")) {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
-                    System.out.println("credit1: "+ account1.getMoney());
-                    account1.setMoney((int) (account1.getMoney() +money));
-                    System.out.println("credit1: "+ account1.getMoney());
+                    System.out.println("credit1: " + account1.getMoney());
+                    account1.setMoney((int) (account1.getMoney() + money));
+                    System.out.println("credit1: " + account1.getMoney());
                     transaction.setPaid(true);
-                   // BankData.updatePay(transaction);
+                    // BankData.updatePay(transaction);
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             }
@@ -372,8 +373,8 @@ public class Bank {
                         output = "bye";
                         bankImp.handleOutput();
                         break;
-                    }else
-                        output ="invalid input";
+                    } else
+                        output = "invalid input";
                     bankImp.handleOutput();
                 } catch (IOException e) {
                     e.printStackTrace();

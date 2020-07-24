@@ -1,8 +1,12 @@
 package model.data;
 
 
+import javafx.scene.chart.XYChart;
 import model.accounts.*;
 import model.firms.Firm;
+import model.log.BuyLog;
+import model.log.DeliveryStatus;
+import model.log.SaleLog;
 import model.productRelated.Category;
 import model.productRelated.Comment;
 import model.productRelated.Product;
@@ -63,6 +67,33 @@ public class DataBase {
         connectDatas(sql);
     }
 
+
+    public static void createBuy() {
+        String sql =
+                "create table BUY_LOG (\n" +
+                        "ID int constraint FIRM_pk primary key,\n" +
+                        "STATUS TEXT,\n" +
+                        "PRICE REAL,\n" +
+                        "DATE TEXT,\n" +
+                        "SALE_PRICE REAL,\n" +
+                        "HOLE_PRICE REAL)";
+        connectDatas(sql);
+    }
+
+    public static void createSale() {
+        String sql =
+                "create table SALE_LOG (\n" +
+                        "ID int constraint FIRM_pk primary key,\n" +
+                        "STATUS TEXT,\n" +
+                        "PRICE REAL,\n" +
+                        "DATE TEXT,\n" +
+                        "REDUCE_AMOUNT REAL,\n" +
+                        "RECIEVED_AMOUNT REAL)";
+        connectDatas(sql);
+    }
+
+
+
     public static void createFirm() {
         String sql =
                 "create table FIRM (\n" +
@@ -83,19 +114,22 @@ public class DataBase {
     public static void insertAccount(Account account) {
         if(account.getFirm()!= null) {
             String sql = "INSERT INTO Accounts (ID,NAME,LASTNAME,BIRTHDAY,EMAIL,ROLE,CREDIT, PASS, FIRM)" +
-                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" + account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "', '" + account.getFirm().getName() + "')";
+                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" +
+                    account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "', '" + account.getFirm().getName() + "')";
             connectData(sql);
         }
         else {
             String sql = "INSERT INTO Accounts (ID,NAME,LASTNAME,BIRTHDAY,EMAIL,ROLE,CREDIT, PASS)" +
-                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" + account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "')";
+                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" +
+                    account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "')";
             connectData(sql);
         }
     }
 
     public static void insertAccountAdd(Account account) {
             String sql = "INSERT INTO Accounts (ID,NAME,LASTNAME,BIRTHDAY,EMAIL,ROLE,CREDIT, PASS,ADDRESS, FAST, CUR_PHONE)" +
-                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" + account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "', '" + account.getAddress() + "', '" + account.isFast() + "', '" + account.getCurrentPhoneNo() + "')";
+                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" +
+                    account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "', '" + account.getAddress() + "', '" + account.isFast() + "', '" + account.getCurrentPhoneNo() + "')";
             connectData(sql);
 
     }
@@ -103,6 +137,23 @@ public class DataBase {
     public static void insertAddress(Account account) {
         String sql = "UPDATE Accounts set ADDRESS = '" + account.getAddress() + "' where ID = '" + account.getUsername() + "'" +
                 "UPDATE Accounts set CUR_PHONE = '" + account.getCurrentPhoneNo() + "' where ID = '" + account.getUsername() + "'";
+        connectData(sql);
+    }
+
+    public static void insertBuyLog(BuyLog buyLog ) {
+        String pattern = "MM/dd/yyyy HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+        String sql = "INSERT INTO BUY_LOG (ID,STATUS,DATE,PRICE,SALE_PRICE,HOLE_PRICE)" +
+                "VALUES ('" + buyLog.getLogId() + "','" + buyLog.getDeliveryStatus() + "','" +  (buyLog.getLocalDateTimeForLog()) + "','" + buyLog.getPrice() + "','" + buyLog.getSalePrice() + "','" + buyLog.getHolePrice() + "')";
+        connectData(sql);
+    }
+
+
+    public static void insertSaleLog(SaleLog buyLog ) {
+        String pattern = "MM/dd/yyyy HH:mm:ss";
+        DateFormat df = new SimpleDateFormat(pattern);
+        String sql = "INSERT INTO SALE_LOG (ID,STATUS,DATE,PRICE,REDUCE_AMOUNT,RECIEVED_AMOUNT)" +
+                "VALUES ('" + buyLog.getLogId() + "','" + buyLog.getDeliveryStatus() + "','" +  (buyLog.getLocalDateTimeForLog()) + "','" + buyLog.getPrice() + "','" + buyLog.getReducedAmount() + "','" + buyLog.getReceivedAmount() + "')";
         connectData(sql);
     }
 
@@ -116,7 +167,6 @@ public class DataBase {
         connectData(sql);
     }
     public static void insertProduct(Product product) {
-
 
         String sql = "INSERT INTO PRODUCT (ID,NAME,PRICE,NUMBER,SELLER,STATUS,ADDITIONAL, SCORE,CAT,FIRM,SALE,IMG)" +
                 "VALUES ('" + product.getId() + "','" + product.getProductName() + "','" + product.getPrice() + "','" + product.getNumberOfProducts() + "', '" +
@@ -140,6 +190,13 @@ public class DataBase {
 
     public static void getProduct() {
         try {
+            if (new File("newDatabase.db").exists()) {
+                createAccount();
+                createProduct();
+                createFirm();
+                createBuy();
+                createSale();
+            }
             connection = DriverManager.getConnection(url);
             connection.setAutoCommit(false);
             statement = connection.createStatement();
@@ -188,9 +245,104 @@ public class DataBase {
         System.out.println("Operation done successfully");
     }
 
+    public static void getSale() {
+        try {
+            if (new File("newDatabase.db").exists()) {
+                createAccount();
+                createProduct();
+                createFirm();
+                createBuy();
+                createSale();
+            }
+            connection = DriverManager.getConnection(url);
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM SALE_LOG;");
+            while (resultSet.next()) {
+                String id = resultSet.getString("ID");
+                String status = resultSet.getString("STATUS");
+                // Date date = resultSet.getDate("DATE");
+                double price = resultSet.getDouble("PRICE");
+                double reduce_amount = resultSet.getDouble("REDUCE_AMOUNT");
+                double recieved_amount = resultSet.getDouble("RECIEVED_AMOUNT");
+
+                SaleLog saleLog;
+                if (SaleLog.isThereLogWithID(id)) {
+                    saleLog = (SaleLog) SaleLog.getLogWithId(id);
+                } else {
+                    saleLog = new SaleLog(id);
+                }
+                saleLog.setDeliveryStatus(DeliveryStatus.valueOf(status));
+                //buyLog.setLocalDateTimeForLog(date);
+                saleLog.setPrice(price);
+                saleLog.setReducedAmount(reduce_amount);
+                saleLog.setReceivedAmount(recieved_amount);
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Operation done successfully");
+    }
+
+    public static void getBuy() {
+        try {
+            if (new File("newDatabase.db").exists()) {
+                createAccount();
+                createProduct();
+                createFirm();
+                createBuy();
+                createSale();
+            }
+            connection = DriverManager.getConnection(url);
+            connection.setAutoCommit(false);
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM BUY_LOG;");
+            while (resultSet.next()) {
+                String id = resultSet.getString("ID");
+                String status = resultSet.getString("STATUS");
+               // Date date = resultSet.getDate("DATE");
+                double price = resultSet.getDouble("PRICE");
+                double sale_price = resultSet.getDouble("SALE_PRICE");
+                double hole_price = resultSet.getDouble("HOLE_PRICE");
+
+                BuyLog buyLog;
+                if (BuyLog.isThereLogWithID(id)) {
+                    buyLog = (BuyLog) BuyLog.getLogWithId(id);
+                } else {
+                    buyLog = new BuyLog(id);
+                }
+                buyLog.setDeliveryStatus(DeliveryStatus.valueOf(status));
+                //buyLog.setLocalDateTimeForLog(date);
+                buyLog.setPrice(price);
+                buyLog.setHolePrice(hole_price);
+                buyLog.setSalePrice(sale_price);
+
+
+            }
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        System.out.println("Operation done successfully");
+    }
+
 
     public static void getFirm() {
         try {
+            if (new File("newDatabase.db").exists()) {
+                createAccount();
+                createProduct();
+                createFirm();
+                createBuy();
+                createSale();
+            }
             connection = DriverManager.getConnection(url);
             connection.setAutoCommit(false);
             statement = connection.createStatement();
@@ -225,6 +377,13 @@ public class DataBase {
 
     public static void getAccount() {
         try {
+            if (new File("newDatabase.db").exists()) {
+                createAccount();
+                createProduct();
+                createFirm();
+                createBuy();
+                createSale();
+            }
             connection = DriverManager.getConnection(url);
             connection.setAutoCommit(false);
             statement = connection.createStatement();
@@ -295,6 +454,8 @@ public class DataBase {
                 createAccount();
                 createProduct();
                 createFirm();
+                createBuy();
+                createSale();
             }
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection(url);

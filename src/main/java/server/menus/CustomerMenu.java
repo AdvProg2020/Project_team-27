@@ -5,6 +5,7 @@ import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Seller;
+import model.data.DataBase;
 import model.log.BuyLog;
 import model.log.SaleLog;
 import model.off.DiscountCode;
@@ -108,10 +109,10 @@ public class CustomerMenu {
         Date date = new Date();
         Account account = LoginMenu.getLoginAccount();
         Account manager = Manager.getAllManagers().get(Manager.getAllManagers().size() - 1);
-        if (account.getTokenDate() - date.getTime() >=3600000) {
+        if (account.getBankTokenDate() - date.getTime() >=3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-            BankAPI.startTran("create_receipt " + account.getBankToken() + " " + "move " +(int) hole+" " + account.getAccountId() + " " + manager.getAccountId(), account);
+        BankAPI.startTran("create_receipt " + account.getBankToken() + " " + "move " +(int) hole+" " + account.getAccountId() + " " + manager.getAccountId(), account);
 
     }
 
@@ -187,6 +188,8 @@ public class CustomerMenu {
             if (!market) {
                 bankPayment(holePrice);
             }
+            DataBase.insertBuyLog(buyLog);
+            DataBase.insertSaleLog(saleLog);
         }
     }
 
