@@ -186,7 +186,8 @@ public class Server implements Runnable {
             int id = idTo++;
             System.out.println("Client ID : " + id);
             String name = string.split("/c/|/e/")[1];
-            String userId = string.split(":")[0];
+            String[] userd = string.split("/h/");
+            String userId = userd[0].split(" ")[1];
             System.out.println("user id                                       "+ userId);
             clients.add(new ServerClient(name,packet.getAddress(),packet.getPort(),id,userId));
             System.out.println("client connected " + name + " || clients no : " + clients.size());

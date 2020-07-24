@@ -178,7 +178,7 @@ public class ProductsMenuFX {
                         show.category = product.getCategory().getName();
                         show.id = product.getId();
                         show.price = product.getPrice();
-                        //show.comment = product.getComment();
+                        show.comment = product.getComment();
                         show.seller = product.getSeller();
                         File file = new File(product.getProductImage());
                         Image image = new Image(new FileInputStream(file));
