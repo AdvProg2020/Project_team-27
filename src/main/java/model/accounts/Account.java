@@ -90,6 +90,7 @@ public abstract class Account {
     }
 
 
+
     public Account(String username) throws IOException {
         this.username = username;
         allAccounts.add(this);

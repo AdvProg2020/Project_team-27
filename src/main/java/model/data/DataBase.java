@@ -93,6 +93,13 @@ public class DataBase {
         }
     }
 
+    public static void insertAccountAdd(Account account) {
+            String sql = "INSERT INTO Accounts (ID,NAME,LASTNAME,BIRTHDAY,EMAIL,ROLE,CREDIT, PASS,ADDRESS, FAST, CUR_PHONE)" +
+                    "VALUES ('" + account.getUsername() + "','" + account.getName() + "','" + account.getLastname() + "','" + account.getBirthdayDate() + "', '" + account.getEmail() + "', '" + account.getRole() + "', '" + account.getCredit() + "', '" + account.getPassword() + "', '" + account.getAddress() + "', '" + account.isFast() + "', '" + account.getCurrentPhoneNo() + "')";
+            connectData(sql);
+
+    }
+
     public static void insertAddress(Account account) {
         String sql = "UPDATE Accounts set ADDRESS = '" + account.getAddress() + "' where ID = '" + account.getUsername() + "'" +
                 "UPDATE Accounts set CUR_PHONE = '" + account.getCurrentPhoneNo() + "' where ID = '" + account.getUsername() + "'";
@@ -118,7 +125,14 @@ public class DataBase {
         connectData(sql);
     }
 
+    public static void insertProductSa(Product product) {
 
+        String sql = "INSERT INTO PRODUCT (ID,NAME,PRICE,NUMBER,SELLER,STATUS,ADDITIONAL, SCORE,CAT,FIRM,SALE,IMG)" +
+                "VALUES ('" + product.getId() + "','" + product.getProductName() + "','" + product.getPrice() + "','" + product.getNumberOfProducts() + "', '" +
+                product.getSeller() + "', '" + product.getProductStatus() + "', '" + product.getAdditionalDetail() + "', '" + product.getScore() + "', '" + product.getCategory().getName() +
+                "', '" + product.getFirm().getName() + "', '" + product.getSale() + "', '" + product.getProductImage() + "')";
+        connectData(sql);
+    }
     public static void deleteProduct(Product product) {
         String sql = "DELETE from PRODUCT where ID = '" + product.getId() + "'";
         connectData(sql);

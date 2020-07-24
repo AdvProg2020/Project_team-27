@@ -105,7 +105,11 @@ public class SellerMenu {
 
     public static void setProduct(String detail) throws IOException {
         newAuction.setProduct(detail);
-        Product.getProductById(detail).setInAuction(true);
+        Product p =Product.getProductById(detail);
+        p.setInAuction(true);
+        DataBase.deleteProduct(p);
+        DataBase.deleteProduct(p);
+
         Seller.writeInJ();
     }
 
@@ -464,6 +468,8 @@ public class SellerMenu {
                     //  saleRequest.addProduct(product);
                     if (!product.getInSale()) {
                         saleRequest.addProductToSale(product);
+                        DataBase.deleteProduct(product);
+                        DataBase.insertProductSa(product);
                         //   outputNo = 18;
                         // }
                         // } else {
@@ -476,6 +482,7 @@ public class SellerMenu {
                 }
             } else outputNo = 19;
         }
+
         return outputNo;
         // OutputMassageHandler.showSaleOutput(outputNo);
     }

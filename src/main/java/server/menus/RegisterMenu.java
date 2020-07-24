@@ -278,7 +278,9 @@ public class RegisterMenu {
                 } else {
                     LoginMenu.getLoginAccount().setFast(false);
                 }
-                DataBase.insertAddress(LoginMenu.getLoginAccount());
+                DataBase.deleteAccount(LoginMenu.getLoginAccount());
+                DataBase.insertAccountAdd(LoginMenu.getLoginAccount());
+                //DataBase.insertAddress(LoginMenu.getLoginAccount());
                 ok = true;
                 detailMenu = 0;
                 //CommandProcessor.setSubMenuStatus(SubMenuStatus.HAVEDISCOUNT);
