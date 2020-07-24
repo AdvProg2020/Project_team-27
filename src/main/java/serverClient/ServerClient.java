@@ -30,5 +30,8 @@ public class ServerClient {
         return ID;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 }
 

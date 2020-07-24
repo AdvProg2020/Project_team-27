@@ -17,6 +17,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -64,9 +65,9 @@ public class LoginWindow implements Runnable {
     TextField txtUser, txtIp, txtPort, messageField;
     Button loginBtn, clearBtn, sendBtn, logoutBtn;
     TextArea textArea = new TextArea();
-    TableView<ServerClient> showOnline = new TableView<>();
-    TableColumn<ServerClient,String> clientName = new TableColumn<>("name");
-    ObservableList<ServerClient> data = FXCollections.observableArrayList();
+    public TableView<ServerClient> showOnline = new TableView<>();
+    public TableColumn<ServerClient,String> clientName = new TableColumn<>("name");
+    public ObservableList<ServerClient> data = FXCollections.observableArrayList();
 
     VBox vBox;
 
@@ -99,9 +100,12 @@ public class LoginWindow implements Runnable {
     }
 
     public void initializeList(){
-        data.addAll(connectedClients);
+        for (ServerClient client : Server.clients) {
+            data.add(client);
+        }
     }
 
+    @FXML
     public void initialize(){
         initializeList();
         clientName.setCellValueFactory(new PropertyValueFactory<ServerClient,String>("name"));
@@ -193,13 +197,15 @@ public class LoginWindow implements Runnable {
         if (checkConnect) {
             try {
                 ServerClient serverClient = new ServerClient(txtUser.getText(),InetAddress.getByName(address),port,ID,account.getAccountId());
+                String message = "/c/" + " "+ account.getUsername() + "/h/" + txtUser.getText() + "/e/";
+                send(message.getBytes());
                 connectedClients.add(serverClient);
 
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
-            String message = "/c/" + account.getAccountId() + txtUser.getText() + "/e/";
-            send(message.getBytes());
+//            String message = "/c/" + account.getAccountId() + "/h/" + txtUser.getText() + "/e/";
+//            send(message.getBytes());
         }
         running = true;
         run = new Thread(this, "Running");
@@ -262,12 +268,6 @@ public class LoginWindow implements Runnable {
         borderPane.getChildren().add(hBox1);
         showOnline.setLayoutX(600);
         borderPane.getChildren().add(showOnline);
-//        borderPane.setTop(hBox);
-//        borderPane.setCenter(vBox1);
-//        borderPane.setBottom(hBox1);
-
-//        scene2.getStylesheets().add("ChatCSS.css");
-
         if (messageReceived) {
             scene2.setOnMousePressed(e -> {
                 seenAttempt = true;
@@ -403,10 +403,11 @@ public class LoginWindow implements Runnable {
 
     private void listen() { // for checking to client and server
         listen = new Thread("Listen Thread") {
-            int attempt;
 
+            int attempt;
             @Override
             public void run() {
+
                 while (running) {
                     String message = receive();
                     if (message.startsWith("/c/")) {
