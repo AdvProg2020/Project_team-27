@@ -59,7 +59,7 @@ public class BankData {
 
     private static void createBankTr(){
         String sql =
-                "   create table TRANSACTION (\n" +
+                "   create table Transactions (\n" +
                         "ID TEXT constraint PRODUCT_pk primary key,\n" +
                         "PAID NUMERIC default false,\n" +
                         "MONEY REAL,\n" +
@@ -79,10 +79,10 @@ public class BankData {
     public static void insertTransaction(Transaction transaction) {
         String sql;
         if(transaction.getDescription() != null) {
-             sql = "INSERT INTO TRANSACTION (TYPE,SOURCE,DEST,MONEY,DESCRIPTION,ID)" +
+             sql = "INSERT INTO Transactions (TYPE,SOURCE,DEST,MONEY,DESCRIPTION,ID)" +
                     "VALUES ('" + transaction.getReceiptType() + "','" + transaction.getSourceAccountID() + "','" + transaction.getDestAccountID() + "','" + transaction.getMoney() + "', '" + transaction.getDescription() + "', '" + transaction.getId() + "')";
         }else {
-            sql = "INSERT INTO TRANSACTION (TYPE,SOURCE,DEST,MONEY,ID)" +
+            sql = "INSERT INTO Transactions (TYPE,SOURCE,DEST,MONEY,ID)" +
                     "VALUES ('" + transaction.getReceiptType() + "','" + transaction.getSourceAccountID() + "','" + transaction.getDestAccountID() + "','" + transaction.getMoney() + "', '" + transaction.getId() + "')";
 
         }
@@ -107,7 +107,7 @@ public class BankData {
     }
 
     public static void deleteTran(Transaction account) {
-        String sql = "DELETE from TRANSACTION where ID = '" + account.getId() + "'";
+        String sql = "DELETE from Transactions where ID = '" + account.getId() + "'";
         connectBankData(sql);
     }
 
@@ -118,12 +118,29 @@ public class BankData {
 
 
     public static void updatePay(Transaction transaction) {
-        String sql = "UPDATE BANK_ACCOUNT set PAID = '" + "TRUE" + "' where ID='" + transaction.getId() + "'";
-
+        String sql = "UPDATE Transactions set PAID = '" + "TRUE" + "' where ID='" + transaction.getId() + "'";
         connectBankData(sql);
+
+    }
+
+    public static void updateToken(BankAccount bankAccount) {
+        String sql = "UPDATE BANK_ACCOUNT set TOKEN = '" + bankAccount.getToken() + "' where ID='" + bankAccount.getId() + "'";
+        connectBankData(sql);
+
+    }
+
+    public static void updateTokenDate(BankAccount bankAccount) {
+        String sql = "UPDATE BANK_ACCOUNT set TOKEN_DATE = '" + bankAccount.getTokenDate() + "' where ID='" + bankAccount.getId() + "'";
+        connectBankData(sql);
+
     }
 
 
+    public static void updateMoney(BankAccount bankAccount) {
+        String sql = "UPDATE BANK_ACCOUNT set MONEY = '" + bankAccount.getMoney() + "' where ID='" + bankAccount.getId() + "'";
+        connectBankData(sql);
+
+    }
 
     public static void getAcc() {
         try {
@@ -176,7 +193,7 @@ public class BankData {
             connection = DriverManager.getConnection(Burl);
             connection.setAutoCommit(false);
             statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM TRANSACTION;");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM Transactions ;");
             while (resultSet.next()) {
                 String id = resultSet.getString("ID");
                 String type = resultSet.getString("TYPE");

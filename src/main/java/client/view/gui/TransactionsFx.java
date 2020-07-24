@@ -4,6 +4,7 @@ import client.Main;
 
 import model.bank.BankAPI;
 import model.bank.Transaction;
+import model.data.DataBase;
 import server.menus.LoginMenu;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -111,16 +112,20 @@ public class TransactionsFx {
     }
 
     private void payMarket(Transaction transaction) throws IOException {
+        Account account = null;
         if(transaction.getReceiptType().equalsIgnoreCase("deposit")){
-            Account account =LoginMenu.getLoginAccount();
+             account =LoginMenu.getLoginAccount();
             System.out.println("credit: "+ account.getCredit());
             account.increaseCredit(Double.valueOf(transaction.getMoney()));
             System.out.println("credit: "+ account.getCredit());
         }else if(transaction.getReceiptType().equalsIgnoreCase("withdraw")){
-            Account account =LoginMenu.getLoginAccount();
+             account =LoginMenu.getLoginAccount();
             System.out.println("credit: "+ account.getCredit());
             account.setCredit(account.getCredit()-transaction.getMoney());
             System.out.println("credit: "+ account.getCredit());
+        }
+        if(account != null) {
+            DataBase.updateMoney(account);
         }
         Customer.writeInJ();
         Seller.writeInJ();

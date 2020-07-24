@@ -93,8 +93,10 @@ public class Bank {
                     Date date = new Date();
                     bankAccount.setTokenDate(date.getTime());
                     BankAccount.writeInJ();
-                    BankData.deleteAccount(bankAccount);
-                    BankData.insertTok(bankAccount);
+                    BankData.updateToken(bankAccount);
+                    BankData.updateTokenDate(bankAccount);
+                   // BankData.deleteAccount(bankAccount);
+                   // BankData.insertTok(bankAccount);
                     output = bankAccount.getToken();
                     System.out.println(output);
                 } else output = "invalid username or password";
@@ -137,7 +139,7 @@ public class Bank {
                                                         if (inputs.length == 7) {
                                                             transaction.setDescription(inputs[6]);
                                                         }
-                                                        // BankData.insertTransaction(transaction);
+                                                         BankData.insertTransaction(transaction);
                                                         output = transaction.getId();
                                                     } else output = "token expired";
                                                 } else {
@@ -145,7 +147,7 @@ public class Bank {
                                                     if (inputs.length == 7) {
                                                         transaction.setDescription(inputs[6]);
                                                     }
-                                                    // BankData.insertTransaction(transaction);
+                                                     BankData.insertTransaction(transaction);
                                                     output = transaction.getId();
                                                 }
                                             } else output = "token is invalid";
@@ -241,9 +243,11 @@ public class Bank {
 
         void payReceipt(Transaction transaction) throws IOException {
             String type = transaction.getReceiptType();
+            BankAccount account2;
+            BankAccount account1;
             if (type.equalsIgnoreCase("move")) {
-                BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
-                BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
+                 account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
+                 account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
                     System.out.println("credit1: " + account1.getMoney());
@@ -253,27 +257,31 @@ public class Bank {
                     System.out.println("credit1: " + account1.getMoney());
                     System.out.println("credit2: " + account2.getMoney());
                     transaction.setPaid(true);
-                    // BankData.updatePay(transaction);
+                     BankData.updatePay(transaction);
+                     BankData.updateMoney(account1);
+                    BankData.updateMoney(account2);
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             } else if (type.equalsIgnoreCase("deposit")) {
-                BankAccount account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
+                 account2 = BankAccount.getAccountWithid(transaction.getDestAccountID());
                 int money = (int) transaction.getMoney();
                 System.out.println("credit2: " + account2.getMoney());
                 account2.setMoney(account2.getMoney() - money);
                 System.out.println("credit2: " + account2.getMoney());
                 transaction.setPaid(true);
-                // BankData.updatePay(transaction);
+                 BankData.updatePay(transaction);
+                BankData.updateMoney(account2);
                 output = "done successfully";
             } else if (type.equalsIgnoreCase("withdraw")) {
-                BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
+                 account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
                 int money = (int) transaction.getMoney();
                 if (money <= account1.getMoney()) {
                     System.out.println("credit1: " + account1.getMoney());
                     account1.setMoney((int) (account1.getMoney() + money));
                     System.out.println("credit1: " + account1.getMoney());
                     transaction.setPaid(true);
-                    // BankData.updatePay(transaction);
+                     BankData.updatePay(transaction);
+                    BankData.updateMoney(account1);
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             }

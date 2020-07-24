@@ -3,6 +3,7 @@ package model.data;
 
 import javafx.scene.chart.XYChart;
 import model.accounts.*;
+import model.bank.BankAccount;
 import model.firms.Firm;
 import model.log.BuyLog;
 import model.log.DeliveryStatus;
@@ -166,8 +167,16 @@ public class DataBase {
         String sql = "DELETE from FIRM where ID = '" + account.getName() + "'";
         connectData(sql);
     }
-    public static void insertProduct(Product product) {
 
+
+    public static void updateMoney(Account account) {
+        String sql = "UPDATE Accounts set CREDIT = '" + account.getCredit() + "' where ID='" + account.getUsername() + "'";
+        connectData(sql);
+
+    }
+
+
+    public static void insertProduct(Product product) {
         String sql = "INSERT INTO PRODUCT (ID,NAME,PRICE,NUMBER,SELLER,STATUS,ADDITIONAL, SCORE,CAT,FIRM,SALE,IMG)" +
                 "VALUES ('" + product.getId() + "','" + product.getProductName() + "','" + product.getPrice() + "','" + product.getNumberOfProducts() + "', '" +
                 product.getSeller() + "', '" + product.getProductStatus() + "', '" + product.getAdditionalDetail() + "', '" + product.getScore() + "', '" + product.getCategory().getName() +
@@ -187,6 +196,21 @@ public class DataBase {
         String sql = "DELETE from PRODUCT where ID = '" + product.getId() + "'";
         connectData(sql);
     }
+
+    public static void updateINSale(Product product) {
+        String sql = "UPDATE PRODUCT set INSALE = '" + product.getInSale() + "' where ID='" + product.getId() + "'";
+        connectData(sql);
+    }
+
+    public static void updateSale(Product product) {
+        String sql = "UPDATE PRODUCT set SALE = '" + product.getSale() + "' where ID='" + product.getId() + "'";
+        connectData(sql);
+    }
+    public static void updateINAuc(Product product) {
+        String sql = "UPDATE PRODUCT set INAUCTION = '" + product.isInAuction() + "' where ID='" + product.getId() + "'";
+        connectData(sql);
+    }
+
 
     public static void getProduct() {
         try {

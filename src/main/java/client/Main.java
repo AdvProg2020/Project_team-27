@@ -118,7 +118,7 @@ public class Main extends Application {
         BankData.getAcc();
         DataBase.getBuy();
         DataBase.getSale();
-       // BankData.getATr();
+        BankData.getATr();
 
         for (Account checkAllAccount : Account.getCheckAllAccounts()) {
             System.out.println(checkAllAccount);

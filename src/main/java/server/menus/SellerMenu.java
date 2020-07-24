@@ -107,8 +107,7 @@ public class SellerMenu {
         newAuction.setProduct(detail);
         Product p =Product.getProductById(detail);
         p.setInAuction(true);
-        DataBase.deleteProduct(p);
-        DataBase.deleteProduct(p);
+      DataBase.updateINAuc(p);
 
         Seller.writeInJ();
     }
@@ -468,8 +467,8 @@ public class SellerMenu {
                     //  saleRequest.addProduct(product);
                     if (!product.getInSale()) {
                         saleRequest.addProductToSale(product);
-                        DataBase.deleteProduct(product);
-                        DataBase.insertProductSa(product);
+                        DataBase.updateINSale(product);
+                        DataBase.updateSale(product);
                         //   outputNo = 18;
                         // }
                         // } else {
