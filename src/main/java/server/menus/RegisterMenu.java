@@ -5,6 +5,7 @@ import model.accounts.Account;
 import model.accounts.Customer;
 import model.accounts.Manager;
 import model.accounts.Supporter;
+import model.data.DataBase;
 import model.request.AccountRequest;
 import model.request.Request;
 import client.view.OutputMassageHandler;
@@ -185,12 +186,14 @@ public class RegisterMenu {
     public static void createAccountWithDetails() throws IOException {
         if (role.equalsIgnoreCase("seller")) {
             accountRequest.sellerAccountDetails(username, password, name, lastName, Email, phoneNo, birthdayDate, img);
+
             //   CommandProcessor.setSubMenuStatus(SubMenuStatus.ADDFIRM);
             outputNo = 31;
         } else if (role.equalsIgnoreCase("customer")) {
             customer.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
               BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, customer);
-            //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
+            DataBase.insertAccount(customer);
+              //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;
         } else if (role.equalsIgnoreCase("manager")) {
@@ -198,11 +201,13 @@ public class RegisterMenu {
             if(Manager.getAllManagers().size() == 1) {
                    BankAPI.startRegister("create_account " + name+" " + lastName+" " + username+" " +password+" " + password, manager);
             }
+            DataBase.insertAccount(manager);
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
             outputNo = 12;
         } else if (role.equalsIgnoreCase("supporter")) {
             supporter.setDetailsToAccount(password, name, lastName, Email, phoneNo, birthdayDate, null, img);
+            DataBase.insertAccount(supporter);
             Supporter.writeInJ();
             //  CommandProcessor.setSubMenuStatus(SubMenuStatus.MAINMENU);
             //  CommandProcessor.setInternalMenu(InternalMenu.MAINMENU);
@@ -273,6 +278,7 @@ public class RegisterMenu {
                 } else {
                     LoginMenu.getLoginAccount().setFast(false);
                 }
+                DataBase.insertAddress(LoginMenu.getLoginAccount());
                 ok = true;
                 detailMenu = 0;
                 //CommandProcessor.setSubMenuStatus(SubMenuStatus.HAVEDISCOUNT);

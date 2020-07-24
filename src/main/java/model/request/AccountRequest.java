@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import model.bank.BankAPI;
 import model.accounts.Account;
 import model.accounts.Seller;
+import model.data.DataBase;
 import model.firms.Company;
 import model.firms.Factory;
 import model.firms.Firm;
@@ -74,8 +75,13 @@ public class AccountRequest extends Request {
 
     @Override
     public void acceptRequest() throws IOException {
-        Seller seller = new Seller(username);
-        createFirm();
+        Seller seller;
+        if(Seller.isThereAccountWithUsername(username))
+            seller=Seller.getSellerWithUsername(username);
+        else {
+            seller = new Seller(username);
+            createFirm();
+        }
         Firm firm = Firm.getFirmWithID(firmName);
         seller.setDetailsToAccount(password, name, lastname, Email, phoneNo, birthdayDate, firm , img);
         firm.setDetailToFirm(FirmPhoneNO, firmAddress, firmEmail);
@@ -83,7 +89,12 @@ public class AccountRequest extends Request {
         allAccountRequests.remove(this);
         seller.removeAccountRequest(this);
         createBankAccount(seller);
-
+        if(Seller.isThereAccountWithUsername(username)) {
+            DataBase.deleteAccount(seller);
+            DataBase.deleteFirm(firm);
+        }
+        DataBase.insertAccount(seller);
+        DataBase.insertFirm(firm);
         writeInJ();
 
     }

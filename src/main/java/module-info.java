@@ -1,5 +1,6 @@
 module Project.team {
 
+
     requires javafx.controls;
     requires  javafx.fxml;
     requires com.google.gson;
@@ -17,5 +18,6 @@ module Project.team {
     opens model.log to javafx.base;
     opens server.menus to java.base;
     opens serverClient to javafx.graphics;
+    opens model.bank to javafx.base;
 
 }

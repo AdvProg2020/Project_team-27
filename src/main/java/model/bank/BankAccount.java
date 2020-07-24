@@ -38,13 +38,19 @@ public class BankAccount {
         }
         return false;
     }
+
     public static boolean isThereAccountWithUsername(String username) {
         for (BankAccount account : allBankAccount) {
             if (account.username.equalsIgnoreCase(username)) return true;
         }
         return false;
     }
-
+    public static boolean isThereAccountWithid(String username) {
+        for (BankAccount account : allBankAccount) {
+            if (account.id.equalsIgnoreCase(username)) return true;
+        }
+        return false;
+    }
     public static boolean isThereAccountWithToken(String username) {
         for (BankAccount account : allBankAccount) {
             if(account.token != null) {

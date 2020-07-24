@@ -1,5 +1,6 @@
 package server.menus;
 
+import model.data.DataBase;
 import model.off.Auction;
 import model.request.ProductRequest;
 import model.request.Request;
@@ -265,6 +266,7 @@ public class SellerMenu {
                 productRequest.setNumberOfProduct(Integer.parseInt(detail));
                 detailMenu = 6;
                 outputNo = 0;
+
                 // OutputMassageHandler.show((String) productRequest.getSpecialValue().keySet().toArray()[0]);
                 //CommandProcessor.setSubMenuStatus(SubMenuStatus.TRAIT);
             } else outputNo = 8;
@@ -282,6 +284,7 @@ public class SellerMenu {
                     Product p = Product.getProductById(productID);
                     seller.getAllProduct().remove(p);
                     Product.deleteProduct(productID);
+                    DataBase.deleteProduct(p);
                     outputNo = 18;
                     Seller.writeInJ();
                 }

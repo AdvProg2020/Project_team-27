@@ -1,5 +1,6 @@
 package client.view.gui;
 
+import client.Client;
 import client.Main;
 import model.bank.BankAPI;
 import server.menus.LoginMenu;
@@ -33,6 +34,7 @@ public class SellerMenuFx {
     }
 
     public void viewPersonalInfo(MouseEvent mouseEvent) throws IOException {
+        Client.start("viewAc "+ LoginMenu.getLoginAccount().getUsername());
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
         ViewAccountFx.setPriRoot(curRoot);
         ViewAccountFx.setAccount(LoginMenu.getLoginAccount());
@@ -93,15 +95,17 @@ public class SellerMenuFx {
 
 
     public void exchange(MouseEvent mouseEvent) throws IOException {
+        Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
         Account account = LoginMenu.getLoginAccount();
         Date date = new Date();
         if (account.getTokenDate() - date.getTime() >= 3600000) {
             BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
         }
-            BankAPI.startGetBa("get_balance " + account.getToken() , account);
-            Exchange.setCustomer(true);
-            root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
-            goToPage();
+        BankAPI.startGetBa("get_balance " + account.getBankToken() , account);
+        Exchange.setCustomer(false);
+        Exchange.setPriRoot(curRoot);
+        root = FXMLLoader.load(Objects.requireNonNull(Exchange.class.getClassLoader().getResource("exchange.fxml")));
+        goToPage();
 
     }
 
@@ -116,6 +120,16 @@ public class SellerMenuFx {
         Parent curRoot = FXMLLoader.load(Objects.requireNonNull(SellerMenuFx.class.getClassLoader().getResource("sellerMenuFx.fxml")));
         AddProductMenuFX.setPriRoot(curRoot);
         root = FXMLLoader.load(Objects.requireNonNull(AddProductMenuFX.class.getClassLoader().getResource("addFileFx.fxml")));
+        goToPage();
+    }
+    public void transactions(MouseEvent mouseEvent) throws IOException {
+        Account account = LoginMenu.getLoginAccount();
+        Date date = new Date();
+        if (account.getTokenDate() - date.getTime() >=3600000) {
+            BankAPI.startLogin("get_token " + account.getUsername() + " " + account.getPassword(), account);
+        }
+        BankAPI.startGetTra("get_transactions " + account.getBankToken() + " " + "*");
+        root = FXMLLoader.load(Objects.requireNonNull(TransactionsFx.class.getClassLoader().getResource("transactionsFx.fxml")));
         goToPage();
     }
     public void manageProducts(MouseEvent mouseEvent) throws IOException {
@@ -193,6 +207,7 @@ public class SellerMenuFx {
         root = FXMLLoader.load(Objects.requireNonNull(MainMenuFx.class.getClassLoader().getResource("mainMenuFx.fxml")));
         goToPage();
     }
+
 
 
 }

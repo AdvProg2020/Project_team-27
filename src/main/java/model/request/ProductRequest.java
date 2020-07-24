@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.accounts.Account;
 import model.accounts.Seller;
+import model.data.DataBase;
 import model.productRelated.Category;
 import model.productRelated.Product;
 import model.productRelated.ProductStatus;
@@ -85,6 +86,8 @@ public class ProductRequest extends Request {
         getAllRequests().remove(this);
         allProductRequests.remove(this);
         seller.removeProductRequest(this);
+        DataBase.deleteProduct(newProduct);
+        DataBase.insertProduct(newProduct);
         writeInJ();
     }
 

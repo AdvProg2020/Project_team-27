@@ -35,10 +35,11 @@ public class Product {
 
     private ArrayList<Customer> listOfBuyers = new ArrayList<>();
     private static ArrayList<Product> allProduct = new ArrayList<Product>();
+    private static ArrayList<Product> checkAllProduct = new ArrayList<Product>();
     public ArrayList<Comment> proComments = new ArrayList<Comment>();
     public ArrayList<String> productCategorySpecifications = new ArrayList<>();
 
-    private Comment comment;
+  //  private Comment comment;
     public double score = 0;
     public int scorePeople = 0;
     private String sale;
@@ -52,6 +53,31 @@ public class Product {
         allProduct.add(this);
         // listOfId.add(productId);
         //writeInJ();
+    }
+
+
+    public void setFirm(Firm firm) {
+        this.firm = firm;
+    }
+
+    public static ArrayList<Product> getCheckAllProduct() {
+        return checkAllProduct;
+    }
+
+    public static void setCheckAllProduct(ArrayList<Product> checkAllProduct) {
+        Product.checkAllProduct = checkAllProduct;
+    }
+
+    public void setAllProduct(String productId, String productName, double price, String seller, ProductStatus productStatus, int numberOfProducts, String additionalDetail, double score) {
+        this.productId = productId;
+        this.productName = productName;
+        this.price = price;
+        this.seller = seller;
+        this.productStatus = productStatus;
+        this.numberOfProducts = numberOfProducts;
+        this.additionalDetail = additionalDetail;
+        this.score = score;
+        checkAllProduct.add(this);
     }
 
     public String getProductVideoId() {
@@ -164,7 +190,7 @@ public class Product {
     }
 
     public void setComment(Comment comment) {
-        this.comment = comment;
+        //this.comment = comment;
         proComments.add(comment);
     }
 
@@ -262,9 +288,6 @@ public class Product {
         this.seller = seller;
     }
 
-    public Comment getComment() {
-        return comment;
-    }
 
 
     //othersTobeHandel-------------------------------------------------------------------------------
@@ -357,7 +380,7 @@ public class Product {
                 ", numberOfViews=" + numberOfViews +
                 ", totalNumberOfBuyers=" + totalNumberOfBuyers +
                 ", isBought=" + isBought +
-                ", comment=" + comment +
+           //     ", comment=" + comment +
                 ", score=" + score +
                 ", sale=" + sale +
                 '}';

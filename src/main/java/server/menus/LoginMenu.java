@@ -2,6 +2,7 @@ package server.menus;
 
 import model.bank.BankAPI;
 import model.accounts.Account;
+import model.data.DataBase;
 import model.firms.Firm;
 import model.request.AccountRequest;
 import model.request.Request;
@@ -128,6 +129,8 @@ public class LoginMenu {
                 // outputNo = 21;
             } else outputNo = 11;
         }
+        DataBase.deleteAccount(loginAccount);
+        DataBase.insertAccount(loginAccount);
         return outputNo;
         //  OutputMassageHandler.showAccountOutput(outputNo);
     }
@@ -159,6 +162,7 @@ public class LoginMenu {
                 outputNo = 0;
             } else outputNo = 11;
         }
+
         return outputNo;
         //OutputMassageHandler.showAccountOutput(outputNo);
     }

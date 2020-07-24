@@ -3,6 +3,7 @@ package model.bank;
 import client.view.FileHandling;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
+import model.data.DataBase;
 import serverClient.ServerMain;
 
 import java.io.*;
@@ -19,7 +20,7 @@ public class Bank {
     }.getType();
     public static void main(String[] args) throws IOException {
         gson();
-        ServerMain.startServer(4293);
+     //   ServerMain.startServer(4293);
         new Bank.BankImp().run();
     }
 
@@ -91,7 +92,8 @@ public class Bank {
                     Date date = new Date();
                     bankAccount.setTokenDate(date.getTime());
                     BankAccount.writeInJ();
-                    //  DataBase.insertToken(bankAccount);
+                      BankData.deleteAccount(bankAccount);
+                      BankData.insertTok(bankAccount);
                     output = bankAccount.getToken();
                     System.out.println(output);
                 } else output = "invalid username or password";
@@ -105,7 +107,7 @@ public class Bank {
                 if (inputs[4].equals(inputs[5])) {
                     BankAccount bankAccount = new BankAccount(username, inputs[1], inputs[2], inputs[4]);
                     output = bankAccount.getId();
-                    // DataBase.insert(bankAccount);
+                    BankData.insert(bankAccount);
                 } else output = "passwords do not match";
             } else output = "username is not available";
             handleOutput();
@@ -134,7 +136,7 @@ public class Bank {
                                                         if(inputs.length == 7){
                                                             transaction.setDescription(inputs[6]);
                                                         }
-                                                        // DataBase.insertTransaction(transaction);
+                                                       // BankData.insertTransaction(transaction);
                                                         output = transaction.getId();
                                                     } else output = "token expired";
                                                 } else {
@@ -142,7 +144,7 @@ public class Bank {
                                                     if(inputs.length == 7){
                                                         transaction.setDescription(inputs[6]);
                                                     }
-                                                    // DataBase.insertTransaction(transaction);
+                                                   // BankData.insertTransaction(transaction);
                                                     output = transaction.getId();
                                                 }
                                             } else output = "token is invalid";
@@ -250,7 +252,7 @@ public class Bank {
                     System.out.println("credit1: "+ account1.getMoney());
                     System.out.println("credit2: "+ account2.getMoney());
                     transaction.setPaid(true);
-                    // DataBase.updatePay();
+                   // BankData.updatePay(transaction);
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             } else if (type.equalsIgnoreCase("deposit")) {
@@ -260,7 +262,7 @@ public class Bank {
                 account2.setMoney(account2.getMoney() - money);
                 System.out.println("credit2: "+ account2.getMoney());
                 transaction.setPaid(true);
-                // DataBase.updatePay();
+               // BankData.updatePay(transaction);
                 output = "done successfully";
             } else if (type.equalsIgnoreCase("withdraw")) {
                 BankAccount account1 = BankAccount.getAccountWithid(transaction.getSourceAccountID());
@@ -270,7 +272,7 @@ public class Bank {
                     account1.setMoney((int) (account1.getMoney() +money));
                     System.out.println("credit1: "+ account1.getMoney());
                     transaction.setPaid(true);
-                    // DataBase.updatePay();
+                   // BankData.updatePay(transaction);
                     output = "done successfully";
                 } else output = "source account does not have enough money";
             }
@@ -350,21 +352,29 @@ public class Bank {
                     System.out.println(input);
                     if (input.startsWith("create_account")) {
                         bankImp.account(inputs);
+                        break;
                     } else if (input.startsWith("get_token")) {
                         bankImp.token(inputs);
+                        break;
                     } else if (input.startsWith("create_receipt")) {
                         bankImp.receipt(input);
+                        break;
                     } else if (input.startsWith("get_transactions")) {
                         bankImp.transaction(inputs);
+                        break;
                     } else if (input.startsWith("pay")) {
                         bankImp.pay(inputs);
+                        break;
                     } else if (input.startsWith("get_balance")) {
                         bankImp.balance(inputs);
+                        break;
                     } else if (input.startsWith("exit")) {
                         output = "bye";
                         bankImp.handleOutput();
                         break;
-                    }
+                    }else
+                        output ="invalid input";
+                    bankImp.handleOutput();
                 } catch (IOException e) {
                     e.printStackTrace();
                     bankImp.finish();

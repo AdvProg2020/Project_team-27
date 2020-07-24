@@ -66,53 +66,53 @@
                 <TableColumn fx:id="userLast" prefWidth="209.0" text="Last name" />
                 <TableColumn fx:id="userBirth" prefWidth="194.0" text="Birthday date" />
                 <TableColumn fx:id="userPhoneNo" prefWidth="186.0" text="Phone number" />
-            <TableColumn fx:id="online" prefWidth="178.0" text="Online" />
+                <TableColumn fx:id="online" prefWidth="178.0" text="Online" />
             </columns>
         </TableView>
-      <Button layoutX="1171.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#viewUser" prefHeight="39.0" prefWidth="90.0" text="View">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#6a00ff" />
-                  <Stop color="RED" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Button>
-      <Button layoutX="1280.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#deleteUser" prefHeight="39.0" prefWidth="90.0" text="Delete">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#6a00ff" />
-                  <Stop color="RED" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Button>
-      <Button layoutX="1042.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#AddManager" prefHeight="39.0" prefWidth="115.0" text="Add manager">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#6a00ff" />
-                  <Stop color="RED" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Button>
-      <Label fx:id="usersMs" layoutX="266.0" layoutY="747.0" prefHeight="53.0" prefWidth="581.0" textFill="WHITE">
-         <font>
-            <Font size="36.0" />
-         </font>
-      </Label>
-      <Button layoutX="903.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#AddSupporter" prefHeight="39.0" prefWidth="128.0" text="Add supporter">
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop color="#6a00ff" />
-                  <Stop color="RED" offset="1.0" />
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Button>
+        <Button layoutX="1171.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#viewUser" prefHeight="39.0" prefWidth="90.0" text="View">
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="#6a00ff" />
+                        <Stop color="RED" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Button layoutX="1280.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#deleteUser" prefHeight="39.0" prefWidth="90.0" text="Delete">
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="#6a00ff" />
+                        <Stop color="RED" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Button layoutX="1042.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#AddManager" prefHeight="39.0" prefWidth="115.0" text="Add manager">
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="#6a00ff" />
+                        <Stop color="RED" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
+        <Label fx:id="usersMs" layoutX="266.0" layoutY="747.0" prefHeight="53.0" prefWidth="581.0" textFill="WHITE">
+            <font>
+                <Font size="36.0" />
+            </font>
+        </Label>
+        <Button layoutX="903.0" layoutY="747.0" mnemonicParsing="false" onMouseClicked="#AddSupporter" prefHeight="39.0" prefWidth="128.0" text="Add supporter">
+            <textFill>
+                <LinearGradient endX="1.0" endY="1.0">
+                    <stops>
+                        <Stop color="#6a00ff" />
+                        <Stop color="RED" offset="1.0" />
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Button>
     </children>
 </AnchorPane>

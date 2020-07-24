@@ -109,7 +109,7 @@ public class SaleMenuFx {
             show.category = product.getCategory().getName();
             show.id = product.getId();
             show.price = product.getPrice();
-            show.comment = product.getComment();
+           // show.comment = product.getComment();
             show.seller = product.getSeller();
             show.firm = product.getFirm().getName();
             File file = new File(product.getProductImage());

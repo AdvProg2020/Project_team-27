@@ -1,9 +1,11 @@
 package model.accounts;
 
-
+import model.data.DataBase;
 import model.firms.Firm;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public abstract class Account {
@@ -17,11 +19,12 @@ public abstract class Account {
     String role = null;
     double currentPhoneNo = 0;
     String address = null;
-    Date birthdayDate = null;
+    String birthdayDate = null;
     public Firm firm = null;
     boolean fast = false;
     String imageId;
     String token;
+    String bankToken;
     long tokenDate;
     String accountId = null;
     int bankMoney = 50;
@@ -29,9 +32,19 @@ public abstract class Account {
     private  ArrayList<String> transactions = new ArrayList<>();
 
     private static ArrayList<Account> allAccounts = new ArrayList<>();
-    private static ArrayList<Date> birthdayDates = new ArrayList<>();
+    private static ArrayList<Account> CheckAllAccounts = new ArrayList<>();
+    private static ArrayList<String> birthdayDates = new ArrayList<String>();
 //    public static Type AccountType = new TypeToken<ArrayList<Account>>() {
 //    }.getType();
+
+
+    public static ArrayList<Account> getCheckAllAccounts() {
+        return CheckAllAccounts;
+    }
+
+    public static void setCheckAllAccounts(ArrayList<Account> checkAllAccounts) {
+        CheckAllAccounts = checkAllAccounts;
+    }
 
     public String getOnline() {
         return online;
@@ -51,7 +64,7 @@ public abstract class Account {
         if (lastname != null) {
             this.lastname = lastname;
         }
-        if (email != null) {
+        if (Emai != null) {
             this.email = Emai;
         }
         if (phoneNo != 0) {
@@ -59,7 +72,9 @@ public abstract class Account {
         }
         if (birthdayDat != null) {
             if (birthdayDat instanceof Date) {
-                this.birthdayDate = (Date) birthdayDat;
+                String pattern = "MM/dd/yyyy HH:mm:ss";
+                DateFormat df = new SimpleDateFormat(pattern);
+                this.birthdayDate = df.format(birthdayDat);
                 birthdayDates.add(birthdayDate);
             }
         }
@@ -78,6 +93,26 @@ public abstract class Account {
     public Account(String username) throws IOException {
         this.username = username;
         allAccounts.add(this);
+
+    }
+
+    public void setFirm(Firm firm) {
+        this.firm = firm;
+    }
+
+    public  void setAllAccount(String username, String name, String lastname, String password, String email, double phoneNo, double credit, double currentPhoneNo, String address, String birthdayDate, boolean fast) {
+        this.username = username;
+        this.name = name;
+        this.lastname = lastname;
+        this.password = password;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.credit = credit;
+        this.currentPhoneNo = currentPhoneNo;
+        this.address = address;
+        this.birthdayDate = birthdayDate;
+        this.fast = fast;
+        CheckAllAccounts.add(this);
 
     }
 
@@ -105,6 +140,7 @@ public abstract class Account {
 
     public void increaseCredit(Double money){
         credit = credit + money;
+
     }
 
     public String getImageId() {
@@ -118,6 +154,7 @@ public abstract class Account {
     public static void deleteAccount(String username) throws IOException {
         Account account = Account.getAccountWithUsername(username);
         allAccounts.remove(getAccountWithUsername(username));
+        DataBase.deleteAccount(account);
         if(account instanceof Seller){
             Seller.getAllSellers().remove(account);
             Seller.writeInJ();
@@ -168,12 +205,12 @@ public abstract class Account {
     }
 
 
-    public String getToken() {
-        return token;
+    public String getBankToken() {
+        return bankToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setBankToken(String bankToken) {
+        this.bankToken = bankToken;
     }
 
     public String getAccountId() {
@@ -265,7 +302,23 @@ public abstract class Account {
         return allAccounts;
     }
 
-    public Date getBirthdayDate() {
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public double getCurrentPhoneNo() {
+        return currentPhoneNo;
+    }
+
+    public void setBirthdayDate(String birthdayDate) {
+        this.birthdayDate = birthdayDate;
+    }
+
+    public boolean isFast() {
+        return fast;
+    }
+
+    public String getBirthdayDate() {
         return birthdayDate;
     }
 

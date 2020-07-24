@@ -79,7 +79,7 @@
                 <Font size="17.0" />
             </font>
         </Button>
-        <Button layoutX="861.0" layoutY="766.0" mnemonicParsing="false" onMouseClicked="#productsViewBuyers" text="client.view buyers">
+        <Button layoutX="861.0" layoutY="766.0" mnemonicParsing="false" onMouseClicked="#productsViewBuyers" text="view buyers">
             <font>
                 <Font size="17.0" />
             </font>

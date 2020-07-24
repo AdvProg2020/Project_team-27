@@ -12,8 +12,10 @@ import javafx.scene.Scene;
 //import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import model.bank.BankAccount;
+import model.bank.BankData;
 import model.bank.Transaction;
 import model.accounts.*;
+import model.data.DataBase;
 import model.firms.Firm;
 import model.off.Auction;
 import model.off.DiscountCode;
@@ -41,35 +43,36 @@ public class Main extends Application {
     public static String[] a;
     Parent root;
 
-public static class Client extends Thread{
-    private static Scanner scanner;
-    private static DataOutputStream dataOutputStream;
-    private static DataInputStream dataInputStream;
-    private static Socket clientSocket;
+    public static class Client extends Thread {
+        private static Scanner scanner;
+        private static DataOutputStream dataOutputStream;
+        private static DataInputStream dataInputStream;
+        private static Socket clientSocket;
 
-    public static void buyingFile() throws IOException {
-        int filesize = 1022386;
-        int bytesRead;
-        int currentTot = 0;
-        Socket socket = new Socket("127.0.0.1", 15123);
-        byte[] bytearray = new byte[filesize];
-        InputStream is = socket.getInputStream();
-        FileOutputStream fos = new FileOutputStream("copy2.pdf");
-        BufferedOutputStream bos = new BufferedOutputStream(fos);
-        bytesRead = is.read(bytearray, 0, bytearray.length);
-        currentTot = bytesRead;
-        do {
-            bytesRead = is.read(bytearray, currentTot, (bytearray.length - currentTot));
-            if (bytesRead >= 0) currentTot += bytesRead;
-        } while (bytesRead > -1);
-        bos.write(bytearray, 0, currentTot);
-        bos.flush();
-        bos.close();
-        System.out.println("file received");
-        socket.close();
+        public static void buyingFile() throws IOException {
+            int filesize = 1022386;
+            int bytesRead;
+            int currentTot = 0;
+            Socket socket = new Socket("127.0.0.1", 15123);
+            byte[] bytearray = new byte[filesize];
+            InputStream is = socket.getInputStream();
+            FileOutputStream fos = new FileOutputStream("copy2.pdf");
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            bytesRead = is.read(bytearray, 0, bytearray.length);
+            currentTot = bytesRead;
+            do {
+                bytesRead = is.read(bytearray, currentTot, (bytearray.length - currentTot));
+                if (bytesRead >= 0) currentTot += bytesRead;
+            } while (bytesRead > -1);
+            bos.write(bytearray, 0, currentTot);
+            bos.flush();
+            bos.close();
+            System.out.println("file received");
+            socket.close();
+        }
+
     }
 
-}
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -95,11 +98,11 @@ public static class Client extends Thread{
     public static void main(String[] args) throws IOException, ParseException {
         a = args;
         gson();
-      //  new Client().run();
-      //  removeAuction();
-     //   removeSale();
+        data();
+        removeAuction();
+        removeSale();
 
-        if(Manager.getAllManagers().size() != 0){
+        if (Manager.getAllManagers().size() != 0) {
             if (Customer.getAllCustomers().size() >= 2) {
                 randomDiscount();
             }
@@ -108,10 +111,26 @@ public static class Client extends Thread{
 
     }
 
+    private static void data() {
+        DataBase.getFirm();
+        DataBase.getAccount();
+        DataBase.getProduct();
+        BankData.getAcc();
+       // BankData.getATr();
+
+        for (Account checkAllAccount : Account.getCheckAllAccounts()) {
+            System.out.println(checkAllAccount);
+        }
+        for (Product product : Product.getCheckAllProduct()) {
+            System.out.println(product);
+        }
+
+    }
+
     private static void removeSale() {
         for (Sale allSale : Sale.getAllSales()) {
             LocalDate localDate = LocalDate.now();
-            if(allSale.getEndOfSalePeriod().isAfter(localDate)){
+            if (allSale.getEndOfSalePeriod().isAfter(localDate)) {
                 Sale.getAllSales().remove(allSale);
             }
         }
@@ -120,7 +139,7 @@ public static class Client extends Thread{
     private static void removeAuction() throws IOException {
         for (Auction allAuction : Auction.getAllAuctions()) {
             LocalDate localDate = LocalDate.now();
-            if(allAuction.getEndOfPeriod().isAfter(localDate)){
+            if (allAuction.getEndOfPeriod().isAfter(localDate)) {
                 finishingAuction(allAuction);
                 Auction.getAllAuctions().remove(allAuction);
             }
@@ -128,10 +147,10 @@ public static class Client extends Thread{
     }
 
     private static void finishingAuction(Auction auction) throws IOException {
-      //  String uniqueID = UUID.randomUUID().toString();
-      //  BuyLog buyLog = new BuyLog(uniqueID);
-      //  buyLog.setCustomer(auction.getCustomer());
-      //  buyLog.addProductToBuyLog(auction.getProduct(), 1);
+        //  String uniqueID = UUID.randomUUID().toString();
+        //  BuyLog buyLog = new BuyLog(uniqueID);
+        //  buyLog.setCustomer(auction.getCustomer());
+        //  buyLog.addProductToBuyLog(auction.getProduct(), 1);
         Customer.getCustomerWithUsername(auction.getCustomer()).reduceCredit(auction.getMoney());
         Seller.getSellerWithUsername(Product.getProductById(auction.getProduct()).getSeller()).increaseCredit(auction.getMoney());
     }
@@ -154,7 +173,6 @@ public static class Client extends Thread{
             FileHandling.writeInFile("", "category.json");
             Category.setAllCategories(new ArrayList<>());
         }
-
 
 
         Type supporterType = new TypeToken<ArrayList<Supporter>>() {
@@ -186,7 +204,6 @@ public static class Client extends Thread{
             FileHandling.writeInFile("", "bankAccount.json");
             BankAccount.setAllBankAccount(new ArrayList<>());
         }
-
 
 
         Type transactionType = new TypeToken<ArrayList<Transaction>>() {
@@ -328,7 +345,7 @@ public static class Client extends Thread{
         }
 
         for (Seller seller : Seller.getAllSellers()) {
-            if (seller.getAllSales().size() != 0){
+            if (seller.getAllSales().size() != 0) {
                 Sale.getAllSales().addAll(seller.getAllSales());
             }
         }
@@ -376,7 +393,6 @@ public static class Client extends Thread{
 
         }
     }
-
 
 
 }
